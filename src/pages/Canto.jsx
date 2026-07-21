@@ -368,38 +368,36 @@ const Canto = ({ user }) => {
 
     const currentMaxFreq = songMaxFreq * Math.pow(2, transposition / 12);
     const assemblyMaxLimit = 246.94; // B3
-    const assemblyMinMaxLimit = 164.81; // E3 (if the highest note is lower than E3, it's probably too low)
-
-    if (currentMaxFreq <= assemblyMaxLimit && currentMaxFreq >= assemblyMinMaxLimit) {
-      return (
-        <div className="alert alert-success mb-4" style={{backgroundColor: '#dcfce7', color: '#166534', padding: '1rem', borderRadius: '8px', border: '1px solid #bbf7d0'}}>
-          <strong><Users size={18} style={{marginRight: '0.5rem', verticalAlign: 'text-bottom'}} /> Cenário Perfeito:</strong> 
-          <p style={{margin: '0.5rem 0 0 0'}}>Com a transposição atual, a assembleia também cantará o refrão confortavelmente!</p>
-        </div>
-      );
-    }
+    const assemblyMinMaxLimit = 164.81; // E3
 
     const idealAssemblyTransposition = Math.floor(12 * Math.log2(assemblyMaxLimit / songMaxFreq));
     const idealChord = transposeChordString(canto.tom_original, idealAssemblyTransposition);
     
-    // Detecta equivalência com capo: Mi- capo 5 = La-, Re- capo 2 = Mi-, etc.
-    // Dois tons são equivalentes via capo se a diferença entre eles for positiva (subindo com capo)
-    // e quando você "sobe" o acorde sugerido por semitones, chega no acorde original.
+    // Detecta equivalência com capo
     const isEquivalentViaCapo = (sugeridoTransp) => {
-      if (sugeridoTransp >= 0) return false; // capo só sobe, então sugestão tem que ser mais grave
-      for (let capo = 1; capo <= 11; capo++) {
-        const transpWithCapo = sugeridoTransp + capo;
-        if (transpWithCapo === 0) return { capo, eq: true }; // seria o mesmo tom original com capo
+      const diff = transposition - sugeridoTransp;
+      if (diff > 0 && diff <= 11) {
+        return { capo: diff, eq: true };
       }
       return false;
     };
     
     const capoEquiv = isEquivalentViaCapo(idealAssemblyTransposition);
     
-    // Check if idealAssemblyTransposition is within user bounds (if we had min freq, for now we just suggest it)
+    // Se a sugestão alternativa é equivalente ao tom atual por causa do uso do capo, nem exibe alerta
+    if (capoEquiv) return null;
+
+    // Se o tom atual de fato coincide com o tom ideal sugerido
+    if (transposition === idealAssemblyTransposition) {
+      return (
+        <div className="alert alert-success mb-4" style={{backgroundColor: '#dcfce7', color: '#166534', padding: '1rem', borderRadius: '8px', border: '1px solid #bbf7d0'}}>
+          <strong><Users size={18} style={{marginRight: '0.5rem', verticalAlign: 'text-bottom'}} /> Cenário Perfeito:</strong> 
+          <p style={{margin: '0.5rem 0 0 0'}}>Este tom ({tomAtualVisual}) é o ideal para a assembleia também cantar o refrão confortavelmente!</p>
+        </div>
+      );
+    }
+
     if (currentMaxFreq > assemblyMaxLimit) {
-      // Se a sugestão é equivalente ao tom original via capo, não mostrar aviso inútil
-      if (capoEquiv) return null;
       return (
         <div className="alert alert-warning mb-4" style={{backgroundColor: '#fef9c3', color: '#854d0e', padding: '1rem', borderRadius: '8px', border: '1px solid #fef08a'}}>
           <strong><AlertTriangle size={18} style={{marginRight: '0.5rem', verticalAlign: 'text-bottom'}} /> Alto para o povo:</strong> 
@@ -408,7 +406,7 @@ const Canto = ({ user }) => {
           <p style={{margin: 0}}><strong>Sugestão (Alternativa):</strong> Transponha para <strong>{idealChord}</strong> ({idealAssemblyTransposition > 0 ? `+${idealAssemblyTransposition}` : idealAssemblyTransposition}). Será mais grave, mas o povo alcançará.</p>
         </div>
       );
-    } else {
+    } else if (currentMaxFreq < assemblyMinMaxLimit) {
       return (
         <div className="alert alert-info mb-4" style={{backgroundColor: '#e0f2fe', color: '#075985', padding: '1rem', borderRadius: '8px', border: '1px solid #bae6fd'}}>
           <strong><Users size={18} style={{marginRight: '0.5rem', verticalAlign: 'text-bottom'}} /> Muito grave para o povo:</strong> 
@@ -418,6 +416,8 @@ const Canto = ({ user }) => {
         </div>
       );
     }
+
+    return null;
   };
 
   return (
