@@ -18,6 +18,10 @@ const Canto = ({ user }) => {
   
   // Notas Pessoais
   const [notes, setNotes] = useState('');
+  const [showNotes, setShowNotes] = useState(false);
+  
+  // Guia de Acordes
+  const [showChordGuide, setShowChordGuide] = useState(false);
   
   const [showFeedback, setShowFeedback] = useState(false);
   const [feedbackSent, setFeedbackSent] = useState(false);
@@ -48,15 +52,8 @@ const Canto = ({ user }) => {
   useEffect(() => {
     if (!canto) return;
     
-    // 1. Calcular diferença entre áudio e cifra original para sincronizar
-    const diff = canto.tom_audio ? getNoteIndex(canto.tom_audio) - getNoteIndex(canto.tom_original) : 0;
-    
-    // Normalizar a diferença para ficar entre -6 e 6 (para evitar pulos gigantes)
-    let syncOffset = diff;
-    if (syncOffset > 6) syncOffset -= 12;
-    if (syncOffset < -6) syncOffset += 12;
-    
-    setTransposition(syncOffset); // Inicia já transposto para sincronizar com o áudio!
+    // 1. Iniciar sempre no tom original (transposition = 0) pois o áudio já está no tom_original
+    setTransposition(0);
 
     // 2. Carregar perfil do usuário e notas
     const savedProfile = localStorage.getItem('userVoiceProfile');
@@ -64,7 +61,10 @@ const Canto = ({ user }) => {
     
     if (user) {
       const savedNotes = localStorage.getItem(`salmistasNotes_${user}_${id}`);
-      if (savedNotes) setNotes(savedNotes);
+      if (savedNotes) {
+        setNotes(savedNotes);
+        setShowNotes(true);
+      }
     }
 
     // 3. Setup Audio
@@ -100,13 +100,18 @@ const Canto = ({ user }) => {
     // Se o user clica +1, Transposition vira -1 (Ebm). O PitchShift do áudio deve ser +1.
     // Fórmula: Shift do Áudio = Transposition Desejada - Offset Inicial de Sincronia
     if (pitchShiftRef.current && canto) {
-      const diff = canto.tom_audio ? getNoteIndex(canto.tom_audio) - getNoteIndex(canto.tom_original) : 0;
-      let syncOffset = diff;
-      if (syncOffset > 6) syncOffset -= 12;
-      if (syncOffset < -6) syncOffset += 12;
+      let audioPitchShift = transposition;
       
-      const audioPitchShift = transposition - syncOffset;
-      pitchShiftRef.current.pitch = audioPitchShift;
+      // Normaliza o shift do áudio para ficar sempre no intervalo de -6 a +5 semitons, evitando shifts de oitavas que distorcem o som
+      audioPitchShift = ((audioPitchShift % 12) + 12) % 12;
+      if (audioPitchShift > 6) audioPitchShift -= 12;
+
+      if (audioPitchShift === 0) {
+        pitchShiftRef.current.wet.value = 0;
+      } else {
+        pitchShiftRef.current.wet.value = 1;
+        pitchShiftRef.current.pitch = audioPitchShift;
+      }
     }
     
     if (transposition !== 0 && !feedbackSent) setShowFeedback(true);
@@ -221,9 +226,17 @@ const Canto = ({ user }) => {
       showToast("Calibre sua voz primeiro!");
       return;
     }
+    
+    const hasMelodicData = canto.freq_max_curada > 0 || canto.freq_max_global > 0 || (canto.linhas && canto.linhas.length > 0 && canto.linhas.some(l => l.freq_max > 0));
+
+    if (!hasMelodicData) {
+      showToast("Este canto ainda não possui análise melódica para o cálculo automático do tom ideal.");
+      return;
+    }
+
     const cautela = userProfile.learningCautela || 0;
     const userMaxFreq = userProfile.max.freq;
-    const songMaxFreq = Math.max(...canto.linhas.map(l => l.freq_max || 0));
+    const songMaxFreq = canto.freq_max_curada || canto.freq_max_global || Math.max(...canto.linhas.map(l => l.freq_max || 0));
     
     let novoTom = 0;
     if (songMaxFreq > userMaxFreq) {
@@ -363,8 +376,9 @@ const Canto = ({ user }) => {
 
   // LÓGICA: PEOPLE-COMPATIBLE TRANSPOSITION (Neo-Transposer)
   const renderAssemblyStatus = () => {
-    const songMaxFreq = Math.max(...canto.linhas.map(l => l.freq_max || 0));
-    if (songMaxFreq === 0) return null;
+    // Para a assembleia, usamos primeiramente a nota máxima dedicada ao povo (curada por humanos)
+    const songMaxFreq = canto.freq_max_povo_curada || canto.freq_max_curada || canto.freq_max_global || Math.max(...(canto.linhas || []).map(l => l.freq_max || 0));
+    if (!songMaxFreq || songMaxFreq === -Infinity) return null;
 
     const currentMaxFreq = songMaxFreq * Math.pow(2, transposition / 12);
     const assemblyMaxLimit = 246.94; // B3
@@ -433,81 +447,87 @@ const Canto = ({ user }) => {
         </div>
       )}
       <div className="canto-header mb-4">
-        <div className="canto-title-block">
-          <h1>{canto.titulo}</h1>
+        <div className="canto-title-block" style={{ width: '100%' }}>
+          <h1 style={{ marginBottom: '0.5rem' }}>{canto.titulo}</h1>
           <div className="canto-meta-info">
             <span className="badge badge-primary">Tom Original: {canto.tom_original}</span>
           </div>
         </div>
-        
-        <div className="canto-controls card">
-            <div>
-              <div className="control-group">
-                <span className="control-label">Transposição Visual</span>
-                <div className="transposition-controls">
-                  <button className="btn-circle" onClick={() => setTransposition(t => t - 1)}>-</button>
-                  <span className="transposition-value" style={{fontWeight: 'bold', fontSize: '1.2rem', color: 'var(--color-primary)'}}>{tomAtualVisual}</span>
-                  <button className="btn-circle" onClick={() => setTransposition(t => t + 1)}>+</button>
-                </div>
-                <small className="text-center" style={{display: 'block', color: '#666', marginTop: '0.5rem'}}>{transposition > 0 ? `+${transposition}` : transposition} semitons</small>
-              </div>
-              <button className="btn btn-secondary btn-sm auto-adjust-btn mt-2 w-100" onClick={calcularAjusteMagico}>
-                <Settings2 size={16} /> Meu Tom Ideal
-              </button>
-            </div>
-        </div>
       </div>
         
-      {(!canto.linhas || canto.linhas.length === 0) && canto.acordes_usados && canto.acordes_usados.length > 0 && transposition !== 0 && (
-          <div className="card mb-4" style={{backgroundColor: '#f0f9ff', border: '1px solid #bae6fd'}}>
-            <div style={{color: '#0369a1', marginBottom: '0.5rem'}}>
-              <strong><SlidersHorizontal size={18} style={{marginRight: '0.5rem', verticalAlign: 'text-bottom'}} /> Guia de Acordes Transpostos</strong>
-              <p style={{margin: '0.2rem 0', fontSize: '0.9rem'}}>A cifra acima da imagem não muda, mas você pode usar este guia para tocar os acordes no novo tom:</p>
-            </div>
-            <div style={{display: 'flex', flexWrap: 'wrap', gap: '1rem', marginTop: '1rem', fontFamily: 'monospace', fontSize: '1.2rem'}}>
-              {canto.acordes_usados.map((c, i) => (
-                <div key={i} style={{background: '#fff', padding: '0.5rem 1rem', borderRadius: '8px', border: '1px solid #e0f2fe', textAlign: 'center'}}>
-                  <div style={{color: '#94a3b8', fontSize: '0.9rem', textDecoration: 'line-through'}}>{c}</div>
-                  <div style={{color: '#b91c1c', fontWeight: 'bold'}}>{transposeChordString(c, transposition)}</div>
-                </div>
-              ))}
+
+      {renderAssemblyStatus()}
+
+
+      {canto.audio_url && (
+        <div className="audio-section mb-4">
+          <div className="audio-player card mb-3">
+            <div className="player-controls">
+              <button className="btn-circle play-btn" onClick={togglePlay} disabled={!isAudioLoaded}>
+                {isPlaying ? <Pause size={20} fill="currentColor" /> : <Play size={20} fill="currentColor" />}
+              </button>
+              <div className="player-timeline" onClick={handleSeek} style={{background: '#e0e0e0', height: '12px', borderRadius: '6px', flex: 1, overflow: 'hidden', cursor: 'pointer', position: 'relative'}}>
+                <div className="timeline-progress" style={{ width: `${progress}%`, height: '100%', background: '#a13333', transition: 'width 0.1s linear' }}></div>
+              </div>
+              <div style={{fontSize: '0.85rem', color: '#666', fontFamily: 'monospace', minWidth: '85px'}}>
+                {formatTime(currentTime)} / {formatTime(duration)}
+              </div>
             </div>
           </div>
-        )}
 
-      {(canto.linhas && canto.linhas.length > 0) && renderAssemblyStatus()}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' }}>
+            <div className="card text-center" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', color: '#555', marginBottom: '1rem', fontWeight: 'bold' }}>
+                Áudio Original ({canto.tom_audio || '?'})
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '6px', alignItems: 'center', height: '40px' }}>
+                <div style={{ width: '4px', height: '16px', background: '#d4af37', borderRadius: '2px' }}></div>
+                <div style={{ width: '4px', height: '28px', background: '#d4af37', borderRadius: '2px' }}></div>
+                <div style={{ width: '4px', height: '12px', background: '#d4af37', borderRadius: '2px' }}></div>
+                <div style={{ width: '4px', height: '40px', background: '#d4af37', borderRadius: '2px' }}></div>
+                <div style={{ width: '4px', height: '24px', background: '#d4af37', borderRadius: '2px' }}></div>
+              </div>
+            </div>
+            
+            <div className="card text-center" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', color: '#555', marginBottom: '0.75rem', fontWeight: 'bold' }}>
+                Transposição
+              </div>
+              
+              <div className="transposition-controls" style={{ background: '#fdfbf7', padding: '0.5rem', borderRadius: '8px', display: 'inline-flex', alignItems: 'center', marginBottom: '0.5rem' }}>
+                 <button className="btn-circle btn-sm" onClick={() => setTransposition(t => t - 1)} style={{ width: '30px', height: '30px', minWidth: '30px' }}>-</button>
+                 <span className="transposition-value" style={{fontWeight: 'bold', fontSize: '1.5rem', color: '#851d1d', margin: '0 1.5rem', minWidth: '45px'}}>{tomAtualVisual}</span>
+                 <button className="btn-circle btn-sm" onClick={() => setTransposition(t => t + 1)} style={{ width: '30px', height: '30px', minWidth: '30px' }}>+</button>
+              </div>
+              
+              <div style={{ fontSize: '0.8rem', color: '#666', marginBottom: '1rem' }}>
+                {transposition === 0 ? '0' : (transposition > 0 ? `+${transposition}` : transposition)} semitons
+              </div>
+              
+              <button className="btn btn-secondary btn-sm auto-adjust-btn w-100" onClick={calcularAjusteMagico} style={{ maxWidth: '200px' }}>
+                 <Settings2 size={14} style={{ marginRight: '0.4rem' }}/> Meu Tom Ideal
+              </button>
 
-      {showFeedback && !feedbackSent && (
-        <div className="feedback-banner card mb-4">
-          <p><strong>Esse tom ficou bom para você?</strong></p>
-          <div className="feedback-buttons">
-            <button className="btn btn-outline success-btn" onClick={() => handleFeedback(true)}>
-              <ThumbsUp size={16} /> Sim, ficou ótimo
-            </button>
-            <button className="btn btn-outline danger-btn" onClick={() => handleFeedback(false)}>
-              <ThumbsDown size={16} /> Não, ficou alto demais
-            </button>
+              {(!canto.linhas || canto.linhas.length === 0) && canto.acordes_usados && canto.acordes_usados.length > 0 && transposition !== 0 && (
+                <div style={{ marginTop: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', fontSize: '0.85rem', color: '#555' }}>
+                  <input type="checkbox" id="chordGuideToggle" checked={showChordGuide} onChange={(e) => setShowChordGuide(e.target.checked)} style={{ cursor: 'pointer', width: '16px', height: '16px', accentColor: '#0369a1' }} />
+                  <label htmlFor="chordGuideToggle" style={{ cursor: 'pointer', margin: 0 }}>Mostrar Guia de Acordes</label>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
 
-      {canto.audio_url && (
-        <div className="audio-player card mb-4">
-          <div className="player-controls">
-            <button className="btn-circle play-btn" onClick={togglePlay} disabled={!isAudioLoaded}>
-              {isPlaying ? <Pause size={20} fill="currentColor" /> : <Play size={20} fill="currentColor" />}
+      {showFeedback && !feedbackSent && (
+        <div className="feedback-banner card mb-4" style={{border: '1px solid #e0d8b0', backgroundColor: '#fffcf2'}}>
+          <p style={{marginBottom: '1rem', color: '#8a7a3b'}}><strong>Esse tom sugerido ficou bom para você cantar?</strong></p>
+          <div className="feedback-buttons" style={{display: 'flex', gap: '1rem', flexWrap: 'wrap'}}>
+            <button className="btn btn-outline success-btn flex-1" onClick={() => handleFeedback(true)} style={{flex: 1, minWidth: '150px'}}>
+              <ThumbsUp size={16} /> Sim, ficou ótimo
             </button>
-            <div className="player-timeline" onClick={handleSeek} style={{background: '#e0e0e0', height: '12px', borderRadius: '6px', flex: 1, overflow: 'hidden', cursor: 'pointer', position: 'relative'}}>
-              <div className="timeline-progress" style={{ width: `${progress}%`, height: '100%', background: '#a13333', transition: 'width 0.1s linear' }}></div>
-            </div>
-            <div style={{fontSize: '0.85rem', color: '#666', fontFamily: 'monospace', minWidth: '85px'}}>
-              {formatTime(currentTime)} / {formatTime(duration)}
-            </div>
-            <button className="btn btn-outline btn-sm" onClick={analisarComIALocal} title="Analisar BPM e Tom com IA">
-              ✨ IA
-            </button>
-            <button className="btn btn-outline btn-sm">
-              <SlidersHorizontal size={14} /> Áudio Shiftado
+            <button className="btn btn-outline danger-btn flex-1" onClick={() => handleFeedback(false)} style={{flex: 1, minWidth: '150px'}}>
+              <ThumbsDown size={16} /> Não, ficou alto demais
             </button>
           </div>
         </div>
@@ -515,80 +535,69 @@ const Canto = ({ user }) => {
 
       {user && (
         <div className="notepad-section mb-4">
-          <div className="card" style={{backgroundColor: '#fffdf5', border: '1px solid #e0d8b0'}}>
-            <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem', color: '#8a7a3b'}}>
-              <Book size={18} /> <strong>Anotações do Salmista</strong>
+          <div className="card" style={{backgroundColor: '#fffdf5', border: '1px solid #e0d8b0', transition: 'all 0.3s ease'}}>
+            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#8a7a3b', cursor: 'pointer'}} onClick={() => setShowNotes(!showNotes)}>
+              <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
+                <Book size={18} /> <strong>Anotações do Salmista</strong>
+              </div>
+              <div style={{ position: 'relative', width: '36px', height: '20px', backgroundColor: showNotes ? '#a13333' : '#cbd5e1', borderRadius: '20px', transition: '0.3s', display: 'flex', alignItems: 'center', padding: '2px' }}>
+                <div style={{ width: '16px', height: '16px', backgroundColor: 'white', borderRadius: '50%', transition: '0.3s', transform: showNotes ? 'translateX(16px)' : 'translateX(0)', boxShadow: '0 1px 3px rgba(0,0,0,0.2)' }} />
+              </div>
             </div>
-            <textarea 
-              value={notes}
-              onChange={handleNotesChange}
-              placeholder="Escreva dicas, ritmos ou lembretes sobre este canto..."
-              style={{width: '100%', minHeight: '80px', border: 'none', background: 'transparent', outline: 'none', fontFamily: 'var(--font-body)', resize: 'vertical'}}
-            />
+            {showNotes && (
+              <textarea 
+                value={notes}
+                onChange={handleNotesChange}
+                placeholder="Escreva dicas, ritmos ou lembretes sobre este canto..."
+                style={{width: '100%', minHeight: '80px', border: 'none', background: 'transparent', outline: 'none', fontFamily: 'var(--font-body)', resize: 'vertical', marginTop: '1rem', borderTop: '1px dashed #e0d8b0', paddingTop: '1rem'}}
+              />
+            )}
           </div>
         </div>
       )}
 
-      <div className="cifra-container card" style={{position: 'relative', paddingTop: '3rem'}}>
-        <div style={{position: 'absolute', top: '0.5rem', right: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#f8fafc', padding: '0.25rem 0.5rem', borderRadius: '20px', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.05)'}}>
-           <span style={{fontSize: '0.75rem', color: '#64748b', fontWeight: 'bold', marginRight: '0.2rem'}}>FONTE</span>
-           <button style={{border: 'none', background: 'white', borderRadius: '50%', width: '24px', height: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 1px 2px rgba(0,0,0,0.1)', color: '#333', fontWeight: 'bold'}} onClick={() => setFontSize(f => Math.max(0.6, f - 0.1))}>-</button>
-           <span style={{fontSize: '0.8rem', fontWeight: 'bold', minWidth: '36px', textAlign: 'center'}}>{Math.round(fontSize * 100)}%</span>
-           <button style={{border: 'none', background: 'white', borderRadius: '50%', width: '24px', height: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 1px 2px rgba(0,0,0,0.1)', color: '#333', fontWeight: 'bold'}} onClick={() => setFontSize(f => Math.min(2.5, f + 0.1))}>+</button>
-        </div>
-        
-        {canto.linhas && canto.linhas.length > 0 ? (
-          <div className="cifra-sheet" style={{fontSize: `${fontSize}rem`}}>
-            {canto.linhas.map((linha, index) => {
-              const isGargalo = checkGargalo(linha);
-              return (
-                <div key={linha.id || index} className={`cifra-line ${isGargalo ? 'line-alert' : ''}`}>
-                  {isGargalo && (
-                    <div className="alert-tooltip">
-                      <AlertTriangle size={14} /> Fora de Alcance
-                    </div>
-                  )}
-                  <div className="cifra-content">
-                    {renderCifraComCordasETransposicao(linha.cifra || linha.texto)}
-                  </div>
-                </div>
-              );
-            })}
-            
-            {/* Mostrar imagens caso a cifra esteja incompleta (menos de 5 linhas) ou sempre disponível no final */}
-            {canto.imagens_originais && canto.imagens_originais.length > 0 && (
-              <div className="original-images-fallback" style={{marginTop: '3rem', paddingTop: '2rem', borderTop: '1px dashed #ccc', textAlign: 'center'}}>
-                <div className="alert mb-4" style={{backgroundColor: '#f8fafc', color: '#64748b', textAlign: 'left', padding: '0.75rem'}}>
-                  <strong><Book size={16} style={{verticalAlign: 'text-bottom', marginRight: '0.25rem'}} /> Ficha original</strong>
-                </div>
-                {canto.imagens_originais.map((imgUrl, i) => (
-                  <img 
-                    key={i} 
-                    src={imgUrl} 
-                    alt={`Página ${i+1}`} 
-                    referrerPolicy="no-referrer"
-                    style={{maxWidth: '100%', height: 'auto', marginBottom: '1rem', border: '1px solid #eee', borderRadius: '8px'}} 
-                  />
-                ))}
-              </div>
-            )}
-            
-          </div>
-        ) : (
-          <div className="cifra-imagens-sheet text-center">
-            {canto.imagens_originais && canto.imagens_originais.map((imgUrl, i) => (
+      <div className="cifra-container card text-center" style={{position: 'relative', paddingTop: '2rem'}}>        <div style={{ display: 'flex', flexWrap: 'wrap-reverse', gap: '2rem', justifyContent: 'center', alignItems: 'flex-start', textAlign: 'left' }}>
+          
+          <div style={{ flex: '3 1 500px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            {canto.imagens_originais && canto.imagens_originais.length > 0 ? (
+              <div className="cifra-imagens-sheet text-center" style={{ width: '100%' }}>
+            {canto.imagens_originais.map((imgUrl, i) => (
               <img 
                 key={i} 
                 src={imgUrl} 
-                alt={`Página ${i+1}`} 
+                alt={`Ficha ${i+1}`} 
                 referrerPolicy="no-referrer"
                 style={{maxWidth: '100%', height: 'auto', marginBottom: '1rem', border: '1px solid #eee', borderRadius: '8px'}} 
               />
             ))}
           </div>
+        ) : (
+          <div className="p-4" style={{color: '#666'}}>
+            Nenhuma cifra em texto ou imagem encontrada para este canto.
+          </div>
         )}
       </div>
+
+      {(showChordGuide) && (!canto.linhas || canto.linhas.length === 0) && canto.acordes_usados && canto.acordes_usados.length > 0 && transposition !== 0 && (
+        <div className="guia-acordes-sidebar" style={{ flex: '1 1 300px', maxWidth: '450px', backgroundColor: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: '12px', padding: '1rem', alignSelf: 'flex-start' }}>
+          <div style={{color: '#0369a1', marginBottom: '0.75rem'}}>
+            <strong><SlidersHorizontal size={18} style={{marginRight: '0.5rem', verticalAlign: 'text-bottom'}} /> Guia de Acordes</strong>
+            <p style={{margin: '0.25rem 0 0 0', fontSize: '0.8rem'}}>A imagem não muda, use este guia para tocar no novo tom:</p>
+          </div>
+          <div style={{display: 'flex', flexWrap: 'wrap', gap: '0.5rem', fontFamily: 'monospace', fontSize: '1.1rem'}}>
+            {canto.acordes_usados.map((c, i) => (
+              <div key={i} style={{background: '#fff', padding: '0.3rem 0.5rem', borderRadius: '8px', border: '1px solid #e0f2fe', textAlign: 'center', flex: '1 1 auto', minWidth: '60px'}}>
+                <div style={{color: '#94a3b8', fontSize: '0.8rem', textDecoration: 'line-through'}}>{c}</div>
+                <div style={{color: '#b91c1c', fontWeight: 'bold'}}>{transposeChordString(c, transposition)}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
     </div>
+  </div>
+</div>
   );
 };
 

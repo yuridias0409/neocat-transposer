@@ -5,8 +5,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Fa#",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Fa#",
+    "bpm": 152,
     "audio_url": "/audios/Senhor-nao-me-corrijas-na-tua-colera.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -17,7 +17,12 @@ export const cantosData = {
       "Sol",
       "Si-",
       "La"
-    ]
+    ],
+    "freq_max_global": 291.14,
+    "freq_min_curada": 69.3,
+    "freq_max_curada": 185.0,
+    "freq_min_povo_curada": 69.3,
+    "freq_max_povo_curada": 185.0
   },
   "confessei-a-ti-o-meu-pecado": {
     "id": "confessei-a-ti-o-meu-pecado",
@@ -25,8 +30,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 152,
     "audio_url": "/audios/Confessei-a-ti-o-meu-pecado.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -36,7 +41,12 @@ export const cantosData = {
       "La-",
       "Re-",
       "Sol"
-    ]
+    ],
+    "freq_max_global": 251.18,
+    "freq_min_curada": 98.0,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 98.0,
+    "freq_max_povo_curada": 130.81
   },
   "ate-quando": {
     "id": "ate-quando",
@@ -44,8 +54,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La",
+    "bpm": 112,
     "audio_url": "/audios/Ate-quando.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -54,7 +64,12 @@ export const cantosData = {
     "acordes_usados": [
       "La-",
       "Mi"
-    ]
+    ],
+    "freq_max_global": 221.82,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 103.83,
+    "freq_min_povo_curada": 55.0,
+    "freq_max_povo_curada": 103.83
   },
   "um-rebento-brota-do-tronco-de-jesse": {
     "id": "um-rebento-brota-do-tronco-de-jesse",
@@ -62,8 +77,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Sol",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Sol",
+    "bpm": 161,
     "audio_url": "/audios/Um-rebento-brota-do-tronco-de-Jesse.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -76,7 +91,12 @@ export const cantosData = {
       "Re",
       "Si7",
       "La-"
-    ]
+    ],
+    "freq_max_global": 261.14,
+    "freq_min_curada": 98.0,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 98.0,
+    "freq_max_povo_curada": 130.81
   },
   "maria-pequena-maria": {
     "id": "maria-pequena-maria",
@@ -84,8 +104,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re",
+    "bpm": 112,
     "audio_url": "/audios/Maria-pequena-Maria.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -98,7 +118,12 @@ export const cantosData = {
       "Mi-6",
       "La7",
       "La"
-    ]
+    ],
+    "freq_max_global": 445.88,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 185.0,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 146.83
   },
   "misericordia-minha-misericordia": {
     "id": "misericordia-minha-misericordia",
@@ -106,8 +131,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re-",
+    "bpm": 152,
     "audio_url": "/audios/Misericordia-minha-misericordia.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -117,7 +142,12 @@ export const cantosData = {
       "Re-",
       "Do",
       "Sol-"
-    ]
+    ],
+    "freq_max_global": 234.76,
+    "freq_min_curada": 65.41,
+    "freq_max_curada": 116.54,
+    "freq_min_povo_curada": 65.41,
+    "freq_max_povo_curada": 116.54
   },
   "se-vos-ressuscitastes-com-cristo": {
     "id": "se-vos-ressuscitastes-com-cristo",
@@ -125,8 +155,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Fa-",
+    "bpm": 152,
     "audio_url": "/audios/Se-vos-ressuscitastes-com-Cristo.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -138,7 +168,12 @@ export const cantosData = {
       "Re",
       "Do",
       "La-"
-    ]
+    ],
+    "freq_max_global": 275.88,
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 61.74,
+    "freq_max_povo_curada": 146.83
   },
   "amem-amem-amem": {
     "id": "amem-amem-amem",
@@ -146,8 +181,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Do",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La#",
+    "bpm": 161,
     "audio_url": "/audios/Amem-amem-amem.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -160,7 +195,12 @@ export const cantosData = {
       "Fa",
       "Mi",
       "Sol"
-    ]
+    ],
+    "freq_max_global": 317.97,
+    "freq_min_curada": 65.41,
+    "freq_max_curada": 220.0,
+    "freq_min_povo_curada": 65.41,
+    "freq_max_povo_curada": 220.0
   },
   "maria-mae-do-caminho-ardente": {
     "id": "maria-mae-do-caminho-ardente",
@@ -168,8 +208,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Sol",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La",
+    "bpm": 81,
     "audio_url": "/audios/Maria-mae-do-caminho-ardente.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -181,7 +221,12 @@ export const cantosData = {
       "Do",
       "La",
       "Re"
-    ]
+    ],
+    "freq_max_global": 295.97,
+    "freq_min_curada": 32.7,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 32.7,
+    "freq_max_povo_curada": 146.83
   },
   "felicidade-para-o-homem": {
     "id": "felicidade-para-o-homem",
@@ -189,8 +234,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 152,
     "audio_url": "/audios/Felicidade-para-o-homem.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -203,7 +248,12 @@ export const cantosData = {
       "Fa",
       "Mi",
       "Re-"
-    ]
+    ],
+    "freq_max_global": 260.04,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 174.61,
+    "freq_min_povo_curada": 55.0,
+    "freq_max_povo_curada": 146.83
   },
   "pentecostes": {
     "id": "pentecostes",
@@ -211,8 +261,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re-",
+    "bpm": 172,
     "audio_url": "/audios/Pentecostes.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -226,7 +276,12 @@ export const cantosData = {
       "Fa",
       "La7",
       "La#"
-    ]
+    ],
+    "freq_max_global": 596.16,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 138.59,
+    "freq_min_povo_curada": 55.0,
+    "freq_max_povo_curada": 116.54
   },
   "ao-despertar": {
     "id": "ao-despertar",
@@ -234,8 +289,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Si-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Si-",
+    "bpm": 161,
     "audio_url": "/audios/Ao-despertar.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -246,7 +301,12 @@ export const cantosData = {
       "Sol",
       "Mi-",
       "Fa#"
-    ]
+    ],
+    "freq_max_global": 245.03,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 92.5,
+    "freq_max_povo_curada": 146.83
   },
   "quando-israel-saiu-do-egito": {
     "id": "quando-israel-saiu-do-egito",
@@ -254,8 +314,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi",
+    "bpm": 172,
     "audio_url": "/audios/Quando-Israel-saiu-do-Egito.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -270,7 +330,12 @@ export const cantosData = {
       "Fa#",
       "Si-",
       "Re"
-    ]
+    ],
+    "freq_max_global": 249.0,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 185.0,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 185.0
   },
   "siao-mae-de-todos-os-povos": {
     "id": "siao-mae-de-todos-os-povos",
@@ -278,8 +343,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Si-",
+    "bpm": 123,
     "audio_url": "/audios/Siao-mae-de-todos-os-povos.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -292,7 +357,12 @@ export const cantosData = {
       "Si7",
       "Re-",
       "Sol"
-    ]
+    ],
+    "freq_max_global": 273.21,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 130.81,
+    "freq_min_povo_curada": 61.74,
+    "freq_max_povo_curada": 130.81
   },
   "que-estupendo-que-alegria": {
     "id": "que-estupendo-que-alegria",
@@ -300,8 +370,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 86,
     "audio_url": "/audios/Que-estupendo-que-alegria.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -314,7 +384,12 @@ export const cantosData = {
       "Fa",
       "Sol",
       "Do"
-    ]
+    ],
+    "freq_max_global": 243.82,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 130.81,
+    "freq_min_povo_curada": 55.0,
+    "freq_max_povo_curada": 130.81
   },
   "caritas-christi-urget-nos": {
     "id": "caritas-christi-urget-nos",
@@ -322,8 +397,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 199,
     "audio_url": "/audios/Caritas-Christi-urget-nos.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -338,7 +413,12 @@ export const cantosData = {
       "La-9",
       "Re",
       "Mi7"
-    ]
+    ],
+    "freq_max_global": 665.79,
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 61.74,
+    "freq_max_povo_curada": 146.83
   },
   "mostrar-me-as-o-caminho-da-vida": {
     "id": "mostrar-me-as-o-caminho-da-vida",
@@ -346,8 +426,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Sol-",
+    "bpm": 152,
     "audio_url": "/audios/Mostrar-me-as-o-caminho-da-vida.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -358,7 +438,12 @@ export const cantosData = {
       "Do",
       "La-",
       "Si7"
-    ]
+    ],
+    "freq_max_global": 308.3,
+    "freq_min_curada": 32.7,
+    "freq_max_curada": 130.81,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 130.81
   },
   "quando-o-senhor": {
     "id": "quando-o-senhor",
@@ -366,8 +451,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re",
+    "bpm": 117,
     "audio_url": "/audios/Quando-o-Senhor.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -379,7 +464,12 @@ export const cantosData = {
       "Re7",
       "Sol",
       "La"
-    ]
+    ],
+    "freq_max_global": 198.7,
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 123.47,
+    "freq_min_povo_curada": 61.74,
+    "freq_max_povo_curada": 123.47
   },
   "tu-que-es-fiel": {
     "id": "tu-que-es-fiel",
@@ -387,8 +477,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Do",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Sol",
+    "bpm": 144,
     "audio_url": "/audios/Tu-que-es-fiel.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -400,7 +490,12 @@ export const cantosData = {
       "Do-",
       "Sol-",
       "Re7"
-    ]
+    ],
+    "freq_max_global": 411.93,
+    "freq_min_curada": 98.0,
+    "freq_max_curada": 155.56,
+    "freq_min_povo_curada": 98.0,
+    "freq_max_povo_curada": 155.56
   },
   "e-paciente": {
     "id": "e-paciente",
@@ -408,8 +503,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 161,
     "audio_url": "/audios/E-paciente.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -420,7 +515,12 @@ export const cantosData = {
       "Mi",
       "Re-",
       "Fa"
-    ]
+    ],
+    "freq_max_global": 228.3,
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 164.81
   },
   "exultai-justos-no-senhor": {
     "id": "exultai-justos-no-senhor",
@@ -428,8 +528,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Sol",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Sol",
+    "bpm": 152,
     "audio_url": "/audios/Exultai-justos-no-Senhor.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -442,7 +542,12 @@ export const cantosData = {
       "La-",
       "Si7",
       "Re"
-    ]
+    ],
+    "freq_max_global": 268.31,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 123.47
   },
   "o-senhor-e-meu-pastor": {
     "id": "o-senhor-e-meu-pastor",
@@ -450,8 +555,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Si-",
+    "bpm": 144,
     "audio_url": "/audios/O-Senhor-e-meu-pastor.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -462,7 +567,12 @@ export const cantosData = {
       "Fa",
       "Mi",
       "Sol"
-    ]
+    ],
+    "freq_max_global": 398.27,
+    "freq_min_curada": 49.0,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 123.47
   },
   "bendirei-o-senhor-em-todo-tempo": {
     "id": "bendirei-o-senhor-em-todo-tempo",
@@ -470,8 +580,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re-",
+    "bpm": 152,
     "audio_url": "/audios/Bendirei-o-Senhor-em-todo-tempo.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -483,7 +593,12 @@ export const cantosData = {
       "La",
       "La#",
       "La7"
-    ]
+    ],
+    "freq_max_global": 602.29,
+    "freq_min_curada": 87.31,
+    "freq_max_curada": 174.61,
+    "freq_min_povo_curada": 87.31,
+    "freq_max_povo_curada": 174.61
   },
   "hino-a-cristo-luz": {
     "id": "hino-a-cristo-luz",
@@ -491,8 +606,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi-",
+    "bpm": 152,
     "audio_url": "/audios/Hino-a-Cristo-Luz.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -504,7 +619,12 @@ export const cantosData = {
       "Si7",
       "Re7",
       "Sol"
-    ]
+    ],
+    "freq_max_global": 246.71,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 164.81
   },
   "akeda": {
     "id": "akeda",
@@ -512,8 +632,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 136,
     "audio_url": "/audios/Akeda.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -525,7 +645,12 @@ export const cantosData = {
       "Mi",
       "Re-",
       "Mi7"
-    ]
+    ],
+    "freq_max_global": 247.55,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 130.81
   },
   "a-ti-senhor-com-minha-voz-gritando-imploro": {
     "id": "a-ti-senhor-com-minha-voz-gritando-imploro",
@@ -533,8 +658,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Si-",
+    "bpm": 152,
     "audio_url": "/audios/A-ti-Senhor-com-minha-voz-gritando-imploro.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -547,7 +672,12 @@ export const cantosData = {
       "Fa",
       "Mi",
       "Sol"
-    ]
+    ],
+    "freq_max_global": 254.03,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 55.0,
+    "freq_max_povo_curada": 130.81
   },
   "estou-chamando-te": {
     "id": "estou-chamando-te",
@@ -555,8 +685,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 152,
     "audio_url": "/audios/Estou-chamando-te.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -569,7 +699,12 @@ export const cantosData = {
       "Do",
       "Fa",
       "La#"
-    ]
+    ],
+    "freq_max_global": 235.86,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 116.54
   },
   "ave-maria-ii-1984": {
     "id": "ave-maria-ii-1984",
@@ -591,8 +726,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re-5",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re-",
+    "bpm": 123,
     "audio_url": "/audios/So-a-so.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -606,7 +741,12 @@ export const cantosData = {
       "Do",
       "Fa",
       "La#"
-    ]
+    ],
+    "freq_max_global": 338.95,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 174.61,
+    "freq_min_povo_curada": 87.31,
+    "freq_max_povo_curada": 174.61
   },
   "vem-do-libano": {
     "id": "vem-do-libano",
@@ -614,8 +754,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi-",
+    "bpm": 161,
     "audio_url": "/audios/Vem-do-Libano.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -628,7 +768,12 @@ export const cantosData = {
       "Sol",
       "La",
       "La-"
-    ]
+    ],
+    "freq_max_global": 249.28,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 123.47,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 123.47
   },
   "maria-pomba-incorrupta": {
     "id": "maria-pomba-incorrupta",
@@ -636,8 +781,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re",
+    "bpm": 161,
     "audio_url": "/audios/Maria-Pomba-Incorrupta.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -648,7 +793,12 @@ export const cantosData = {
       "Fa#",
       "Sol",
       "Si-"
-    ]
+    ],
+    "freq_max_global": 558.18,
+    "freq_min_curada": 69.3,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 69.3,
+    "freq_max_povo_curada": 138.59
   },
   "stabat-mater-dolorosa": {
     "id": "stabat-mater-dolorosa",
@@ -656,8 +806,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re-5",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re-",
+    "bpm": 123,
     "audio_url": "/audios/Stabat-mater-dolorosa.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -669,7 +819,12 @@ export const cantosData = {
       "La#7",
       "La",
       "La7"
-    ]
+    ],
+    "freq_max_global": 553.89,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 196.0,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 174.61
   },
   "louvai-o-senhor": {
     "id": "louvai-o-senhor",
@@ -677,8 +832,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Sol",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Sol",
+    "bpm": 161,
     "audio_url": "/audios/Louvai-o-Senhor.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -689,7 +844,12 @@ export const cantosData = {
       "La-",
       "Do",
       "Si7"
-    ]
+    ],
+    "freq_max_global": 263.52,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 146.83
   },
   "como-e-maravilhoso": {
     "id": "como-e-maravilhoso",
@@ -697,8 +857,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi-",
+    "bpm": 161,
     "audio_url": "/audios/Como-e-maravilhoso.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -712,7 +872,12 @@ export const cantosData = {
       "Re7",
       "Sol",
       "Si-"
-    ]
+    ],
+    "freq_max_global": 225.52,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 164.81
   },
   "evenu-shalom-alehem": {
     "id": "evenu-shalom-alehem",
@@ -720,8 +885,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 83,
     "audio_url": "/audios/Evenu-shalom-alehem.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -732,7 +897,12 @@ export const cantosData = {
       "Sol-",
       "La7",
       "La"
-    ]
+    ],
+    "freq_max_global": 453.96,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 146.83
   },
   "a-ceifa-das-nacoes": {
     "id": "a-ceifa-das-nacoes",
@@ -740,8 +910,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re-",
+    "bpm": 112,
     "audio_url": "/audios/A-ceifa-das-nacoes.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -753,7 +923,12 @@ export const cantosData = {
       "La",
       "La#",
       "Do"
-    ]
+    ],
+    "freq_max_global": 238.08,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 174.61,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 146.83
   },
   "balaao": {
     "id": "balaao",
@@ -761,8 +936,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi",
+    "bpm": 129,
     "audio_url": "/audios/Balaao.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -773,7 +948,12 @@ export const cantosData = {
       "Re",
       "Sol",
       "Si-"
-    ]
+    ],
+    "freq_max_global": 223.71,
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 164.81
   },
   "salve-rainha-dos-ceus": {
     "id": "salve-rainha-dos-ceus",
@@ -781,8 +961,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 136,
     "audio_url": "/audios/Salve-rainha-dos-ceus.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -795,7 +975,12 @@ export const cantosData = {
       "Mi",
       "Mi7",
       "Re-"
-    ]
+    ],
+    "freq_max_global": 395.82,
+    "freq_min_curada": 98.0,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 103.83,
+    "freq_max_povo_curada": 146.83
   },
   "encontraram-se-dois-anjos": {
     "id": "encontraram-se-dois-anjos",
@@ -803,8 +988,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 112,
     "audio_url": "/audios/Encontraram-se-dois-anjos.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -814,7 +999,12 @@ export const cantosData = {
       "La-",
       "Re-",
       "Mi"
-    ]
+    ],
+    "freq_max_global": 243.28,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 87.31,
+    "freq_min_povo_curada": 55.0,
+    "freq_max_povo_curada": 87.31
   },
   "em-meio-a-multidao": {
     "id": "em-meio-a-multidao",
@@ -822,8 +1012,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 152,
     "audio_url": "/audios/Em-meio-a-Multidao.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -834,7 +1024,12 @@ export const cantosData = {
       "Sol",
       "Mi",
       "Fa"
-    ]
+    ],
+    "freq_max_global": 248.26,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 110.0
   },
   "hino-da-ascensao": {
     "id": "hino-da-ascensao",
@@ -852,7 +1047,11 @@ export const cantosData = {
     "acordes_usados": [
       "La-",
       "Sol"
-    ]
+    ],
+    "freq_min_curada": 98.0,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 98.0,
+    "freq_max_povo_curada": 123.47
   },
   "cantico-de-ana": {
     "id": "cantico-de-ana",
@@ -860,8 +1059,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Sol",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La",
+    "bpm": 172,
     "audio_url": "/audios/Cantico-de-Ana.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -873,7 +1072,12 @@ export const cantosData = {
       "Re-",
       "Mi",
       "Fa"
-    ]
+    ],
+    "freq_max_global": 493.44,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 110.0,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 98.0
   },
   "chegue-a-tua-presenca-meu-clamor": {
     "id": "chegue-a-tua-presenca-meu-clamor",
@@ -881,8 +1085,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Si-",
+    "bpm": 172,
     "audio_url": "/audios/Chegue-a-tua-presenca-meu-clamor.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -893,7 +1097,12 @@ export const cantosData = {
       "Fa",
       "Mi",
       "Sol"
-    ]
+    ],
+    "freq_max_global": 220.83,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 123.47,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 123.47
   },
   "magnificat": {
     "id": "magnificat",
@@ -901,8 +1110,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La",
+    "bpm": 83,
     "audio_url": "/audios/Magnificat.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -913,7 +1122,12 @@ export const cantosData = {
       "Mi",
       "La",
       "La7"
-    ]
+    ],
+    "freq_max_global": 246.46,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 146.83
   },
   "a-marcha-e-dura": {
     "id": "a-marcha-e-dura",
@@ -933,7 +1147,11 @@ export const cantosData = {
       "Si7",
       "La-",
       "Do"
-    ]
+    ],
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 123.47,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 123.47
   },
   "estao-rotas-minhas-ataduras": {
     "id": "estao-rotas-minhas-ataduras",
@@ -941,8 +1159,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 144,
     "audio_url": "/audios/Estao-rotas-minhas-ataduras.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -960,7 +1178,12 @@ export const cantosData = {
       "La",
       "Fa#",
       "Si-"
-    ]
+    ],
+    "freq_max_global": 288.99,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 185.0,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 185.0
   },
   "louvai-o-senhor-nos-ceus": {
     "id": "louvai-o-senhor-nos-ceus",
@@ -978,7 +1201,11 @@ export const cantosData = {
     "acordes_usados": [
       "La",
       "Fa#-"
-    ]
+    ],
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 110.0,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 110.0
   },
   "o-deus-pelo-teu-nome-salva-me": {
     "id": "o-deus-pelo-teu-nome-salva-me",
@@ -986,8 +1213,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Sol-",
+    "bpm": 152,
     "audio_url": "/audios/O-Deus-pelo-teu-nome-salva-me.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1002,7 +1229,12 @@ export const cantosData = {
       "Fa7",
       "Re-",
       "Sol"
-    ]
+    ],
+    "freq_max_global": 292.94,
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 61.74,
+    "freq_max_povo_curada": 146.83
   },
   "vos-sois-a-luz-do-mundo": {
     "id": "vos-sois-a-luz-do-mundo",
@@ -1010,8 +1242,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi",
+    "bpm": 144,
     "audio_url": "/audios/Vos-sois-a-luz-do-mundo.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1023,7 +1255,12 @@ export const cantosData = {
       "Re-",
       "Do",
       "Fa"
-    ]
+    ],
+    "freq_max_global": 330.84,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 220.0,
+    "freq_min_povo_curada": 103.83,
+    "freq_max_povo_curada": 164.81
   },
   "o-senhor-e-minha-luz-e-salvacao": {
     "id": "o-senhor-e-minha-luz-e-salvacao",
@@ -1031,8 +1268,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re",
+    "bpm": 78,
     "audio_url": "/audios/O-Senhor-e-minha-luz-e-salvacao.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1045,7 +1282,12 @@ export const cantosData = {
       "Do",
       "Sol-",
       "La7"
-    ]
+    ],
+    "freq_max_global": 355.8,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 146.83
   },
   "eu-te-amo-senhor": {
     "id": "eu-te-amo-senhor",
@@ -1053,8 +1295,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re",
-    "tom_audio": "Am",
-    "bpm": 80,
+    "tom_audio": "Re",
+    "bpm": 161,
     "audio_url": "/audios/Eu-te-amo-Senhor.mp3",
     "linhas": [
       {
@@ -1133,7 +1375,12 @@ export const cantosData = {
       "Si-",
       "Sol",
       "La7"
-    ]
+    ],
+    "freq_max_global": 601.86,
+    "freq_min_curada": 92.5,
+    "freq_max_curada": 196.0,
+    "freq_min_povo_curada": 92.5,
+    "freq_max_povo_curada": 185.0
   },
   "salve-rainha": {
     "id": "salve-rainha",
@@ -1141,8 +1388,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi-",
+    "bpm": 129,
     "audio_url": "/audios/Salve-Rainha.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1152,7 +1399,12 @@ export const cantosData = {
       "Re-",
       "Sol-",
       "Re#"
-    ]
+    ],
+    "freq_max_global": 500.71,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 155.56,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 155.56
   },
   "maria-de-jasna-gora": {
     "id": "maria-de-jasna-gora",
@@ -1160,8 +1412,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Si",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Sol",
+    "bpm": 152,
     "audio_url": "/audios/Maria-de-Jasna-Gora.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1171,7 +1423,12 @@ export const cantosData = {
       "Si",
       "La-",
       "Mi-"
-    ]
+    ],
+    "freq_max_global": 293.58,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 220.0,
+    "freq_min_povo_curada": 92.5,
+    "freq_max_povo_curada": 185.0
   },
   "ide-e-anunciai-a-meus-irmaos": {
     "id": "ide-e-anunciai-a-meus-irmaos",
@@ -1193,8 +1450,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Sol#-",
+    "bpm": 152,
     "audio_url": "/audios/Leva-me-ao-ceu.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1206,7 +1463,12 @@ export const cantosData = {
       "Sol#",
       "La",
       "Si7"
-    ]
+    ],
+    "freq_max_global": 416.08,
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 207.65,
+    "freq_min_povo_curada": 61.74,
+    "freq_max_povo_curada": 164.81
   },
   "improperios": {
     "id": "improperios",
@@ -1214,8 +1476,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 83,
     "audio_url": "/audios/Improperios.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1226,7 +1488,12 @@ export const cantosData = {
       "La-",
       "Si7",
       "La-6"
-    ]
+    ],
+    "freq_max_global": 482.19,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 185.0,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 185.0
   },
   "virgem-da-maravilha": {
     "id": "virgem-da-maravilha",
@@ -1234,8 +1501,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Si-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re-",
+    "bpm": 152,
     "audio_url": "/audios/Virgem-da-maravilha.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1246,7 +1513,12 @@ export const cantosData = {
       "Mi-",
       "Sol",
       "Fa#"
-    ]
+    ],
+    "freq_max_global": 303.28,
+    "freq_min_curada": 69.3,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 69.3,
+    "freq_max_povo_curada": 110.0
   },
   "o-senhor-anuncia-uma-noticia": {
     "id": "o-senhor-anuncia-uma-noticia",
@@ -1254,8 +1526,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Sol",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Si-",
+    "bpm": 152,
     "audio_url": "/audios/O-Senhor-anuncia-uma-noticia.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1267,7 +1539,12 @@ export const cantosData = {
       "La-",
       "Si-",
       "La"
-    ]
+    ],
+    "freq_max_global": 297.6,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 123.47
   },
   "vem-espirito-santo": {
     "id": "vem-espirito-santo",
@@ -1275,8 +1552,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Do",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La",
+    "bpm": 112,
     "audio_url": "/audios/Vem-Espirito-Santo.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1286,7 +1563,12 @@ export const cantosData = {
       "Do",
       "Fa",
       "Mi"
-    ]
+    ],
+    "freq_max_global": 276.41,
+    "freq_min_curada": 110.0,
+    "freq_max_curada": 196.0,
+    "freq_min_povo_curada": 110.0,
+    "freq_max_povo_curada": 174.61
   },
   "este-e-o-meu-mandamento": {
     "id": "este-e-o-meu-mandamento",
@@ -1294,8 +1576,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi",
+    "bpm": 161,
     "audio_url": "/audios/Este-e-o-meu-mandamento.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1308,7 +1590,12 @@ export const cantosData = {
       "Fa",
       "La7",
       "Re-"
-    ]
+    ],
+    "freq_max_global": 238.83,
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 61.74,
+    "freq_max_povo_curada": 164.81
   },
   "alcai-o-portas": {
     "id": "alcai-o-portas",
@@ -1316,8 +1603,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi",
+    "bpm": 81,
     "audio_url": "/audios/Alcai-o-portas.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1331,7 +1618,12 @@ export const cantosData = {
       "Mi-",
       "La-",
       "Si-"
-    ]
+    ],
+    "freq_max_global": 261.65,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 138.59,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 138.59
   },
   "zaqueu": {
     "id": "zaqueu",
@@ -1339,8 +1631,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 83,
     "audio_url": "/audios/Zaqueu.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1352,7 +1644,12 @@ export const cantosData = {
       "Fa",
       "Mi",
       "Re-"
-    ]
+    ],
+    "freq_max_global": 262.61,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 174.61,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 174.61
   },
   "vem-filho-do-homem": {
     "id": "vem-filho-do-homem",
@@ -1360,8 +1657,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi-",
+    "bpm": 117,
     "audio_url": "/audios/Vem-filho-do-homem.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1371,7 +1668,12 @@ export const cantosData = {
       "Mi-",
       "La-",
       "Si7"
-    ]
+    ],
+    "freq_max_global": 247.96,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 155.56,
+    "freq_min_povo_curada": 98.0,
+    "freq_max_povo_curada": 123.47
   },
   "por-amor-de-meus-amigos": {
     "id": "por-amor-de-meus-amigos",
@@ -1379,8 +1681,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Fa#-",
+    "bpm": 112,
     "audio_url": "/audios/Por-amor-de-meus-amigos.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1390,7 +1692,12 @@ export const cantosData = {
       "Mi-",
       "La-",
       "Si7"
-    ]
+    ],
+    "freq_max_global": 381.75,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 146.83
   },
   "nao-esta-aqui-ressuscitou": {
     "id": "nao-esta-aqui-ressuscitou",
@@ -1398,8 +1705,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Do",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re",
+    "bpm": 185,
     "audio_url": "/audios/Nao-esta-aqui-ressuscitou.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1415,7 +1722,12 @@ export const cantosData = {
       "Do7",
       "Sol-",
       "Do-"
-    ]
+    ],
+    "freq_max_global": 223.5,
+    "freq_min_curada": 49.0,
+    "freq_max_curada": 155.56,
+    "freq_min_povo_curada": 98.0,
+    "freq_max_povo_curada": 146.83
   },
   "quero-cantar": {
     "id": "quero-cantar",
@@ -1423,8 +1735,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Fa#-",
+    "bpm": 152,
     "audio_url": "/audios/Quero-cantar.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1436,7 +1748,12 @@ export const cantosData = {
       "Sol",
       "La",
       "La7"
-    ]
+    ],
+    "freq_max_global": 278.26,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 138.59,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 138.59
   },
   "um-grande-sinal": {
     "id": "um-grande-sinal",
@@ -1444,8 +1761,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 172,
     "audio_url": "/audios/Um-grande-sinal.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1456,7 +1773,12 @@ export const cantosData = {
       "Sol",
       "Fa",
       "Mi"
-    ]
+    ],
+    "freq_max_global": 231.55,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 196.0,
+    "freq_min_povo_curada": 110.0,
+    "freq_max_povo_curada": 196.0
   },
   "benedictus": {
     "id": "benedictus",
@@ -1464,8 +1786,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re-",
+    "bpm": 172,
     "audio_url": "/audios/Benedictus.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1475,7 +1797,12 @@ export const cantosData = {
       "Re-",
       "Sol-",
       "La7"
-    ]
+    ],
+    "freq_max_global": 259.92,
+    "freq_min_curada": 69.3,
+    "freq_max_curada": 130.81,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 110.0
   },
   "feliz-o-homem": {
     "id": "feliz-o-homem",
@@ -1483,8 +1810,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 152,
     "audio_url": "/audios/Feliz-o-homem.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1495,7 +1822,12 @@ export const cantosData = {
       "Fa",
       "Sol",
       "Mi"
-    ]
+    ],
+    "freq_max_global": 261.42,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 130.81
   },
   "gritai-jubilosos": {
     "id": "gritai-jubilosos",
@@ -1503,8 +1835,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 152,
     "audio_url": "/audios/Gritai-jubilosos.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1515,7 +1847,12 @@ export const cantosData = {
       "Sol",
       "Fa",
       "Mi"
-    ]
+    ],
+    "freq_max_global": 443.44,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 87.31,
+    "freq_max_povo_curada": 130.81
   },
   "a-ninguem-demos-ocasiao-de-tropeco": {
     "id": "a-ninguem-demos-ocasiao-de-tropeco",
@@ -1536,7 +1873,11 @@ export const cantosData = {
       "Mi",
       "Fa",
       "La7"
-    ]
+    ],
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 174.61,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 164.81
   },
   "o-nescio-pensa-que-deus-nao-existe": {
     "id": "o-nescio-pensa-que-deus-nao-existe",
@@ -1544,8 +1885,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La",
+    "bpm": 152,
     "audio_url": "/audios/O-nescio-pensa-que-Deus-nao-existe.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1559,7 +1900,12 @@ export const cantosData = {
       "Fa",
       "La-",
       "Do"
-    ]
+    ],
+    "freq_max_global": 311.14,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 146.83
   },
   "a-ti-senhor-se-deve-o-louvor-em-siao": {
     "id": "a-ti-senhor-se-deve-o-louvor-em-siao",
@@ -1567,8 +1913,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Fa-",
+    "bpm": 144,
     "audio_url": "/audios/A-ti-Senhor-se-deve-o-louvor-em-Siao.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1579,7 +1925,12 @@ export const cantosData = {
       "La7",
       "Sol-",
       "La#"
-    ]
+    ],
+    "freq_max_global": 472.74,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 130.81,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 130.81
   },
   "por-que-confabulam-as-nacoes": {
     "id": "por-que-confabulam-as-nacoes",
@@ -1587,8 +1938,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re",
+    "bpm": 172,
     "audio_url": "/audios/Por-que-confabulam-as-nacoes.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1598,7 +1949,12 @@ export const cantosData = {
       "Mi-",
       "La-",
       "Si7"
-    ]
+    ],
+    "freq_max_global": 260.71,
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 164.81
   },
   "os-meninos-de-belem": {
     "id": "os-meninos-de-belem",
@@ -1606,8 +1962,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re",
+    "bpm": 108,
     "audio_url": "/audios/Os-meninos-de-Belem.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1621,7 +1977,12 @@ export const cantosData = {
       "Mi",
       "La",
       "Sol"
-    ]
+    ],
+    "freq_max_global": 290.39,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 123.47,
+    "freq_min_povo_curada": 55.0,
+    "freq_max_povo_curada": 123.47
   },
   "quem-e-esta-que-sobe-do-deserto": {
     "id": "quem-e-esta-que-sobe-do-deserto",
@@ -1629,8 +1990,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Do-",
+    "bpm": 161,
     "audio_url": "/audios/Quem-e-esta-que-sobe-do-deserto.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1642,7 +2003,12 @@ export const cantosData = {
       "Fa",
       "Mi",
       "Sol"
-    ]
+    ],
+    "freq_max_global": 794.26,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 55.0,
+    "freq_max_povo_curada": 110.0
   },
   "aleluia-ja-chegou-o-reino": {
     "id": "aleluia-ja-chegou-o-reino",
@@ -1650,8 +2016,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Do",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi-",
+    "bpm": 161,
     "audio_url": "/audios/Aleluia-Ja-chegou-o-reino.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1662,7 +2028,12 @@ export const cantosData = {
       "Mi",
       "La-",
       "Sol7"
-    ]
+    ],
+    "freq_max_global": 212.48,
+    "freq_min_curada": 98.0,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 98.0,
+    "freq_max_povo_curada": 164.81
   },
   "maria-mae-da-igreja": {
     "id": "maria-mae-da-igreja",
@@ -1670,8 +2041,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi",
+    "bpm": 152,
     "audio_url": "/audios/Maria-mae-da-Igreja.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1685,7 +2056,12 @@ export const cantosData = {
       "Mi7",
       "Fa7M",
       "Sol"
-    ]
+    ],
+    "freq_max_global": 603.02,
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 196.0,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 196.0
   },
   "o-ceus-chovei-do-alto": {
     "id": "o-ceus-chovei-do-alto",
@@ -1693,8 +2069,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 117,
     "audio_url": "/audios/O-ceus-chovei-do-alto.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1706,7 +2082,12 @@ export const cantosData = {
       "Sol",
       "Mi",
       "Mi7"
-    ]
+    ],
+    "freq_max_global": 261.17,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 146.83
   },
   "vos-tomarei-dentre-as-nacoes": {
     "id": "vos-tomarei-dentre-as-nacoes",
@@ -1714,8 +2095,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re",
+    "bpm": 152,
     "audio_url": "/audios/Vos-tomarei-dentre-as-nacoes.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1727,7 +2108,12 @@ export const cantosData = {
       "Sol-",
       "La",
       "La#"
-    ]
+    ],
+    "freq_max_global": 589.01,
+    "freq_min_curada": 87.31,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 87.31,
+    "freq_max_povo_curada": 164.81
   },
   "dia-de-repouso": {
     "id": "dia-de-repouso",
@@ -1735,8 +2121,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Fa#-",
+    "bpm": 78,
     "audio_url": "/audios/Dia-de-Repouso.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1746,7 +2132,12 @@ export const cantosData = {
       "Mi-",
       "La-",
       "Si7"
-    ]
+    ],
+    "freq_max_global": 501.28,
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 130.81,
+    "freq_min_povo_curada": 61.74,
+    "freq_max_povo_curada": 123.47
   },
   "a-ti-senhor-levanto-minha-alma": {
     "id": "a-ti-senhor-levanto-minha-alma",
@@ -1754,8 +2145,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi",
+    "bpm": 108,
     "audio_url": "/audios/A-ti-Senhor-levanto-minha-alma.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1766,7 +2157,12 @@ export const cantosData = {
       "Mi",
       "Re-",
       "Fa"
-    ]
+    ],
+    "freq_max_global": 255.46,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 55.0,
+    "freq_max_povo_curada": 146.83
   },
   "amo-o-senhor": {
     "id": "amo-o-senhor",
@@ -1774,8 +2170,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re",
+    "bpm": 144,
     "audio_url": "/audios/Amo-o-Senhor.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1788,7 +2184,12 @@ export const cantosData = {
       "Mi-6",
       "La7",
       "Mi-"
-    ]
+    ],
+    "freq_max_global": 223.3,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 146.83
   },
   "ave-maria-i": {
     "id": "ave-maria-i",
@@ -1796,8 +2197,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Do",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi-",
+    "bpm": 96,
     "audio_url": "/audios/Ave-Maria-I.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1809,7 +2210,12 @@ export const cantosData = {
       "La-",
       "Fa",
       "Re-"
-    ]
+    ],
+    "freq_max_global": 289.28,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 164.81
   },
   "a-cabana-dos-pastores": {
     "id": "a-cabana-dos-pastores",
@@ -1817,8 +2223,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re-",
+    "bpm": 152,
     "audio_url": "/audios/A cabana dos pastores.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1828,7 +2234,12 @@ export const cantosData = {
       "Re-",
       "La#",
       "La"
-    ]
+    ],
+    "freq_max_global": 348.57,
+    "freq_min_curada": 69.3,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 69.3,
+    "freq_max_povo_curada": 164.81
   },
   "vivei-alegres": {
     "id": "vivei-alegres",
@@ -1848,7 +2259,11 @@ export const cantosData = {
       "Mi",
       "La7",
       "Re-"
-    ]
+    ],
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 196.0,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 174.61
   },
   "iahweh-tu-es-meu-deus": {
     "id": "iahweh-tu-es-meu-deus",
@@ -1856,8 +2271,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 123,
     "audio_url": "/audios/Iahweh-tu-es-meu-Deus.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1867,7 +2282,12 @@ export const cantosData = {
       "La-",
       "Mi7",
       "Fa"
-    ]
+    ],
+    "freq_max_global": 241.46,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 87.31
   },
   "o-senhor-nosso-deus": {
     "id": "o-senhor-nosso-deus",
@@ -1875,8 +2295,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi-",
+    "bpm": 136,
     "audio_url": "/audios/O-Senhor-nosso-Deus.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1888,7 +2308,12 @@ export const cantosData = {
       "Si7",
       "La-",
       "Do"
-    ]
+    ],
+    "freq_max_global": 263.46,
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 196.0,
+    "freq_min_povo_curada": 61.74,
+    "freq_max_povo_curada": 130.81
   },
   "o-jesus-meu-amor": {
     "id": "o-jesus-meu-amor",
@@ -1896,8 +2321,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 144,
     "audio_url": "/audios/O-Jesus-meu-amor.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1908,7 +2333,12 @@ export const cantosData = {
       "Fa",
       "Mi",
       "Sol"
-    ]
+    ],
+    "freq_max_global": 298.45,
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 110.0,
+    "freq_max_povo_curada": 146.83
   },
   "tu-es-formoso": {
     "id": "tu-es-formoso",
@@ -1916,8 +2346,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi",
+    "bpm": 161,
     "audio_url": "/audios/Tu-es-formoso.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1930,7 +2360,12 @@ export const cantosData = {
       "La",
       "Fa#-",
       "Si"
-    ]
+    ],
+    "freq_max_global": 246.92,
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 207.65,
+    "freq_min_povo_curada": 61.74,
+    "freq_max_povo_curada": 138.59
   },
   "seduziste-me-senhor": {
     "id": "seduziste-me-senhor",
@@ -1938,8 +2373,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi",
+    "bpm": 161,
     "audio_url": "/audios/Seduziste-me-Senhor-ok.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1952,7 +2387,12 @@ export const cantosData = {
       "Mi",
       "Do",
       "Sol"
-    ]
+    ],
+    "freq_max_global": 241.18,
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 174.61,
+    "freq_min_povo_curada": 61.74,
+    "freq_max_povo_curada": 164.81
   },
   "como-a-corca": {
     "id": "como-a-corca",
@@ -1960,8 +2400,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi",
+    "bpm": 108,
     "audio_url": "/audios/Como-a-corca.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1977,7 +2417,12 @@ export const cantosData = {
       "La",
       "Si",
       "La#"
-    ]
+    ],
+    "freq_max_global": 239.02,
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 77.78,
+    "freq_max_povo_curada": 138.59
   },
   "quem-nos-separara": {
     "id": "quem-nos-separara",
@@ -1985,8 +2430,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 112,
     "audio_url": "/audios/Quem-nos-separara.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -1997,7 +2442,12 @@ export const cantosData = {
       "Sol",
       "Fa",
       "Mi"
-    ]
+    ],
+    "freq_max_global": 438.71,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 146.83
   },
   "shlom-lej-mariam": {
     "id": "shlom-lej-mariam",
@@ -2005,8 +2455,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re-",
+    "bpm": 144,
     "audio_url": "/audios/Shlom-lej-Mariam.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2018,7 +2468,12 @@ export const cantosData = {
       "Do",
       "La-",
       "Sol"
-    ]
+    ],
+    "freq_max_global": 199.72,
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 196.0,
+    "freq_min_povo_curada": 61.74,
+    "freq_max_povo_curada": 110.0
   },
   "dizei-aos-de-coracao-cansado": {
     "id": "dizei-aos-de-coracao-cansado",
@@ -2026,8 +2481,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "Am",
-    "bpm": 75,
+    "tom_audio": "La-",
+    "bpm": 129,
     "audio_url": "/audios/Dizei-aos-de-coracao-cansado.mp3",
     "linhas": [
       {
@@ -2101,7 +2556,12 @@ export const cantosData = {
       "Mi",
       "Do",
       "Mi-"
-    ]
+    ],
+    "freq_max_global": 264.58,
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 174.61,
+    "freq_min_povo_curada": 65.41,
+    "freq_max_povo_curada": 174.61
   },
   "ja-vem-o-meu-deus": {
     "id": "ja-vem-o-meu-deus",
@@ -2109,8 +2569,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Sol",
+    "bpm": 172,
     "audio_url": "/audios/Ja-vem-o-meu-Deus.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2119,7 +2579,12 @@ export const cantosData = {
     "acordes_usados": [
       "Mi-",
       "Si7"
-    ]
+    ],
+    "freq_max_global": 287.84,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 130.81,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 130.81
   },
   "resurrexit": {
     "id": "resurrexit",
@@ -2127,8 +2592,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Sol",
+    "bpm": 129,
     "audio_url": "/audios/Resurrexit.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2140,7 +2605,12 @@ export const cantosData = {
       "Fa",
       "Mi",
       "Re-"
-    ]
+    ],
+    "freq_max_global": 265.11,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 55.0,
+    "freq_max_povo_curada": 130.81
   },
   "senhor-ajuda-me-a-nao-duvidar-de-ti": {
     "id": "senhor-ajuda-me-a-nao-duvidar-de-ti",
@@ -2148,8 +2618,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Si-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi-",
+    "bpm": 161,
     "audio_url": "/audios/Senhor-ajuda-me-a-nao-duvidar-de-ti.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2163,7 +2633,12 @@ export const cantosData = {
       "Mi-",
       "La7",
       "Re"
-    ]
+    ],
+    "freq_max_global": 267.91,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 146.83
   },
   "uri-uri-uri-ura": {
     "id": "uri-uri-uri-ura",
@@ -2171,8 +2646,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Sol-",
+    "bpm": 172,
     "audio_url": "/audios/Uri-uri-uri-ura.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2181,7 +2656,12 @@ export const cantosData = {
     "acordes_usados": [
       "La-",
       "Mi"
-    ]
+    ],
+    "freq_max_global": 301.92,
+    "freq_min_curada": 110.0,
+    "freq_max_curada": 174.61,
+    "freq_min_povo_curada": 110.0,
+    "freq_max_povo_curada": 174.61
   },
   "eis-me-aqui-que-venho-em-breve": {
     "id": "eis-me-aqui-que-venho-em-breve",
@@ -2189,8 +2669,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi",
+    "bpm": 108,
     "audio_url": "/audios/Eis-me-aqui-que-venho-em-breve.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2201,7 +2681,12 @@ export const cantosData = {
       "La",
       "Mi7",
       "La7"
-    ]
+    ],
+    "freq_max_global": 244.03,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 185.0,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 185.0
   },
   "quero-andar": {
     "id": "quero-andar",
@@ -2209,8 +2694,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi-",
+    "bpm": 152,
     "audio_url": "/audios/Quero-andar.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2221,7 +2706,12 @@ export const cantosData = {
       "La-",
       "Re-",
       "Fa"
-    ]
+    ],
+    "freq_max_global": 252.58,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 196.0,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 196.0
   },
   "vem-o-senhor": {
     "id": "vem-o-senhor",
@@ -2229,8 +2719,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Fa#-",
+    "bpm": 161,
     "audio_url": "/audios/Vem-o-Senhor.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2239,7 +2729,12 @@ export const cantosData = {
     "acordes_usados": [
       "Mi-",
       "La-"
-    ]
+    ],
+    "freq_max_global": 250.23,
+    "freq_min_curada": 92.5,
+    "freq_max_curada": 130.81,
+    "freq_min_povo_curada": 92.5,
+    "freq_max_povo_curada": 130.81
   },
   "por-que-esta-noite-e-diferente": {
     "id": "por-que-esta-noite-e-diferente",
@@ -2258,7 +2753,11 @@ export const cantosData = {
       "La-",
       "Re-",
       "Mi"
-    ]
+    ],
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 196.0,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 196.0
   },
   "como-sao-amaveis": {
     "id": "como-sao-amaveis",
@@ -2279,7 +2778,11 @@ export const cantosData = {
       "La-",
       "Fa",
       "Sol"
-    ]
+    ],
+    "freq_min_curada": 49.0,
+    "freq_max_curada": 98.0,
+    "freq_min_povo_curada": 49.0,
+    "freq_max_povo_curada": 98.0
   },
   "se-hoje-escutardes-a-sua-voz": {
     "id": "se-hoje-escutardes-a-sua-voz",
@@ -2287,8 +2790,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Do",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Fa#-",
+    "bpm": 161,
     "audio_url": "/audios/Se-hoje-escutardes-a-sua-voz.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2300,7 +2803,12 @@ export const cantosData = {
       "Sol7",
       "La-",
       "Mi"
-    ]
+    ],
+    "freq_max_global": 432.6,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 130.81,
+    "freq_min_povo_curada": 65.41,
+    "freq_max_povo_curada": 130.81
   },
   "a-ti-levanto-meus-olhos": {
     "id": "a-ti-levanto-meus-olhos",
@@ -2322,8 +2830,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 152,
     "audio_url": "/audios/Filhas-de-Jerusalem.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2334,7 +2842,12 @@ export const cantosData = {
       "Fa",
       "Sol",
       "Mi"
-    ]
+    ],
+    "freq_max_global": 446.95,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 98.0,
+    "freq_max_povo_curada": 146.83
   },
   "eli-eli-lama-sabactani": {
     "id": "eli-eli-lama-sabactani",
@@ -2356,8 +2869,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi-",
+    "bpm": 81,
     "audio_url": "/audios/Para-ti-morada-santa.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2368,7 +2881,12 @@ export const cantosData = {
       "Mi",
       "Sol",
       "Fa"
-    ]
+    ],
+    "freq_max_global": 263.77,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 174.61,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 164.81
   },
   "porque-o-meu-jugo-e-suave": {
     "id": "porque-o-meu-jugo-e-suave",
@@ -2376,8 +2894,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Do",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi-",
+    "bpm": 99,
     "audio_url": "/audios/Porque-o-meu-jugo-e-suave.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2388,7 +2906,12 @@ export const cantosData = {
       "Mi",
       "La-",
       "Fa"
-    ]
+    ],
+    "freq_max_global": 241.3,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 130.81,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 130.81
   },
   "bendita-es-tu-maria": {
     "id": "bendita-es-tu-maria",
@@ -2396,8 +2919,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 96,
     "audio_url": "/audios/Bendita-es-tu-Maria.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2408,7 +2931,12 @@ export const cantosData = {
       "Sol",
       "Fa",
       "Mi"
-    ]
+    ],
+    "freq_max_global": 261.11,
+    "freq_min_curada": 65.41,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 65.41,
+    "freq_max_povo_curada": 146.83
   },
   "em-tua-luz-senhor-vemos-a-luz": {
     "id": "em-tua-luz-senhor-vemos-a-luz",
@@ -2430,8 +2958,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Do",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Do#-",
+    "bpm": 99,
     "audio_url": "/audios/O-povo-que-caminhava-nas-trevas.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2443,7 +2971,12 @@ export const cantosData = {
       "Fa",
       "Sol",
       "Sol#"
-    ]
+    ],
+    "freq_max_global": 259.24,
+    "freq_min_curada": 49.0,
+    "freq_max_curada": 123.47,
+    "freq_min_povo_curada": 55.0,
+    "freq_max_povo_curada": 123.47
   },
   "jerusalem-reconstruida": {
     "id": "jerusalem-reconstruida",
@@ -2451,8 +2984,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Do-",
+    "bpm": 83,
     "audio_url": "/audios/Jerusalem-reconstruida.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2461,7 +2994,12 @@ export const cantosData = {
     "acordes_usados": [
       "La-",
       "Sol"
-    ]
+    ],
+    "freq_max_global": 267.59,
+    "freq_min_curada": 49.0,
+    "freq_max_curada": 130.81,
+    "freq_min_povo_curada": 65.41,
+    "freq_max_povo_curada": 110.0
   },
   "se-o-senhor-nao-constroi-a-casa": {
     "id": "se-o-senhor-nao-constroi-a-casa",
@@ -2469,8 +3007,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re",
-    "tom_audio": "C",
-    "bpm": 90,
+    "tom_audio": "Do",
+    "bpm": 152,
     "audio_url": "/audios/Se-o-Senhor-nao-constroi.mp3",
     "linhas": [
       {
@@ -2545,7 +3083,12 @@ export const cantosData = {
       "Sol",
       "La",
       "Fa#"
-    ]
+    ],
+    "freq_max_global": 261.5,
+    "freq_min_curada": 69.3,
+    "freq_max_curada": 185.0,
+    "freq_min_povo_curada": 92.5,
+    "freq_max_povo_curada": 185.0
   },
   "hino-a-kenosis": {
     "id": "hino-a-kenosis",
@@ -2553,8 +3096,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Si-",
+    "bpm": 129,
     "audio_url": "/audios/Hino-a-kenosis.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2567,7 +3110,12 @@ export const cantosData = {
       "La-",
       "Re",
       "Do"
-    ]
+    ],
+    "freq_max_global": 252.99,
+    "freq_min_curada": 77.78,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 92.5,
+    "freq_max_povo_curada": 123.47
   },
   "de-profundis": {
     "id": "de-profundis",
@@ -2575,8 +3123,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Do-",
+    "bpm": 92,
     "audio_url": "/audios/De-Profundis.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2590,7 +3138,12 @@ export const cantosData = {
       "Mi7",
       "Sol",
       "Re-"
-    ]
+    ],
+    "freq_max_global": 207.95,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 55.0,
+    "freq_max_povo_curada": 110.0
   },
   "veni-creator": {
     "id": "veni-creator",
@@ -2598,8 +3151,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Sol",
+    "bpm": 161,
     "audio_url": "/audios/Veni-Creator.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2608,7 +3161,12 @@ export const cantosData = {
     "acordes_usados": [
       "La-",
       "Sol"
-    ]
+    ],
+    "freq_max_global": 247.7,
+    "freq_min_curada": 98.0,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 98.0,
+    "freq_max_povo_curada": 123.47
   },
   "babilonia-criminal": {
     "id": "babilonia-criminal",
@@ -2616,8 +3174,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi-",
+    "bpm": 117,
     "audio_url": "/audios/Babilonia-criminal.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2628,7 +3186,12 @@ export const cantosData = {
       "La-",
       "Si7",
       "Re"
-    ]
+    ],
+    "freq_max_global": 261.9,
+    "freq_min_curada": 77.78,
+    "freq_max_curada": 185.0,
+    "freq_min_povo_curada": 77.78,
+    "freq_max_povo_curada": 130.81
   },
   "canto-de-moises": {
     "id": "canto-de-moises",
@@ -2636,8 +3199,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Do7",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 96,
     "audio_url": "/audios/Canto-de-Moises.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2649,7 +3212,12 @@ export const cantosData = {
       "La7",
       "Re7",
       "Sol7"
-    ]
+    ],
+    "freq_max_global": 336.52,
+    "freq_min_curada": 87.31,
+    "freq_max_curada": 196.0,
+    "freq_min_povo_curada": 98.0,
+    "freq_max_povo_curada": 174.61
   },
   "aclamai-o-senhor": {
     "id": "aclamai-o-senhor",
@@ -2657,8 +3225,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 78,
     "audio_url": "/audios/Aclamai-o-Senhor.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2670,7 +3238,12 @@ export const cantosData = {
       "La",
       "Fa",
       "Sol"
-    ]
+    ],
+    "freq_max_global": 442.34,
+    "freq_min_curada": 65.41,
+    "freq_max_curada": 196.0,
+    "freq_min_povo_curada": 65.41,
+    "freq_max_povo_curada": 110.0
   },
   "este-e-o-dia-que-fez-o-senhor": {
     "id": "este-e-o-dia-que-fez-o-senhor",
@@ -2678,8 +3251,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 161,
     "audio_url": "/audios/Este-e-o-dia-que-fez-o-Senhor.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2690,7 +3263,12 @@ export const cantosData = {
       "Fa",
       "Mi",
       "Do"
-    ]
+    ],
+    "freq_max_global": 268.86,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 130.81,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 123.47
   },
   "gracas-a-iahweh": {
     "id": "gracas-a-iahweh",
@@ -2698,8 +3276,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi-",
+    "bpm": 81,
     "audio_url": "/audios/Gracas-a-Iahweh.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2713,7 +3291,12 @@ export const cantosData = {
       "Do",
       "Re7",
       "Si-"
-    ]
+    ],
+    "freq_max_global": 467.93,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 185.0,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 164.81
   },
   "o-deus-tu-es-meu-deus": {
     "id": "o-deus-tu-es-meu-deus",
@@ -2721,8 +3304,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 152,
     "audio_url": "/audios/O-Deus-tu-es-meu-Deus.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2733,7 +3316,12 @@ export const cantosData = {
       "Re-",
       "Fa",
       "Mi"
-    ]
+    ],
+    "freq_max_global": 256.62,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 130.81
   },
   "levanto-os-meus-olhos-para-os-montes": {
     "id": "levanto-os-meus-olhos-para-os-montes",
@@ -2741,8 +3329,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi",
+    "bpm": 152,
     "audio_url": "/audios/Levanto-os-meus-olhos-para-os-montes.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2754,7 +3342,12 @@ export const cantosData = {
       "La",
       "Si",
       "Si7"
-    ]
+    ],
+    "freq_max_global": 313.71,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 164.81
   },
   "bendito-sejas-senhor": {
     "id": "bendito-sejas-senhor",
@@ -2762,8 +3355,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Sol",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Si-",
+    "bpm": 152,
     "audio_url": "/audios/Bendito-sejas-Senhor.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2779,7 +3372,12 @@ export const cantosData = {
       "Re",
       "Do",
       "Si7"
-    ]
+    ],
+    "freq_max_global": 263.16,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 146.83
   },
   "diante-dos-anjos": {
     "id": "diante-dos-anjos",
@@ -2787,8 +3385,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Do",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Fa#-",
+    "bpm": 112,
     "audio_url": "/audios/Diante-dos-anjos.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2800,7 +3398,12 @@ export const cantosData = {
       "Re-9",
       "Sol",
       "Fa"
-    ]
+    ],
+    "freq_max_global": 243.59,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 110.0,
+    "freq_min_povo_curada": 55.0,
+    "freq_max_povo_curada": 110.0
   },
   "bendize-minha-alma-a-iahweh": {
     "id": "bendize-minha-alma-a-iahweh",
@@ -2808,8 +3411,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi",
+    "bpm": 161,
     "audio_url": "/audios/Bendize-minha-alma-a-Iahweh.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2819,7 +3422,12 @@ export const cantosData = {
       "La-",
       "Mi",
       "Re-"
-    ]
+    ],
+    "freq_max_global": 221.48,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 110.0
   },
   "nao-ha-nele-aparencia": {
     "id": "nao-ha-nele-aparencia",
@@ -2827,8 +3435,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Do",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Do",
+    "bpm": 185,
     "audio_url": "/audios/Nao-ha-nele-aparencia.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2839,7 +3447,12 @@ export const cantosData = {
       "La-",
       "Sol",
       "Fa"
-    ]
+    ],
+    "freq_max_global": 263.36,
+    "freq_min_curada": 65.41,
+    "freq_max_curada": 196.0,
+    "freq_min_povo_curada": 65.41,
+    "freq_max_povo_curada": 146.83
   },
   "olhai-que-estupendo": {
     "id": "olhai-que-estupendo",
@@ -2847,8 +3460,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Fa#-",
+    "bpm": 161,
     "audio_url": "/audios/Olhai-que-estupendo.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2859,7 +3472,12 @@ export const cantosData = {
       "Do",
       "Si7",
       "La-"
-    ]
+    ],
+    "freq_max_global": 250.64,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 130.81,
+    "freq_min_povo_curada": 55.0,
+    "freq_max_povo_curada": 110.0
   },
   "hino-do-advento": {
     "id": "hino-do-advento",
@@ -2867,8 +3485,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re",
+    "bpm": 129,
     "audio_url": "/audios/Hino-do-Advento.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2878,7 +3496,12 @@ export const cantosData = {
       "Re-",
       "La7",
       "Sol-"
-    ]
+    ],
+    "freq_max_global": 238.72,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 98.0,
+    "freq_max_povo_curada": 146.83
   },
   "aleluia-bendizei-o-senhor": {
     "id": "aleluia-bendizei-o-senhor",
@@ -2886,8 +3509,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Si",
+    "bpm": 112,
     "audio_url": "/audios/Aleluia-Bendizei-o-Senhor.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2898,7 +3521,12 @@ export const cantosData = {
       "La#",
       "Re-",
       "La7"
-    ]
+    ],
+    "freq_max_global": 249.35,
+    "freq_min_curada": 49.0,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 49.0,
+    "freq_max_povo_curada": 146.83
   },
   "foge-o-meu-amado": {
     "id": "foge-o-meu-amado",
@@ -2906,8 +3534,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La",
+    "bpm": 152,
     "audio_url": "/audios/Foge-o-meu-amado.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2921,7 +3549,12 @@ export const cantosData = {
       "Mi",
       "La",
       "Fa#-"
-    ]
+    ],
+    "freq_max_global": 320.29,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 174.61,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 164.81
   },
   "diz-o-senhor-ao-meu-senhor": {
     "id": "diz-o-senhor-ao-meu-senhor",
@@ -2929,8 +3562,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi",
+    "bpm": 152,
     "audio_url": "/audios/Diz-o-Senhor-ao-meu-Senhor.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2943,7 +3576,12 @@ export const cantosData = {
       "Si7",
       "Do#-",
       "Si"
-    ]
+    ],
+    "freq_max_global": 223.1,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 155.56,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 123.47
   },
   "cantico-dos-tres-jovens": {
     "id": "cantico-dos-tres-jovens",
@@ -2951,8 +3589,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi",
+    "bpm": 144,
     "audio_url": "/audios/Cantico-dos-tres-jovens.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -2961,7 +3599,12 @@ export const cantosData = {
     "acordes_usados": [
       "La-",
       "Mi7"
-    ]
+    ],
+    "freq_max_global": 234.43,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 130.81,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 130.81
   },
   "esconde-me-no-oculto-de-tua-tenda": {
     "id": "esconde-me-no-oculto-de-tua-tenda",
@@ -2981,7 +3624,11 @@ export const cantosData = {
       "Re",
       "Do",
       "Si7"
-    ]
+    ],
+    "freq_min_curada": 49.0,
+    "freq_max_curada": 98.0,
+    "freq_min_povo_curada": 61.74,
+    "freq_max_povo_curada": 98.0
   },
   "em-uma-noite-escura": {
     "id": "em-uma-noite-escura",
@@ -3002,7 +3649,11 @@ export const cantosData = {
       "Mi",
       "Fa",
       "Re-9"
-    ]
+    ],
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 61.74,
+    "freq_max_povo_curada": 146.83
   },
   "abraao": {
     "id": "abraao",
@@ -3010,8 +3661,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "Am",
-    "bpm": 85,
+    "tom_audio": "La-",
+    "bpm": 161,
     "audio_url": "/audios/Abraao.mp3",
     "linhas": [
       {
@@ -3054,7 +3705,12 @@ export const cantosData = {
       "Mi",
       "Sol",
       "Fa"
-    ]
+    ],
+    "freq_max_global": 660.95,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 103.83,
+    "freq_max_povo_curada": 146.83
   },
   "sobe-deus-entre-aclamacoes": {
     "id": "sobe-deus-entre-aclamacoes",
@@ -3062,8 +3718,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Sol",
+    "bpm": 161,
     "audio_url": "/audios/Sobe-Deus-entre-aclamacoes.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3072,7 +3728,12 @@ export const cantosData = {
     "acordes_usados": [
       "Re-",
       "Sol-"
-    ]
+    ],
+    "freq_max_global": 227.66,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 116.54,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 116.54
   },
   "maria-casa-da-bencao": {
     "id": "maria-casa-da-bencao",
@@ -3080,8 +3741,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Do-",
+    "bpm": 81,
     "audio_url": "/audios/Maria-casa-da-bencao.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3093,7 +3754,12 @@ export const cantosData = {
       "La7",
       "La#",
       "Do"
-    ]
+    ],
+    "freq_max_global": 265.87,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 196.0,
+    "freq_min_povo_curada": 87.31,
+    "freq_max_povo_curada": 196.0
   },
   "esperei-esperei-no-senhor": {
     "id": "esperei-esperei-no-senhor",
@@ -3101,8 +3767,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Fa#-",
+    "bpm": 152,
     "audio_url": "/audios/Esperei-esperei-no-Senhor.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3114,7 +3780,12 @@ export const cantosData = {
       "Fa",
       "Mi7",
       "Mi"
-    ]
+    ],
+    "freq_max_global": 250.06,
+    "freq_min_curada": 65.41,
+    "freq_max_curada": 123.47,
+    "freq_min_povo_curada": 65.41,
+    "freq_max_povo_curada": 123.47
   },
   "aleluia-louvai-o-senhor": {
     "id": "aleluia-louvai-o-senhor",
@@ -3122,8 +3793,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi",
+    "bpm": 152,
     "audio_url": "/audios/Aleluia-Louvai-o-Senhor.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3133,7 +3804,12 @@ export const cantosData = {
       "Mi",
       "La",
       "Re"
-    ]
+    ],
+    "freq_max_global": 290.91,
+    "freq_min_curada": 110.0,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 110.0,
+    "freq_max_povo_curada": 146.83
   },
   "a-vitima-pascal": {
     "id": "a-vitima-pascal",
@@ -3141,8 +3817,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re-",
+    "bpm": 129,
     "audio_url": "/audios/A-vitima-pascal.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3155,7 +3831,12 @@ export const cantosData = {
       "Fa7M",
       "Mi",
       "Re-"
-    ]
+    ],
+    "freq_max_global": 536.56,
+    "freq_min_curada": 41.2,
+    "freq_max_curada": 123.47,
+    "freq_min_povo_curada": 51.91,
+    "freq_max_povo_curada": 123.47
   },
   "dayenu": {
     "id": "dayenu",
@@ -3163,8 +3844,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi-",
+    "bpm": 152,
     "audio_url": "/audios/Dayenu.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3177,7 +3858,12 @@ export const cantosData = {
       "Re",
       "Do",
       "Si7"
-    ]
+    ],
+    "freq_max_global": 248.96,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 164.81
   },
   "hino-da-pascoa": {
     "id": "hino-da-pascoa",
@@ -3185,8 +3871,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Sol",
+    "bpm": 117,
     "audio_url": "/audios/Hino-da-Pascoa.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3198,7 +3884,12 @@ export const cantosData = {
       "La7",
       "Re-",
       "Mi"
-    ]
+    ],
+    "freq_max_global": 283.69,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 110.0,
+    "freq_min_povo_curada": 55.0,
+    "freq_max_povo_curada": 110.0
   },
   "se-me-refugiei-no-senhor": {
     "id": "se-me-refugiei-no-senhor",
@@ -3206,8 +3897,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Sol",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Si-",
+    "bpm": 152,
     "audio_url": "/audios/Se-me-refugiei-no-Senhor.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3219,7 +3910,12 @@ export const cantosData = {
       "Mi-",
       "Do",
       "La-"
-    ]
+    ],
+    "freq_max_global": 258.02,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 130.81
   },
   "vamos-ja-pastores": {
     "id": "vamos-ja-pastores",
@@ -3227,8 +3923,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi-",
+    "bpm": 86,
     "audio_url": "/audios/Vamos-ja-pastores.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3238,7 +3934,12 @@ export const cantosData = {
       "Mi-",
       "La-",
       "Si7"
-    ]
+    ],
+    "freq_max_global": 249.93,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 130.81,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 130.81
   },
   "muito-me-perseguiram": {
     "id": "muito-me-perseguiram",
@@ -3246,8 +3947,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Fa#",
+    "bpm": 123,
     "audio_url": "/audios/Muito-me-perseguiram.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3256,7 +3957,12 @@ export const cantosData = {
     "acordes_usados": [
       "La-",
       "Mi"
-    ]
+    ],
+    "freq_max_global": 662.28,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 55.0,
+    "freq_max_povo_curada": 146.83
   },
   "canta-a-iahweh-jerusalem": {
     "id": "canta-a-iahweh-jerusalem",
@@ -3264,8 +3970,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi",
+    "bpm": 152,
     "audio_url": "/audios/Canta-a-Iahweh-Jerusalem.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3277,7 +3983,12 @@ export const cantosData = {
       "Sol-",
       "Do",
       "La7"
-    ]
+    ],
+    "freq_max_global": 247.11,
+    "freq_min_curada": 65.41,
+    "freq_max_curada": 110.0,
+    "freq_min_povo_curada": 65.41,
+    "freq_max_povo_curada": 110.0
   },
   "o-morte-onde-esta-a-tua-vitoria": {
     "id": "o-morte-onde-esta-a-tua-vitoria",
@@ -3285,8 +3996,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Re-9",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re",
+    "bpm": 152,
     "audio_url": "/audios/O-morte-onde-esta-a-tua-vitoria.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3304,7 +4015,12 @@ export const cantosData = {
       "Si",
       "Mi-",
       "Re"
-    ]
+    ],
+    "freq_max_global": 238.31,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 130.81,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 130.81
   },
   "eu-venho-reunir": {
     "id": "eu-venho-reunir",
@@ -3312,8 +4028,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "Mi",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi",
+    "bpm": 83,
     "audio_url": "/audios/Eu-venho-reunir.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3327,7 +4043,12 @@ export const cantosData = {
       "Do#-",
       "Sol#",
       "Si"
-    ]
+    ],
+    "freq_max_global": 222.2,
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 61.74,
+    "freq_max_povo_curada": 110.0
   },
   "consolai-o-meu-povo": {
     "id": "consolai-o-meu-povo",
@@ -3348,7 +4069,11 @@ export const cantosData = {
       "Si7",
       "Sol",
       "La"
-    ]
+    ],
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 61.74,
+    "freq_max_povo_curada": 123.47
   },
   "shema-israel": {
     "id": "shema-israel",
@@ -3356,8 +4081,8 @@ export const cantosData = {
     "etapa": "Catecumenato",
     "cor": "azul",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Do-",
+    "bpm": 161,
     "audio_url": "/audios/Shema-Israel.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3369,7 +4094,12 @@ export const cantosData = {
       "Fa",
       "Mi",
       "Re-"
-    ]
+    ],
+    "freq_max_global": 316.2,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 55.0,
+    "freq_max_povo_curada": 146.83
   },
   "o-semeador": {
     "id": "o-semeador",
@@ -3392,7 +4122,11 @@ export const cantosData = {
       "La",
       "Sol-",
       "La7"
-    ]
+    ],
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 55.0,
+    "freq_max_povo_curada": 146.83
   },
   "o-mesmo-deus": {
     "id": "o-mesmo-deus",
@@ -3400,8 +4134,8 @@ export const cantosData = {
     "etapa": "Catecumenato",
     "cor": "azul",
     "tom_original": "Re",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Fa#-",
+    "bpm": 152,
     "audio_url": "/audios/O-mesmo-Deus-ok.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3413,7 +4147,12 @@ export const cantosData = {
       "Si-",
       "La",
       "Sol"
-    ]
+    ],
+    "freq_max_global": 279.03,
+    "freq_min_curada": 69.3,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 69.3,
+    "freq_max_povo_curada": 164.81
   },
   "debora": {
     "id": "debora",
@@ -3421,8 +4160,8 @@ export const cantosData = {
     "etapa": "Catecumenato",
     "cor": "azul",
     "tom_original": "Re7",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Do",
+    "bpm": 161,
     "audio_url": "/audios/Debora.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3434,7 +4173,12 @@ export const cantosData = {
       "Fa",
       "Mi",
       "La-"
-    ]
+    ],
+    "freq_max_global": 285.15,
+    "freq_min_curada": 65.41,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 146.83
   },
   "o-senhor-meu-coracao-nao-e-pretensioso": {
     "id": "o-senhor-meu-coracao-nao-e-pretensioso",
@@ -3454,7 +4198,11 @@ export const cantosData = {
       "La-",
       "Si7",
       "Do"
-    ]
+    ],
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 130.81,
+    "freq_min_povo_curada": 61.74,
+    "freq_max_povo_curada": 123.47
   },
   "o-lagareiro": {
     "id": "o-lagareiro",
@@ -3474,7 +4222,11 @@ export const cantosData = {
       "La-",
       "Si7",
       "Re"
-    ]
+    ],
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 185.0,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 146.83
   },
   "hino-a-cruz-gloriosa": {
     "id": "hino-a-cruz-gloriosa",
@@ -3482,8 +4234,8 @@ export const cantosData = {
     "etapa": "Catecumenato",
     "cor": "azul",
     "tom_original": "Mi",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Sol#-",
+    "bpm": 136,
     "audio_url": "/audios/Hino-a-Cruz-gloriosa.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3496,7 +4248,12 @@ export const cantosData = {
       "Fa#-",
       "Si7",
       "La"
-    ]
+    ],
+    "freq_max_global": 408.53,
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 185.0,
+    "freq_min_povo_curada": 61.74,
+    "freq_max_povo_curada": 123.47
   },
   "quando-dormia": {
     "id": "quando-dormia",
@@ -3519,7 +4276,11 @@ export const cantosData = {
       "Sol",
       "Fa",
       "Mi7"
-    ]
+    ],
+    "freq_min_curada": 51.91,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 110.0
   },
   "o-senhor-me-deu": {
     "id": "o-senhor-me-deu",
@@ -3527,8 +4288,8 @@ export const cantosData = {
     "etapa": "Catecumenato",
     "cor": "azul",
     "tom_original": "Si-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi-",
+    "bpm": 161,
     "audio_url": "/audios/O-Senhor-me-deu.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3541,7 +4302,12 @@ export const cantosData = {
       "Fa#-",
       "Sol",
       "Fa#"
-    ]
+    ],
+    "freq_max_global": 462.22,
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 138.59,
+    "freq_min_povo_curada": 92.5,
+    "freq_max_povo_curada": 123.47
   },
   "eis-que-o-nosso-espelho-e-o-senhor": {
     "id": "eis-que-o-nosso-espelho-e-o-senhor",
@@ -3549,8 +4315,8 @@ export const cantosData = {
     "etapa": "Catecumenato",
     "cor": "azul",
     "tom_original": "Re-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re-",
+    "bpm": 185,
     "audio_url": "/audios/Eis-que-o-nosso-espelho-e-o-Senhor.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3561,7 +4327,12 @@ export const cantosData = {
       "La-",
       "Sol-",
       "La"
-    ]
+    ],
+    "freq_max_global": 248.59,
+    "freq_min_curada": 58.27,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 146.83
   },
   "assim-fala-o-amem": {
     "id": "assim-fala-o-amem",
@@ -3569,8 +4340,8 @@ export const cantosData = {
     "etapa": "Catecumenato",
     "cor": "azul",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi-",
+    "bpm": 112,
     "audio_url": "/audios/Assim-fala-o-amem.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3582,7 +4353,12 @@ export const cantosData = {
       "Re7",
       "Sol",
       "Si7"
-    ]
+    ],
+    "freq_max_global": 257.74,
+    "freq_min_curada": 77.78,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 110.0,
+    "freq_max_povo_curada": 146.83
   },
   "as-armas-da-luz": {
     "id": "as-armas-da-luz",
@@ -3590,8 +4366,8 @@ export const cantosData = {
     "etapa": "Catecumenato",
     "cor": "azul",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Si-",
+    "bpm": 152,
     "audio_url": "/audios/As-armas-da-luz.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3603,7 +4379,12 @@ export const cantosData = {
       "Mi7",
       "Fa",
       "Re-"
-    ]
+    ],
+    "freq_max_global": 692.1,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 55.0,
+    "freq_max_povo_curada": 146.83
   },
   "como-o-impulso-que-sente-a-ira": {
     "id": "como-o-impulso-que-sente-a-ira",
@@ -3627,7 +4408,11 @@ export const cantosData = {
       "Sol",
       "Mi",
       "Fa"
-    ]
+    ],
+    "freq_min_curada": 49.0,
+    "freq_max_curada": 123.47,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 123.47
   },
   "senta-te-solitario-e-silencioso": {
     "id": "senta-te-solitario-e-silencioso",
@@ -3635,8 +4420,8 @@ export const cantosData = {
     "etapa": "Catecumenato",
     "cor": "azul",
     "tom_original": "Re",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re",
+    "bpm": 144,
     "audio_url": "/audios/Senta-te-solitario-e-silencioso.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3651,7 +4436,12 @@ export const cantosData = {
       "Fa#",
       "La7",
       "Sol"
-    ]
+    ],
+    "freq_max_global": 350.48,
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 185.0,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 146.83
   },
   "ninguem-pode-servir-a-dois-senhores": {
     "id": "ninguem-pode-servir-a-dois-senhores",
@@ -3676,7 +4466,11 @@ export const cantosData = {
       "Sol",
       "Si-",
       "Do7"
-    ]
+    ],
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 98.0,
+    "freq_min_povo_curada": 61.74,
+    "freq_max_povo_curada": 98.0
   },
   "tu-es-digno-de-receber-o-livro": {
     "id": "tu-es-digno-de-receber-o-livro",
@@ -3684,8 +4478,8 @@ export const cantosData = {
     "etapa": "Catecumenato",
     "cor": "azul",
     "tom_original": "Re-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Fa-",
+    "bpm": 144,
     "audio_url": "/audios/Tu-es-digno-de-receber-o-Livro.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3698,7 +4492,12 @@ export const cantosData = {
       "La7",
       "Fa",
       "La-"
-    ]
+    ],
+    "freq_max_global": 270.39,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 146.83
   },
   "eis-o-meu-servo": {
     "id": "eis-o-meu-servo",
@@ -3706,8 +4505,8 @@ export const cantosData = {
     "etapa": "Catecumenato",
     "cor": "azul",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Si-",
+    "bpm": 161,
     "audio_url": "/audios/Eis-o-meu-servo.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3721,7 +4520,12 @@ export const cantosData = {
       "Mi7",
       "Do",
       "Fa"
-    ]
+    ],
+    "freq_max_global": 247.11,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 110.0,
+    "freq_min_povo_curada": 55.0,
+    "freq_max_povo_curada": 87.31
   },
   "nao-sofras-pelos-malvados": {
     "id": "nao-sofras-pelos-malvados",
@@ -3741,7 +4545,11 @@ export const cantosData = {
       "Fa",
       "Mi",
       "Re-"
-    ]
+    ],
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 130.81,
+    "freq_min_povo_curada": 61.74,
+    "freq_max_povo_curada": 110.0
   },
   "bendito-seja-deus": {
     "id": "bendito-seja-deus",
@@ -3749,8 +4557,8 @@ export const cantosData = {
     "etapa": "Catecumenato",
     "cor": "azul",
     "tom_original": "Re",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La",
+    "bpm": 161,
     "audio_url": "/audios/Bendito-seja-Deus.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3764,7 +4572,12 @@ export const cantosData = {
       "Si-",
       "La",
       "Sol"
-    ]
+    ],
+    "freq_max_global": 247.53,
+    "freq_min_curada": 92.5,
+    "freq_max_curada": 185.0,
+    "freq_min_povo_curada": 110.0,
+    "freq_max_povo_curada": 185.0
   },
   "tu-cobriste-de-vergonha-a-morte": {
     "id": "tu-cobriste-de-vergonha-a-morte",
@@ -3772,8 +4585,8 @@ export const cantosData = {
     "etapa": "Catecumenato",
     "cor": "azul",
     "tom_original": "Re-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re-",
+    "bpm": 152,
     "audio_url": "/audios/Tu-cobriste-de-vergonha-a-morte.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3783,7 +4596,12 @@ export const cantosData = {
       "Re-",
       "La7",
       "La#7"
-    ]
+    ],
+    "freq_max_global": 231.57,
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 196.0,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 146.83
   },
   "o-combate-escatologico": {
     "id": "o-combate-escatologico",
@@ -3791,8 +4609,8 @@ export const cantosData = {
     "etapa": "Catecumenato",
     "cor": "azul",
     "tom_original": "Mi",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi",
+    "bpm": 136,
     "audio_url": "/audios/O-combate-escatologico.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3804,7 +4622,12 @@ export const cantosData = {
       "Sol",
       "Do",
       "La-"
-    ]
+    ],
+    "freq_max_global": 262.34,
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 164.81
   },
   "jaco": {
     "id": "jaco",
@@ -3812,8 +4635,8 @@ export const cantosData = {
     "etapa": "Catecumenato",
     "cor": "azul",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi",
+    "bpm": 172,
     "audio_url": "/audios/Jaco.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3827,7 +4650,12 @@ export const cantosData = {
       "Sol",
       "Do",
       "Re"
-    ]
+    ],
+    "freq_max_global": 554.36,
+    "freq_min_curada": 87.31,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 98.0,
+    "freq_max_povo_curada": 164.81
   },
   "como-ovelha-que-ve": {
     "id": "como-ovelha-que-ve",
@@ -3835,8 +4663,8 @@ export const cantosData = {
     "etapa": "Catecumenato",
     "cor": "azul",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Fa#",
+    "bpm": 152,
     "audio_url": "/audios/Como-ovelha-que-ve.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3847,7 +4675,12 @@ export const cantosData = {
       "La-",
       "Si7",
       "Do"
-    ]
+    ],
+    "freq_max_global": 486.4,
+    "freq_min_curada": 92.5,
+    "freq_max_curada": 130.81,
+    "freq_min_povo_curada": 92.5,
+    "freq_max_povo_curada": 130.81
   },
   "senhor-tu-me-escrutas-e-conheces": {
     "id": "senhor-tu-me-escrutas-e-conheces",
@@ -3855,8 +4688,8 @@ export const cantosData = {
     "etapa": "Catecumenato",
     "cor": "azul",
     "tom_original": "Re-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi",
+    "bpm": 161,
     "audio_url": "/audios/Senhor-tu-me-escrutas-e-conheces.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3871,7 +4704,12 @@ export const cantosData = {
       "La",
       "La7",
       "La#"
-    ]
+    ],
+    "freq_max_global": 292.51,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 146.83
   },
   "escutai-ilhas-de-longe": {
     "id": "escutai-ilhas-de-longe",
@@ -3894,7 +4732,11 @@ export const cantosData = {
       "Fa#",
       "Si-",
       "Mi-"
-    ]
+    ],
+    "freq_min_curada": 49.0,
+    "freq_max_curada": 138.59,
+    "freq_min_povo_curada": 61.74,
+    "freq_max_povo_curada": 138.59
   },
   "nao-resistais-ao-mal": {
     "id": "nao-resistais-ao-mal",
@@ -3914,7 +4756,11 @@ export const cantosData = {
       "Si-",
       "La",
       "Sol"
-    ]
+    ],
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 92.5
   },
   "sermao-da-montanha": {
     "id": "sermao-da-montanha",
@@ -3940,7 +4786,11 @@ export const cantosData = {
       "Si7",
       "Si",
       "Do#7"
-    ]
+    ],
+    "freq_min_curada": 61.74,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 123.47
   },
   "jesus-percorria-todas-as-cidades": {
     "id": "jesus-percorria-todas-as-cidades",
@@ -3948,8 +4798,8 @@ export const cantosData = {
     "etapa": "Eleição",
     "cor": "verde",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 152,
     "audio_url": "/audios/Jesus-percorria-todas-as-cidades.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -3964,7 +4814,12 @@ export const cantosData = {
       "Mi",
       "Sol",
       "Do"
-    ]
+    ],
+    "freq_max_global": 228.75,
+    "freq_min_curada": 65.41,
+    "freq_max_curada": 174.61,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 164.81
   },
   "a-ceia-do-cordeiro": {
     "id": "a-ceia-do-cordeiro",
@@ -3984,7 +4839,11 @@ export const cantosData = {
       "Sol",
       "Fa",
       "Mi"
-    ]
+    ],
+    "freq_min_curada": 98.0,
+    "freq_max_curada": 174.61,
+    "freq_min_povo_curada": 98.0,
+    "freq_max_povo_curada": 146.83
   },
   "a-cordeira-de-deus": {
     "id": "a-cordeira-de-deus",
@@ -4004,7 +4863,11 @@ export const cantosData = {
       "La-",
       "Do",
       "Si7"
-    ]
+    ],
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 98.0,
+    "freq_max_povo_curada": 146.83
   },
   "o-messias-leao-para-vencer": {
     "id": "o-messias-leao-para-vencer",
@@ -4012,8 +4875,8 @@ export const cantosData = {
     "etapa": "Eleição",
     "cor": "verde",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 152,
     "audio_url": "/audios/O-Messias-Leao-para-vencer.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -4025,7 +4888,12 @@ export const cantosData = {
       "Do",
       "Fa",
       "Re-"
-    ]
+    ],
+    "freq_max_global": 304.69,
+    "freq_min_curada": 110.0,
+    "freq_max_curada": 174.61,
+    "freq_min_povo_curada": 110.0,
+    "freq_max_povo_curada": 146.83
   },
   "estendo-minhas-maos": {
     "id": "estendo-minhas-maos",
@@ -4033,8 +4901,8 @@ export const cantosData = {
     "etapa": "Eleição",
     "cor": "verde",
     "tom_original": "Re",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re",
+    "bpm": 172,
     "audio_url": "/audios/Estendo-minhas-maos.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -4047,7 +4915,12 @@ export const cantosData = {
       "Mi",
       "La",
       "Fa#"
-    ]
+    ],
+    "freq_max_global": 598.06,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 110.0,
+    "freq_max_povo_curada": 164.81
   },
   "como-lirio-entre-espinhos": {
     "id": "como-lirio-entre-espinhos",
@@ -4069,8 +4942,8 @@ export const cantosData = {
     "etapa": "Eleição",
     "cor": "verde",
     "tom_original": "Do",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Si-",
+    "bpm": 117,
     "audio_url": "/audios/A-voz-do-meu-amado.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -4083,7 +4956,12 @@ export const cantosData = {
       "Mi",
       "Re-",
       "Sol"
-    ]
+    ],
+    "freq_max_global": 290.12,
+    "freq_min_curada": 43.65,
+    "freq_max_curada": 130.81,
+    "freq_min_povo_curada": 65.41,
+    "freq_max_povo_curada": 130.81
   },
   "abba-pai": {
     "id": "abba-pai",
@@ -4106,7 +4984,11 @@ export const cantosData = {
       "Re-",
       "Mi7",
       "Sol7"
-    ]
+    ],
+    "freq_min_curada": 65.41,
+    "freq_max_curada": 174.61,
+    "freq_min_povo_curada": 65.41,
+    "freq_max_povo_curada": 174.61
   },
   "roubaste-o-meu-coracao": {
     "id": "roubaste-o-meu-coracao",
@@ -4114,8 +4996,8 @@ export const cantosData = {
     "etapa": "Eleição",
     "cor": "verde",
     "tom_original": "Re-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re-",
+    "bpm": 152,
     "audio_url": "/audios/Roubaste-o-meu-coracao.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -4128,7 +5010,12 @@ export const cantosData = {
       "Do",
       "Fa",
       "La#"
-    ]
+    ],
+    "freq_max_global": 333.5,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 174.61,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 174.61
   },
   "o-espirito-do-senhor-esta-sobre-mim": {
     "id": "o-espirito-do-senhor-esta-sobre-mim",
@@ -4136,8 +5023,8 @@ export const cantosData = {
     "etapa": "Eleição",
     "cor": "verde",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 161,
     "audio_url": "/audios/O-Espirito-do-Senhor-esta-sobre-mim.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -4148,7 +5035,12 @@ export const cantosData = {
       "Mi",
       "Sol",
       "Fa"
-    ]
+    ],
+    "freq_max_global": 590.04,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 146.83
   },
   "formosa-es-amiga-minha": {
     "id": "formosa-es-amiga-minha",
@@ -4170,7 +5062,11 @@ export const cantosData = {
       "La#",
       "Re7",
       "La"
-    ]
+    ],
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 55.0,
+    "freq_max_povo_curada": 110.0
   },
   "a-pomba-voou": {
     "id": "a-pomba-voou",
@@ -4191,7 +5087,11 @@ export const cantosData = {
       "La-6",
       "La-",
       "Do"
-    ]
+    ],
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 185.0,
+    "freq_min_povo_curada": 55.0,
+    "freq_max_povo_curada": 130.81
   },
   "noli-me-tangere": {
     "id": "noli-me-tangere",
@@ -4199,8 +5099,8 @@ export const cantosData = {
     "etapa": "Eleição",
     "cor": "verde",
     "tom_original": "Do",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Do",
+    "bpm": 144,
     "audio_url": "/audios/Noli-me-tangere.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -4214,7 +5114,12 @@ export const cantosData = {
       "Do-",
       "La#",
       "Sol#"
-    ]
+    ],
+    "freq_max_global": 331.46,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 174.61,
+    "freq_min_povo_curada": 98.0,
+    "freq_max_povo_curada": 174.61
   },
   "como-escorre-o-mel": {
     "id": "como-escorre-o-mel",
@@ -4234,7 +5139,11 @@ export const cantosData = {
       "Re-",
       "Mi",
       "Fa"
-    ]
+    ],
+    "freq_min_curada": 41.2,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 43.65,
+    "freq_max_povo_curada": 164.81
   },
   "hino-a-caridade": {
     "id": "hino-a-caridade",
@@ -4242,8 +5151,8 @@ export const cantosData = {
     "etapa": "Eleição",
     "cor": "verde",
     "tom_original": "Do",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Re#",
+    "bpm": 136,
     "audio_url": "/audios/Hino-a-caridade.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -4254,7 +5163,12 @@ export const cantosData = {
       "La-",
       "Fa",
       "Sol"
-    ]
+    ],
+    "freq_max_global": 197.8,
+    "freq_min_curada": 49.0,
+    "freq_max_curada": 98.0,
+    "freq_min_povo_curada": 49.0,
+    "freq_max_povo_curada": 98.0
   },
   "tu-es-a-minha-esperanca-senhor": {
     "id": "tu-es-a-minha-esperanca-senhor",
@@ -4275,7 +5189,11 @@ export const cantosData = {
       "La7",
       "Re-",
       "Sol-"
-    ]
+    ],
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 174.61,
+    "freq_min_povo_curada": 110.0,
+    "freq_max_povo_curada": 174.61
   },
   "como-condenados-a-morte": {
     "id": "como-condenados-a-morte",
@@ -4283,8 +5201,8 @@ export const cantosData = {
     "etapa": "Eleição",
     "cor": "verde",
     "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi",
+    "bpm": 108,
     "audio_url": "/audios/Como-condenados-a-morte.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -4295,7 +5213,12 @@ export const cantosData = {
       "Sol",
       "Fa",
       "Mi"
-    ]
+    ],
+    "freq_max_global": 284.41,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 164.81
   },
   "bencao-penitencial": {
     "id": "bencao-penitencial",
@@ -4316,7 +5239,11 @@ export const cantosData = {
       "Fa",
       "Mi",
       "Re-"
-    ]
+    ],
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 98.0,
+    "freq_max_povo_curada": 146.83
   },
   "salmodia-para-as-oracoes-universais": {
     "id": "salmodia-para-as-oracoes-universais",
@@ -4365,7 +5292,11 @@ export const cantosData = {
       "Fa",
       "Mi",
       "Re-"
-    ]
+    ],
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 196.0,
+    "freq_min_povo_curada": 55.0,
+    "freq_max_povo_curada": 196.0
   },
   "prefacio-do-advento-ii": {
     "id": "prefacio-do-advento-ii",
@@ -4398,7 +5329,11 @@ export const cantosData = {
       "Re-",
       "Fa",
       "Sol-"
-    ]
+    ],
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 116.54,
+    "freq_min_povo_curada": 55.0,
+    "freq_max_povo_curada": 116.54
   },
   "bencao-da-agua": {
     "id": "bencao-da-agua",
@@ -4406,8 +5341,8 @@ export const cantosData = {
     "etapa": "Liturgia",
     "cor": "amarelo",
     "tom_original": "Mi-",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Do-",
+    "bpm": 129,
     "audio_url": "/audios/Bencao-da-agua.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -4420,7 +5355,12 @@ export const cantosData = {
       "Si7",
       "Do",
       "Re"
-    ]
+    ],
+    "freq_max_global": 237.76,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 196.0,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 185.0
   },
   "oracao-eucaristica-iv": {
     "id": "oracao-eucaristica-iv",
@@ -4445,7 +5385,9 @@ export const cantosData = {
       "Mi",
       "Do",
       "Re"
-    ]
+    ],
+    "freq_min_curada": 49.0,
+    "freq_max_curada": 110.0
   },
   "santo-palestina-74": {
     "id": "santo-palestina-74",
@@ -4464,7 +5406,11 @@ export const cantosData = {
       "Re-",
       "Sol-",
       "La"
-    ]
+    ],
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 196.0,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 174.61
   },
   "salmodia-para-o-salmo-responsorial": {
     "id": "salmodia-para-o-salmo-responsorial",
@@ -4472,13 +5418,14 @@ export const cantosData = {
     "etapa": "Liturgia",
     "cor": "amarelo",
     "tom_original": "Do",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Sol#-",
+    "bpm": 152,
     "audio_url": "/audios/Salmodia-para-o-Salmo-responsorial.mp3",
     "linhas": [],
     "imagens_originais": [
       "https://cn.org.br/portal/wp-content/uploads/2023/10/Screenshot-from-2023-10-23-17-38-54.png"
-    ]
+    ],
+    "freq_max_global": 509.55
   },
   "prefacio-do-natal-do-senhor-i": {
     "id": "prefacio-do-natal-do-senhor-i",
@@ -4528,7 +5475,11 @@ export const cantosData = {
       "Sol-",
       "La",
       "La#"
-    ]
+    ],
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 146.83
   },
   "santo-1988": {
     "id": "santo-1988",
@@ -4548,7 +5499,11 @@ export const cantosData = {
       "Sol",
       "Fa",
       "Mi"
-    ]
+    ],
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 146.83
   },
   "aleluia-pascal": {
     "id": "aleluia-pascal",
@@ -4566,7 +5521,11 @@ export const cantosData = {
     "acordes_usados": [
       "La",
       "Mi"
-    ]
+    ],
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 220.0,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 164.81
   },
   "ladainha-penitencial-i": {
     "id": "ladainha-penitencial-i",
@@ -4586,7 +5545,11 @@ export const cantosData = {
       "La-",
       "Do",
       "Si7"
-    ]
+    ],
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 92.5,
+    "freq_max_povo_curada": 146.83
   },
   "te-deum": {
     "id": "te-deum",
@@ -4594,8 +5557,8 @@ export const cantosData = {
     "etapa": "Liturgia",
     "cor": "amarelo",
     "tom_original": "Do",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Mi-",
+    "bpm": 117,
     "audio_url": "/audios/Te-Deum.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -4606,7 +5569,12 @@ export const cantosData = {
       "Sol",
       "La-",
       "Mi"
-    ]
+    ],
+    "freq_max_global": 246.52,
+    "freq_min_curada": 49.0,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 49.0,
+    "freq_max_povo_curada": 164.81
   },
   "cordeiro-de-deus": {
     "id": "cordeiro-de-deus",
@@ -4626,7 +5594,11 @@ export const cantosData = {
       "Sol",
       "Fa",
       "Mi"
-    ]
+    ],
+    "freq_min_curada": 65.41,
+    "freq_max_curada": 110.0,
+    "freq_min_povo_curada": 65.41,
+    "freq_max_povo_curada": 110.0
   },
   "ladainha-de-todos-os-santos": {
     "id": "ladainha-de-todos-os-santos",
@@ -4661,7 +5633,11 @@ export const cantosData = {
       "Sol",
       "Fa",
       "Mi"
-    ]
+    ],
+    "freq_min_curada": 49.0,
+    "freq_max_curada": 123.47,
+    "freq_min_povo_curada": 49.0,
+    "freq_max_povo_curada": 110.0
   },
   "aleluia-interlecional": {
     "id": "aleluia-interlecional",
@@ -4696,7 +5672,11 @@ export const cantosData = {
       "La-",
       "Si7",
       "Do"
-    ]
+    ],
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 92.5,
+    "freq_max_povo_curada": 146.83
   },
   "anafora-do-sal": {
     "id": "anafora-do-sal",
@@ -4704,8 +5684,8 @@ export const cantosData = {
     "etapa": "Liturgia",
     "cor": "amarelo",
     "tom_original": "Sol",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La#-",
+    "bpm": 152,
     "audio_url": "/audios/Anafora-do-Sal.mp3",
     "linhas": [],
     "imagens_originais": [
@@ -4717,7 +5697,12 @@ export const cantosData = {
       "Fa",
       "Mi",
       "Re-"
-    ]
+    ],
+    "freq_max_global": 349.32,
+    "freq_min_curada": 55.0,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 98.0,
+    "freq_max_povo_curada": 146.83
   },
   "santo-palomeras-65": {
     "id": "santo-palomeras-65",
@@ -4737,7 +5722,11 @@ export const cantosData = {
       "Si7",
       "Do",
       "Mi-"
-    ]
+    ],
+    "freq_min_curada": 65.41,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 77.78,
+    "freq_max_povo_curada": 138.59
   },
   "gloria-a-deus-no-alto-do-ceu": {
     "id": "gloria-a-deus-no-alto-do-ceu",
@@ -4758,7 +5747,11 @@ export const cantosData = {
       "Sol",
       "Fa#-",
       "Mi-"
-    ]
+    ],
+    "freq_min_curada": 73.42,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 73.42,
+    "freq_max_povo_curada": 164.81
   },
   "preconio-pascal": {
     "id": "preconio-pascal",
@@ -4766,14 +5759,15 @@ export const cantosData = {
     "etapa": "Liturgia",
     "cor": "amarelo",
     "tom_original": "Sol",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "Si-",
+    "bpm": 129,
     "audio_url": "/audios/Preconio-Pascal.mp3",
     "linhas": [],
     "imagens_originais": [
       "https://cn.org.br/portal/wp-content/uploads/2023/10/Screenshot-from-2023-10-23-17-31-36.png",
       "https://cn.org.br/portal/wp-content/uploads/2023/10/Screenshot-from-2023-10-23-17-32-21.png"
-    ]
+    ],
+    "freq_max_global": 282.86
   },
   "credo": {
     "id": "credo",
@@ -4794,7 +5788,11 @@ export const cantosData = {
       "Sol-",
       "La-",
       "La#"
-    ]
+    ],
+    "freq_min_curada": 65.41,
+    "freq_max_curada": 174.61,
+    "freq_min_povo_curada": 65.41,
+    "freq_max_povo_curada": 174.61
   },
   "antifona-versiculo-antes-do-evangelho": {
     "id": "antifona-versiculo-antes-do-evangelho",
@@ -4816,13 +5814,14 @@ export const cantosData = {
     "etapa": "Liturgia",
     "cor": "amarelo",
     "tom_original": "Sol",
-    "tom_audio": "",
-    "bpm": 0,
+    "tom_audio": "La-",
+    "bpm": 144,
     "audio_url": "/audios/Prefacio-da-Pascoa-I-temporario.mp3",
     "linhas": [],
     "imagens_originais": [
       "https://cn.org.br/portal/wp-content/uploads/2024/03/Prefacio-da-Pascoa-I-Novo2.jpg"
-    ]
+    ],
+    "freq_max_global": 264.38
   },
   "hino-das-laudes-de-pentecostes": {
     "id": "hino-das-laudes-de-pentecostes",
@@ -4840,7 +5839,11 @@ export const cantosData = {
     "acordes_usados": [
       "La-",
       "Sol"
-    ]
+    ],
+    "freq_min_curada": 98.0,
+    "freq_max_curada": 164.81,
+    "freq_min_povo_curada": 98.0,
+    "freq_max_povo_curada": 123.47
   },
   "oracao-eucaristica-ii": {
     "id": "oracao-eucaristica-ii",
@@ -4864,8 +5867,8 @@ export const cantosData = {
     "etapa": "Pré-Catecumenato",
     "cor": "branco",
     "tom_original": "La-",
-    "tom_audio": "Am",
-    "bpm": 110,
+    "tom_audio": "La-",
+    "bpm": 161,
     "audio_url": "/audios/Ressuscitou.mp3",
     "imagens_originais": [
       "https://cn.org.br/portal/wp-content/uploads/2023/10/Screenshot-from-2023-10-24-20-53-39.png"
@@ -4921,6 +5924,11 @@ export const cantosData = {
       "Sol",
       "Fa",
       "Mi"
-    ]
+    ],
+    "freq_max_global": 263.51,
+    "freq_min_curada": 82.41,
+    "freq_max_curada": 146.83,
+    "freq_min_povo_curada": 82.41,
+    "freq_max_povo_curada": 146.83
   }
 };
