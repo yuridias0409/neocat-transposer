@@ -12,8 +12,8 @@
   --color-success: #356D40;
   
   /* Typography */
-  --font-heading: 'Almendra', serif;
-  --font-body: 'Inter', sans-serif;
+  --font-heading: 'Neocat', sans-serif;
+  --font-body: 'Neocat', sans-serif;
   
   /* Layout */
   --max-width: 800px;
@@ -120,3 +120,16 @@ button {
 .mb-3 { margin-bottom: 1.5rem; }
 .mb-4 { margin-bottom: 2rem; }
 .mt-4 { margin-top: 2rem; }
+
+@font-face {
+  font-family: 'Neocat';
+  src: url('/fonts/Neocat-Regular_3.0.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.font-neocat {
+  font-family: 'Neocat', sans-serif;
+}
+
+html { font-size: 20px; }

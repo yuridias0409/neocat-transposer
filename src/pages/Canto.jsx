@@ -13,6 +13,7 @@ const Canto = ({ user }) => {
   const [transposition, setTransposition] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isAudioLoaded, setIsAudioLoaded] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [userProfile, setUserProfile] = useState(null);
   
   // Notas Pessoais
@@ -21,9 +22,28 @@ const Canto = ({ user }) => {
   const [showFeedback, setShowFeedback] = useState(false);
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [fontSize, setFontSize] = useState(1.1);
+  const [toastMessage, setToastMessage] = useState(null);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  const formatTime = (seconds) => {
+    if (!seconds || isNaN(seconds)) return "00:00";
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const showToast = (msg) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 4000);
+  };
   
   const playerRef = useRef(null);
   const pitchShiftRef = useRef(null);
+  const startTimeRef = useRef(0);
+  const offsetRef = useRef(0);
+  const animationRef = useRef(null);
 
   useEffect(() => {
     if (!canto) return;
@@ -57,8 +77,11 @@ const Canto = ({ user }) => {
       }).toDestination();
 
       playerRef.current = new Tone.Player({
-        url: `http://localhost:8000/proxy-audio?url=${encodeURIComponent(canto.audio_url)}`,
-        onload: () => setIsAudioLoaded(true),
+        url: encodeURI(canto.audio_url),
+        onload: () => {
+          setIsAudioLoaded(true);
+          setDuration(playerRef.current.buffer.duration);
+        },
         loop: false
       }).connect(pitchShiftRef.current);
     }
@@ -90,31 +113,129 @@ const Canto = ({ user }) => {
   }, [transposition, canto]);
 
   const togglePlay = async () => {
-    if (!isAudioLoaded) return;
+    if (!isAudioLoaded || !playerRef.current || !playerRef.current.buffer) return;
     await Tone.start(); 
     if (isPlaying) {
       playerRef.current.stop();
       setIsPlaying(false);
+      offsetRef.current = Tone.now() - startTimeRef.current;
+      cancelAnimationFrame(animationRef.current);
     } else {
-      playerRef.current.start();
+      playerRef.current.start(0, offsetRef.current);
       setIsPlaying(true);
+      startTimeRef.current = Tone.now() - offsetRef.current;
+      
+      const updateProgress = () => {
+        if (playerRef.current && playerRef.current.state === "started") {
+          const elapsed = Tone.now() - startTimeRef.current;
+          const dur = playerRef.current.buffer.duration;
+          if (dur > 0) {
+            if (elapsed >= dur) {
+              setIsPlaying(false);
+              setProgress(0);
+              setCurrentTime(0);
+              offsetRef.current = 0;
+              playerRef.current.stop();
+              return;
+            }
+            setProgress((elapsed / dur) * 100);
+            setCurrentTime(elapsed);
+          }
+          animationRef.current = requestAnimationFrame(updateProgress);
+        } else if (playerRef.current) {
+          if (Tone.now() - startTimeRef.current > playerRef.current.buffer.duration) {
+              setIsPlaying(false);
+          } else {
+              animationRef.current = requestAnimationFrame(updateProgress);
+          }
+        }
+      };
+      animationRef.current = requestAnimationFrame(updateProgress);
     }
   };
 
+  const handleSeek = (e) => {
+    if (!isAudioLoaded || !playerRef.current || !playerRef.current.buffer) return;
+    
+    const bounds = e.currentTarget.getBoundingClientRect();
+    const clickPos = e.clientX - bounds.left;
+    const percentage = Math.max(0, Math.min(1, clickPos / bounds.width));
+    const dur = playerRef.current.buffer.duration;
+    const newTime = percentage * dur;
+    
+    if (isPlaying) {
+      cancelAnimationFrame(animationRef.current);
+      
+      // Atualiza visualmente imediatamente para não ter delay
+      setProgress(percentage * 100);
+      setCurrentTime(newTime);
+      
+      playerRef.current.stop();
+      playerRef.current.start(Tone.now(), newTime);
+      startTimeRef.current = Tone.now() - newTime;
+      
+      const updateProgress = () => {
+        if (playerRef.current && playerRef.current.state === "started") {
+          const elapsed = Tone.now() - startTimeRef.current;
+          const duration_val = playerRef.current.buffer.duration;
+          if (duration_val > 0) {
+            if (elapsed >= duration_val) {
+              setIsPlaying(false);
+              setProgress(0);
+              setCurrentTime(0);
+              offsetRef.current = 0;
+              playerRef.current.stop();
+              return;
+            }
+            setProgress((elapsed / duration_val) * 100);
+            setCurrentTime(elapsed);
+          }
+          animationRef.current = requestAnimationFrame(updateProgress);
+        } else if (playerRef.current) {
+          // Em vez de matar o loop se o estado oscilar rápido, 
+          // apenas verifica se a música realmente parou
+          if (Tone.now() - startTimeRef.current > playerRef.current.buffer.duration) {
+              setIsPlaying(false);
+          } else {
+              animationRef.current = requestAnimationFrame(updateProgress);
+          }
+        }
+      };
+      animationRef.current = requestAnimationFrame(updateProgress);
+      
+    } else {
+      offsetRef.current = newTime;
+      setProgress(percentage * 100);
+      setCurrentTime(newTime);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    }
+  }, []);
+
   const calcularAjusteMagico = () => {
     if (!userProfile) {
-      alert("Calibre sua voz primeiro!");
+      showToast("Calibre sua voz primeiro!");
       return;
     }
     const cautela = userProfile.learningCautela || 0;
     const userMaxFreq = userProfile.max.freq;
     const songMaxFreq = Math.max(...canto.linhas.map(l => l.freq_max || 0));
     
+    let novoTom = 0;
     if (songMaxFreq > userMaxFreq) {
-      const semitons = Math.round(12 * Math.log2(userMaxFreq / songMaxFreq)) - cautela;
-      setTransposition(semitons);
+      novoTom = Math.round(12 * Math.log2(userMaxFreq / songMaxFreq)) - cautela;
     } else {
-      setTransposition(-cautela);
+      novoTom = -cautela;
+    }
+
+    if (transposition === novoTom) {
+      showToast("🎵 Já está no seu tom ideal!");
+    } else {
+      setTransposition(novoTom);
     }
   };
 
@@ -124,9 +245,9 @@ const Canto = ({ user }) => {
       const updatedProfile = { ...userProfile, learningCautela: (userProfile.learningCautela || 0) + 1 };
       localStorage.setItem('userVoiceProfile', JSON.stringify(updatedProfile));
       setUserProfile(updatedProfile);
-      alert("Aprendizado Registrado! Sugestões futuras serão mais graves.");
+      showToast("Aprendizado Registrado! Sugestões futuras serão mais graves.");
     } else {
-      alert("Ótimo! O sistema manterá essa calibração.");
+      showToast("Ótimo! O sistema manterá essa calibração.");
     }
     setFeedbackSent(true);
     setTimeout(() => setShowFeedback(false), 2000);
@@ -134,7 +255,7 @@ const Canto = ({ user }) => {
 
   const gerarCifraComIA = async () => {
     if (!canto.imagens_originais || canto.imagens_originais.length === 0) {
-      alert("Este canto não tem imagens para analisar.");
+      showToast("Este canto não tem imagens para analisar.");
       return;
     }
     
@@ -154,12 +275,12 @@ const Canto = ({ user }) => {
       }
       
       const data = await res.json();
-      alert("✨ Cifra inteligente gerada com sucesso! A página será atualizada.");
+      showToast("✨ Cifra inteligente gerada com sucesso! A página será atualizada.");
       window.location.reload(); // Recarrega para obter as novas linhas do data.js
       
     } catch (err) {
       console.error(err);
-      alert(err.message);
+      showToast(err.message);
     } finally {
       setIsGenerating(false);
     }
@@ -167,7 +288,7 @@ const Canto = ({ user }) => {
 
   const analisarComIALocal = async () => {
     if (!canto.audio_url) {
-      alert("Este canto não tem áudio para analisar.");
+      showToast("Este canto não tem áudio para analisar.");
       return;
     }
     
@@ -187,8 +308,7 @@ const Canto = ({ user }) => {
       
       const data = await res.json();
       
-      // We dynamically set the audio key!
-      alert(`✨ IA Acústica Detectou!\n\nTom Original da Gravação: ${data.key}\nBPM: ${data.bpm}`);
+      let msg = `✨ IA Acústica Detectou!\n\nTom da Gravação: ${data.key}\nBPM: ${data.bpm}`;
       
       // Update transposition based on AI findings!
       if (canto.tom_original) {
@@ -197,12 +317,15 @@ const Canto = ({ user }) => {
         if (syncOffset > 6) syncOffset -= 12;
         if (syncOffset < -6) syncOffset += 12;
         
-        setTransposition(syncOffset); // Sincroniza visual com a IA
+        if (syncOffset > 0) {
+            msg += `\n(Equivale a Capo na casa ${syncOffset})`;
+        }
       }
+      showToast(msg);
       
     } catch (err) {
       console.error(err);
-      alert(err.message);
+      showToast(err.message);
     }
   };
 
@@ -251,7 +374,7 @@ const Canto = ({ user }) => {
       return (
         <div className="alert alert-success mb-4" style={{backgroundColor: '#dcfce7', color: '#166534', padding: '1rem', borderRadius: '8px', border: '1px solid #bbf7d0'}}>
           <strong><Users size={18} style={{marginRight: '0.5rem', verticalAlign: 'text-bottom'}} /> Cenário Perfeito:</strong> 
-          <p style={{margin: '0.5rem 0 0 0'}}>Com a transposição atual ({transposition > 0 ? `+${transposition}` : transposition}), a assembleia também cantará o refrão confortavelmente!</p>
+          <p style={{margin: '0.5rem 0 0 0'}}>Com a transposição atual, a assembleia também cantará o refrão confortavelmente!</p>
         </div>
       );
     }
@@ -259,8 +382,24 @@ const Canto = ({ user }) => {
     const idealAssemblyTransposition = Math.floor(12 * Math.log2(assemblyMaxLimit / songMaxFreq));
     const idealChord = transposeChordString(canto.tom_original, idealAssemblyTransposition);
     
+    // Detecta equivalência com capo: Mi- capo 5 = La-, Re- capo 2 = Mi-, etc.
+    // Dois tons são equivalentes via capo se a diferença entre eles for positiva (subindo com capo)
+    // e quando você "sobe" o acorde sugerido por semitones, chega no acorde original.
+    const isEquivalentViaCapo = (sugeridoTransp) => {
+      if (sugeridoTransp >= 0) return false; // capo só sobe, então sugestão tem que ser mais grave
+      for (let capo = 1; capo <= 11; capo++) {
+        const transpWithCapo = sugeridoTransp + capo;
+        if (transpWithCapo === 0) return { capo, eq: true }; // seria o mesmo tom original com capo
+      }
+      return false;
+    };
+    
+    const capoEquiv = isEquivalentViaCapo(idealAssemblyTransposition);
+    
     // Check if idealAssemblyTransposition is within user bounds (if we had min freq, for now we just suggest it)
     if (currentMaxFreq > assemblyMaxLimit) {
+      // Se a sugestão é equivalente ao tom original via capo, não mostrar aviso inútil
+      if (capoEquiv) return null;
       return (
         <div className="alert alert-warning mb-4" style={{backgroundColor: '#fef9c3', color: '#854d0e', padding: '1rem', borderRadius: '8px', border: '1px solid #fef08a'}}>
           <strong><AlertTriangle size={18} style={{marginRight: '0.5rem', verticalAlign: 'text-bottom'}} /> Alto para o povo:</strong> 
@@ -282,22 +421,27 @@ const Canto = ({ user }) => {
   };
 
   return (
-    <div className="container canto-page">
+    <div className="container canto-page" style={{position: 'relative'}}>
+      {toastMessage && (
+        <div style={{
+          position: 'fixed', bottom: '2rem', left: '50%', transform: 'translateX(-50%)',
+          backgroundColor: '#333', color: 'white', padding: '1rem 2rem', borderRadius: '8px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.15)', zIndex: 9999, whiteSpace: 'pre-line',
+          textAlign: 'center', fontFamily: 'var(--font-body)', fontSize: '1rem'
+        }}>
+          {toastMessage}
+        </div>
+      )}
       <div className="canto-header mb-4">
         <div className="canto-title-block">
           <h1>{canto.titulo}</h1>
           <div className="canto-meta-info">
             <span className="badge badge-primary">Tom Original: {canto.tom_original}</span>
-            {canto.tom_audio && canto.tom_audio !== canto.tom_original && (
-              <span className="badge badge-warning" style={{backgroundColor: 'var(--color-warning)', color: 'white'}}>
-                Áudio em {canto.tom_audio} (Sincronizado!)
-              </span>
-            )}
           </div>
         </div>
         
         <div className="canto-controls card">
-            <>
+            <div>
               <div className="control-group">
                 <span className="control-label">Transposição Visual</span>
                 <div className="transposition-controls">
@@ -307,14 +451,14 @@ const Canto = ({ user }) => {
                 </div>
                 <small className="text-center" style={{display: 'block', color: '#666', marginTop: '0.5rem'}}>{transposition > 0 ? `+${transposition}` : transposition} semitons</small>
               </div>
-              <button className="btn btn-secondary btn-sm auto-adjust-btn" onClick={calcularAjusteMagico}>
+              <button className="btn btn-secondary btn-sm auto-adjust-btn mt-2 w-100" onClick={calcularAjusteMagico}>
                 <Settings2 size={16} /> Meu Tom Ideal
               </button>
-            </>
-          </div>
+            </div>
         </div>
+      </div>
         
-        {(!canto.linhas || canto.linhas.length === 0) && canto.acordes_usados && canto.acordes_usados.length > 0 && transposition !== 0 && (
+      {(!canto.linhas || canto.linhas.length === 0) && canto.acordes_usados && canto.acordes_usados.length > 0 && transposition !== 0 && (
           <div className="card mb-4" style={{backgroundColor: '#f0f9ff', border: '1px solid #bae6fd'}}>
             <div style={{color: '#0369a1', marginBottom: '0.5rem'}}>
               <strong><SlidersHorizontal size={18} style={{marginRight: '0.5rem', verticalAlign: 'text-bottom'}} /> Guia de Acordes Transpostos</strong>
@@ -347,22 +491,27 @@ const Canto = ({ user }) => {
         </div>
       )}
 
-      <div className="audio-player card mb-4">
-        <div className="player-controls">
-          <button className="btn-circle play-btn" onClick={togglePlay} disabled={!isAudioLoaded}>
-            {isPlaying ? <Pause size={20} fill="currentColor" /> : <Play size={20} fill="currentColor" />}
-          </button>
-          <div className="player-timeline">
-            <div className="timeline-progress" style={{ width: isPlaying ? '50%' : '0%', transition: 'width 0.5s' }}></div>
+      {canto.audio_url && (
+        <div className="audio-player card mb-4">
+          <div className="player-controls">
+            <button className="btn-circle play-btn" onClick={togglePlay} disabled={!isAudioLoaded}>
+              {isPlaying ? <Pause size={20} fill="currentColor" /> : <Play size={20} fill="currentColor" />}
+            </button>
+            <div className="player-timeline" onClick={handleSeek} style={{background: '#e0e0e0', height: '12px', borderRadius: '6px', flex: 1, overflow: 'hidden', cursor: 'pointer', position: 'relative'}}>
+              <div className="timeline-progress" style={{ width: `${progress}%`, height: '100%', background: '#a13333', transition: 'width 0.1s linear' }}></div>
+            </div>
+            <div style={{fontSize: '0.85rem', color: '#666', fontFamily: 'monospace', minWidth: '85px'}}>
+              {formatTime(currentTime)} / {formatTime(duration)}
+            </div>
+            <button className="btn btn-outline btn-sm" onClick={analisarComIALocal} title="Analisar BPM e Tom com IA">
+              ✨ IA
+            </button>
+            <button className="btn btn-outline btn-sm">
+              <SlidersHorizontal size={14} /> Áudio Shiftado
+            </button>
           </div>
-          <button className="btn btn-outline btn-sm" onClick={analisarComIALocal} title="Analisar BPM e Tom com IA">
-            ✨ IA
-          </button>
-          <button className="btn btn-outline btn-sm">
-            <SlidersHorizontal size={14} /> Áudio Shiftado
-          </button>
         </div>
-      </div>
+      )}
 
       {user && (
         <div className="notepad-section mb-4">
@@ -380,9 +529,16 @@ const Canto = ({ user }) => {
         </div>
       )}
 
-      <div className="cifra-container card">
+      <div className="cifra-container card" style={{position: 'relative', paddingTop: '3rem'}}>
+        <div style={{position: 'absolute', top: '0.5rem', right: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#f8fafc', padding: '0.25rem 0.5rem', borderRadius: '20px', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.05)'}}>
+           <span style={{fontSize: '0.75rem', color: '#64748b', fontWeight: 'bold', marginRight: '0.2rem'}}>FONTE</span>
+           <button style={{border: 'none', background: 'white', borderRadius: '50%', width: '24px', height: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 1px 2px rgba(0,0,0,0.1)', color: '#333', fontWeight: 'bold'}} onClick={() => setFontSize(f => Math.max(0.6, f - 0.1))}>-</button>
+           <span style={{fontSize: '0.8rem', fontWeight: 'bold', minWidth: '36px', textAlign: 'center'}}>{Math.round(fontSize * 100)}%</span>
+           <button style={{border: 'none', background: 'white', borderRadius: '50%', width: '24px', height: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 1px 2px rgba(0,0,0,0.1)', color: '#333', fontWeight: 'bold'}} onClick={() => setFontSize(f => Math.min(2.5, f + 0.1))}>+</button>
+        </div>
+        
         {canto.linhas && canto.linhas.length > 0 ? (
-          <div className="cifra-sheet">
+          <div className="cifra-sheet" style={{fontSize: `${fontSize}rem`}}>
             {canto.linhas.map((linha, index) => {
               const isGargalo = checkGargalo(linha);
               return (
@@ -402,9 +558,8 @@ const Canto = ({ user }) => {
             {/* Mostrar imagens caso a cifra esteja incompleta (menos de 5 linhas) ou sempre disponível no final */}
             {canto.imagens_originais && canto.imagens_originais.length > 0 && (
               <div className="original-images-fallback" style={{marginTop: '3rem', paddingTop: '2rem', borderTop: '1px dashed #ccc', textAlign: 'center'}}>
-                <div className="alert mb-4" style={{backgroundColor: '#f8fafc', color: '#64748b', textAlign: 'left'}}>
-                  <strong><Book size={16} /> Partitura Original</strong>
-                  <p style={{margin: '0.5rem 0 0 0', fontSize: '0.9rem'}}>Abaixo está a página escaneada do livro original para complementar a cifra digitada.</p>
+                <div className="alert mb-4" style={{backgroundColor: '#f8fafc', color: '#64748b', textAlign: 'left', padding: '0.75rem'}}>
+                  <strong><Book size={16} style={{verticalAlign: 'text-bottom', marginRight: '0.25rem'}} /> Ficha original</strong>
                 </div>
                 {canto.imagens_originais.map((imgUrl, i) => (
                   <img 
@@ -421,17 +576,6 @@ const Canto = ({ user }) => {
           </div>
         ) : (
           <div className="cifra-imagens-sheet text-center">
-            <div className="alert alert-warning mb-4" style={{textAlign: 'left'}}>
-              <strong><AlertTriangle size={16} /> Cifra em Imagem</strong>
-              <p style={{margin: '0.5rem 0 0.5rem 0', fontSize: '0.9rem'}}>A cifra inteligente (com transposição automática) ainda não foi digitada para este canto. Você está vendo a imagem escaneada original do Livro.</p>
-              <button 
-                className="btn btn-primary btn-sm mt-2" 
-                onClick={gerarCifraComIA} 
-                disabled={isGenerating}
-              >
-                {isGenerating ? "✨ Processando Visão e Extraindo... (Pode demorar um pouco)" : "✨ Digitalizar com IA (Gerar Cifra Inteligente)"}
-              </button>
-            </div>
             {canto.imagens_originais && canto.imagens_originais.map((imgUrl, i) => (
               <img 
                 key={i} 

@@ -109,10 +109,6 @@ async def generate_cifra(req: GenerateCifraRequest):
     import json
     import base64
     
-    api_key = os.environ.get("GEMINI_API_KEY")
-    if not api_key:
-        raise HTTPException(status_code=500, detail="GEMINI_API_KEY não configurada no servidor local.")
-        
     parts = []
     
     prompt = """Você é um especialista em transcrição de partituras e cifras.
@@ -123,7 +119,7 @@ REGRAS ESTRITAS:
 1. Para cada acorde musical encontrado acima da letra, insira-o IMEDIATAMENTE ANTES da sílaba ou palavra onde ele deve ser tocado, no formato [Acorde]. Exemplo: "[Re-]A cabana dos [La-]pastores..."
 2. Respeite as quebras de linha e estrofes.
 3. Se a imagem contiver apenas partitura instrumental (sem letra), ignore.
-4. Você deve retornar EXCLUSIVAMENTE um JSON com o seguinte formato:
+4. Você deve retornar EXCLUSIVAMENTE um JSON válido com o seguinte formato:
 {
   "linhas": [
     {"texto": "texto da linha 1 com [Acordes] embutidos"},
@@ -133,8 +129,8 @@ REGRAS ESTRITAS:
 5. O nome dos acordes deve seguir o padrão latino da imagem (Do, Re, Mi, Fa, Sol, La, Si), acompanhados dos sustenidos/bemóis ou sétimas se houver (ex: Sol7, Mi-, Fa#). Mantenha EXATAMENTE o que está na imagem.
 6. IMPORTANTE: Não inclua marcação markdown (`json`) no retorno, apenas retorne o JSON puro.
 """
-    parts.append({"text": prompt})
     
+    images_b64 = []
     for img_path in req.images:
         local_path = f"./public{img_path}"
         if not os.path.exists(local_path):
@@ -142,33 +138,31 @@ REGRAS ESTRITAS:
             
         with open(local_path, "rb") as f:
             b64_data = base64.b64encode(f.read()).decode('utf-8')
+            images_b64.append(b64_data)
             
-        parts.append({
-            "inline_data": {
-                "mime_type": "image/png",
-                "data": b64_data
-            }
-        })
-        
     payload = {
-        "contents": [{
-            "parts": parts
-        }],
-        "generationConfig": {
-            "temperature": 0.1,
-            "responseMimeType": "application/json"
+        "model": "llava",
+        "prompt": prompt,
+        "images": images_b64,
+        "stream": False,
+        "format": "json",
+        "options": {
+            "temperature": 0.1
         }
     }
     
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
-    resp = requests.post(url, json=payload)
+    url = "http://localhost:11434/api/generate"
+    try:
+        resp = requests.post(url, json=payload)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao conectar com Ollama. Verifique se ele está rodando (ollama run llava). Erro: {str(e)}")
     
     if resp.status_code != 200:
-        raise HTTPException(status_code=500, detail=f"Erro da API Gemini: {resp.text}")
+        raise HTTPException(status_code=500, detail=f"Erro da API Ollama: {resp.text}")
         
     try:
         data = resp.json()
-        response_text = data['candidates'][0]['content']['parts'][0]['text']
+        response_text = data.get('response', '')
         
         if response_text.startswith("```json"):
             response_text = response_text[7:-3]
@@ -196,7 +190,7 @@ REGRAS ESTRITAS:
             raise HTTPException(status_code=404, detail="Canto não encontrado no data.js")
             
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Erro ao processar JSON: {str(e)}\nResponse: {resp.text}")
+        raise HTTPException(status_code=500, detail=f"Erro ao processar JSON: {str(e)}\nResponse: {resp.text if 'resp' in locals() else ''}")
 
 if __name__ == "__main__":
     print("🚀 Iniciando Salmistas AI Server (Porta 8000)...")

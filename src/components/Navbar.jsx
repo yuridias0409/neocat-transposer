@@ -8,12 +8,10 @@ const Navbar = ({ user, onLogout }) => {
     <nav className="navbar">
       <div className="container navbar-content">
         <Link to="/" className="navbar-brand">
-          <BookOpen size={24} />
-          <span>Salmistas</span>
+          <span className="font-neocat" style={{ fontSize: '1.8rem', letterSpacing: '1px', color: '#962828' }}>Salmistas</span>
         </Link>
         
         <div className="navbar-links">
-          <Link to="/" className="nav-link">Cantos</Link>
           <Link to="/calibrador" className="btn btn-secondary btn-sm">
             <Mic2 size={16} />
             <span>Calibrar Voz</span>

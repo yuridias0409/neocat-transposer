@@ -118,7 +118,7 @@
 }
 
 .cifra-sheet {
-  font-family: var(--font-mono);
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 1.1rem;
   line-height: 1.8;
 }
@@ -154,7 +154,7 @@
   font-weight: bold;
   position: absolute;
   transform: translateY(-1.3em);
-  font-size: 1.1rem;
+  font-size: 1em;
 }
 
 .cifra-text {

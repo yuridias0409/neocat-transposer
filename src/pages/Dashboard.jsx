@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Music } from 'lucide-react';
+import { Search, Music, Volume2 } from 'lucide-react';
 import { cantosData } from '../data';
 import './Dashboard.css';
 
@@ -35,11 +35,7 @@ const Dashboard = () => {
 
   return (
     <div className="container dashboard-page">
-      <div className="dashboard-header text-center mb-4">
-        <h1 style={{fontFamily: 'var(--font-heading)', color: 'var(--color-primary)'}}>Salmistas</h1>
-        <p>Ajuste perfeito do tom para sua voz</p>
-      </div>
-      
+
       <div className="search-bar-container mb-4">
         <div className="search-bar">
           <Search size={20} className="search-icon" />
@@ -63,7 +59,7 @@ const Dashboard = () => {
               <div 
                 className="etapa-header" 
                 onClick={() => toggleSection(etapa.cor)}
-                style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', userSelect: 'none'}}
+                style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', userSelect: 'none', padding: '0.5rem 0'}}
               >
                 <h2 className="etapa-title" style={{margin: 0, borderBottom: 'none'}}>
                   {etapa.nome} <span style={{fontSize: '1rem', color: '#888', fontWeight: 'normal'}}>({cantosOrdenados.length})</span>
@@ -77,9 +73,13 @@ const Dashboard = () => {
                 <div className="cantos-list" style={{marginTop: '1rem', borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '1rem'}}>
                   {cantosOrdenados.map(canto => (
                     <Link to={`/canto/${canto.id}`} key={canto.id} className="canto-list-item">
-                      <div className="canto-list-info">
-                        <Music size={16} className="text-muted mr-2" style={{marginRight: '10px', color: '#999'}} />
-                        <span className="canto-list-title">{canto.titulo}</span>
+                      <div className="canto-list-info" style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
+                        {canto.audio_url ? (
+                          <Volume2 size={18} style={{marginRight: '12px', color: 'var(--color-primary)', flexShrink: 0}} title="Possui áudio" />
+                        ) : (
+                          <Music size={18} style={{marginRight: '12px', color: '#ccc', flexShrink: 0}} title="Sem áudio" />
+                        )}
+                        <span className="canto-list-title" style={{lineHeight: '1.3'}}>{canto.titulo}</span>
                       </div>
                       {canto.tom_original !== '?' && (
                         <span className="badge badge-outline canto-list-badge">{canto.tom_original}</span>

@@ -1850,26 +1850,6 @@ export const cantosData = {
       "Re-"
     ]
   },
-  "ressuscitou-canto": {
-    "id": "ressuscitou-canto",
-    "titulo": "Ressuscitou",
-    "etapa": "Pré-Catecumenato",
-    "cor": "branco",
-    "tom_original": "La-",
-    "tom_audio": "",
-    "bpm": 0,
-    "audio_url": "",
-    "linhas": [],
-    "imagens_originais": [
-      "https://cn.org.br/portal/wp-content/uploads/2023/10/Screenshot-from-2023-10-24-20-53-39.png"
-    ],
-    "acordes_usados": [
-      "La-",
-      "Sol",
-      "Fa",
-      "Mi"
-    ]
-  },
   "iahweh-tu-es-meu-deus": {
     "id": "iahweh-tu-es-meu-deus",
     "titulo": "Iahweh, Tu és meu Deus",
@@ -3036,8 +3016,32 @@ export const cantosData = {
     "linhas": [
       {
         "id": 1,
-        "texto": "Fazia calor naquele dia",
-        "cifra": "[Am] Fazia calor naquele dia",
+        "texto": "Fazia calor naquele dia,",
+        "cifra": "[Am] Fazia calor naquele dia,",
+        "freq_max": 180
+      },
+      {
+        "id": 2,
+        "texto": "a hora sexta chegara.",
+        "cifra": "a [Dm] hora sexta che[E]gara.",
+        "freq_max": 190
+      },
+      {
+        "id": 3,
+        "texto": "E uma mulher veio tirar água,",
+        "cifra": "E uma mu[Dm]lher veio tirar [Am] água,",
+        "freq_max": 180
+      },
+      {
+        "id": 4,
+        "texto": "e Jesus lhe disse:",
+        "cifra": "e Je[E]sus lhe disse:",
+        "freq_max": 170
+      },
+      {
+        "id": 5,
+        "texto": "Dá-me de beber.",
+        "cifra": "[Am] Dá-me de beber.",
         "freq_max": 180
       }
     ],
@@ -4863,6 +4867,9 @@ export const cantosData = {
     "tom_audio": "Am",
     "bpm": 110,
     "audio_url": "/audios/Ressuscitou.mp3",
+    "imagens_originais": [
+      "https://cn.org.br/portal/wp-content/uploads/2023/10/Screenshot-from-2023-10-24-20-53-39.png"
+    ],
     "linhas": [
       {
         "id": 1,
