@@ -1,0 +1,32 @@
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding: 1rem;
+}
+
+.login-card {
+  max-width: 400px;
+  width: 100%;
+  padding: 3rem 2rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  border: 1px solid var(--color-bg-secondary);
+  border-radius: var(--radius-sm);
+  outline: none;
+  font-family: var(--font-body);
+}
+
+.form-input:focus {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 2px rgba(203, 161, 53, 0.2);
+}
+
+.w-100 {
+  width: 100%;
+}

@@ -1,0 +1,101 @@
+.calibrador-page {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  max-width: 600px;
+}
+
+.calibrador-card {
+  padding: 2.5rem;
+  text-align: center;
+}
+
+.steps-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+
+.step-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--color-bg-secondary);
+  border: 2px solid #ddd;
+  transition: all 0.3s ease;
+}
+
+.step-dot.active {
+  background-color: var(--color-gold);
+  border-color: var(--color-gold);
+}
+
+.step-line {
+  height: 2px;
+  width: 40px;
+  background-color: #ddd;
+  margin: 0 8px;
+}
+
+.icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background-color: var(--color-bg-secondary);
+  margin: 0 auto;
+}
+
+.icon-wrapper.success {
+  background-color: #e6f4ea;
+  color: var(--color-success);
+}
+
+.text-primary {
+  color: var(--color-primary);
+}
+
+.mic-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: var(--color-bg-primary);
+  border: 3px solid var(--color-primary);
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 0 auto;
+}
+
+.mic-button:hover {
+  background-color: #fde8e8;
+  transform: scale(1.05);
+}
+
+.mic-button.recording {
+  background-color: var(--color-primary);
+  color: white;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(140, 28, 28, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(140, 28, 28, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(140, 28, 28, 0);
+  }
+}
+
+.status-text {
+  font-weight: 500;
+  color: var(--color-secondary);
+}

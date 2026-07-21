@@ -1,0 +1,158 @@
+.dashboard-page {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.dashboard-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-header p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.search-bar-container {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: var(--radius-full);
+  padding: 0.5rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-bg-secondary);
+  transition: box-shadow 0.2s;
+}
+
+.search-bar:focus-within {
+  box-shadow: 0 0 0 2px rgba(203, 161, 53, 0.2);
+  border-color: var(--color-gold);
+}
+
+.search-icon {
+  color: #999;
+  margin-right: 0.75rem;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  padding: 0.75rem 0;
+  font-size: 1.1rem;
+  outline: none;
+  font-family: var(--font-body);
+}
+
+/* Etapas Categories */
+.etapas-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  margin-top: 2rem;
+}
+
+.etapa-section {
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.etapa-title {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid rgba(0,0,0,0.1);
+  padding-bottom: 0.5rem;
+}
+
+.etapa-branco {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+}
+.etapa-branco .etapa-title {
+  color: #334155;
+}
+
+.etapa-azul {
+  background-color: #f0f9ff;
+  border: 1px solid #bae6fd;
+}
+.etapa-azul .etapa-title {
+  color: #0369a1;
+}
+
+.etapa-verde {
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+}
+.etapa-verde .etapa-title {
+  color: #15803d;
+}
+
+.etapa-amarelo {
+  background-color: #fefce8;
+  border: 1px solid #fef08a;
+}
+.etapa-amarelo .etapa-title {
+  color: #a16207;
+}
+
+.cantos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.canto-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background-color: white;
+  border-radius: var(--radius-sm);
+  border: 1px solid #eee;
+  text-decoration: none;
+  color: inherit;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.canto-list-item:hover {
+  background-color: #f8fafc;
+  transform: translateX(4px);
+  border-color: #e2e8f0;
+}
+
+.canto-list-info {
+  display: flex;
+  align-items: center;
+}
+
+.canto-list-title {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.canto-list-badge {
+  font-size: 0.8rem;
+  min-width: 30px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .dashboard-header h1 {
+    font-size: 2rem;
+  }
+  .etapa-section {
+    padding: 1rem;
+  }
+  .search-bar {
+    padding: 0.5rem 1rem;
+  }
+}
