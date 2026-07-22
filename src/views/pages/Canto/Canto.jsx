@@ -114,10 +114,12 @@ const Canto = ({ user }) => {
           isKaraokeMode: isKaraokeMode,
           userProfile: userProfile,
           currentMicHz: currentMicHz }, void 0, false
-        ),
+        )] }, void 0, true
+      ),
 
-        _jsxDEV("div", { style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }, children: [
-          _jsxDEV("div", { className: "card text-center", style: { padding: '1.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }, children: [
+      _jsxDEV("div", { style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }, children: [
+        canto.audio_url &&
+        _jsxDEV("div", { className: "card text-center", style: { padding: '1.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }, children: [
             _jsxDEV("div", { style: { fontSize: '0.8rem', textTransform: 'uppercase', color: '#555', marginBottom: '1rem', fontWeight: 'bold' }, children: ["Áudio Original (",
               canto.tom_audio || '?', ")"] }, void 0, true
             ),
@@ -175,7 +177,6 @@ const Canto = ({ user }) => {
               _jsxDEV("label", { htmlFor: "chordGuideToggle", style: { cursor: 'pointer', margin: 0 }, children: "Mostrar Guia de Acordes" }, void 0, false)] }, void 0, true
             )] }, void 0, true
           )] }, void 0, true
-        )] }, void 0, true
       ),
 
 
