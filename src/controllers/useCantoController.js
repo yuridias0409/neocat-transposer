@@ -3,6 +3,8 @@ import * as Tone from 'tone';
 import { PitchDetector } from 'pitchy';
 import CantoDAO from '../dao/CantoDAO';
 import UserDAO from '../dao/UserDAO';
+import { calcularTomIdealInteligente } from '../utils/transpositionEngine';
+import { otimizarCapoETom } from '../utils/capoEngine';
 
 export function useCantoController(cantoId, user) {
   const canto = CantoDAO.getById(cantoId);
@@ -27,6 +29,9 @@ export function useCantoController(cantoId, user) {
   const [toastMessage, setToastMessage] = useState(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+
+  const [aiMessage, setAiMessage] = useState('');
+  const [showFeedbackBar, setShowFeedbackBar] = useState(false);
 
   const playerRef = useRef(null);
   const pitchShiftRef = useRef(null);
@@ -105,10 +110,17 @@ export function useCantoController(cantoId, user) {
     if (!canto) return;
     
     setTransposition(0);
+    setAiMessage('');
+    setShowFeedbackBar(false);
 
     const savedProfile = localStorage.getItem('userVoiceProfile');
-    if (savedProfile) setUserProfile(JSON.parse(savedProfile));
-    
+    let profileData = null;
+    if (savedProfile) {
+      profileData = JSON.parse(savedProfile);
+      setUserProfile(profileData);
+    }
+    // Não auto-calculamos mais no mount, o usuário inicia no tom 0
+    // Opcionalmente, podemos buscar os dados em background para não travar
     if (canto.audio_url) {
       pitchShiftRef.current = new Tone.PitchShift({
         pitch: 0,
@@ -229,9 +241,32 @@ export function useCantoController(cantoId, user) {
     }
   };
 
+  const [tomEsforco, setTomEsforco] = useState(null);
+
+  const aplicarTomInteligente = async () => {
+    if (!userProfile || !canto.freq_min_curada || !canto.freq_max_curada) {
+      showToast("Precisamos do seu perfil vocal calibrado e dos dados do canto.");
+      return;
+    }
+    const cantoData = await CantoDAO.getPitchMetadata(cantoId);
+    const vozSalmista = { minHz: userProfile.min.freq, maxHz: userProfile.max.freq };
+    
+    const resultado = calcularTomIdealInteligente(vozSalmista, canto, userProfile, cantoData);
+    setTransposition(resultado.semitones);
+    setTomEsforco(resultado.semitonesEsforco);
+    setAiMessage(resultado.mensagem);
+    setShowFeedbackBar(true);
+  };
+
+  // Calcula info do capotraste
+  const capoInfo = otimizarCapoETom(canto?.tom_original, transposition);
+
   return {
     canto,
     transposition, setTransposition,
+    aplicarTomInteligente,
+    tomEsforco, setTomEsforco,
+    capoInfo,
     isPlaying, togglePlay,
     isAudioLoaded, progress, currentTime, duration, handleSeek,
     userProfile,
@@ -241,6 +276,7 @@ export function useCantoController(cantoId, user) {
     showFeedback, feedbackSent, handleFeedback,
     isGenerating, setIsGenerating,
     fontSize, setFontSize,
-    toastMessage, showToast
+    toastMessage, showToast,
+    aiMessage, showFeedbackBar, setShowFeedbackBar
   };
 }

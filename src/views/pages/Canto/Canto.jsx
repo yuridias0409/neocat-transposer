@@ -5,6 +5,8 @@ import { transposeChordString } from '../../../utils';
 import { useCantoController } from '../../../controllers/useCantoController';
 import { AudioPlayerView } from '../../components/Canto/AudioPlayerView';
 import { KaraokePanelView } from '../../components/Canto/KaraokePanelView';
+import FeedbackTomBar from '../../components/Canto/FeedbackTomBar';
+import capoIcon from '../../../assets/capotraste.png';
 import './Canto.css'; // Keep the existing CSS for now, I will move it later
 
 const Canto = ({ user }) => {
@@ -19,8 +21,11 @@ const Canto = ({ user }) => {
     notes, setNotes, showNotes, setShowNotes, saveNotes,
     showChordGuide, setShowChordGuide,
     isKaraokeMode, currentMicHz, startKaraoke, stopKaraoke,
-    showFeedback, feedbackSent, handleFeedback,
-    toastMessage, showToast
+    toastMessage, showToast,
+    showFeedbackBar, setShowFeedbackBar,
+    aplicarTomInteligente,
+    tomEsforco, setTomEsforco,
+    capoInfo
   } = useCantoController(id, user);
 
   if (!canto) return <div className="container canto-page"><p>Canto não encontrado.</p></div>;
@@ -32,20 +37,6 @@ const Canto = ({ user }) => {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  };
-
-  const calcularAjusteMagico = () => {
-    if (!userProfile || !canto.freq_max_curada || !canto.freq_min_curada) {
-      showToast("Precisamos do seu perfil vocal calibrado e dos dados do canto para calcular.");
-      return;
-    }
-    const cantoMaxSemi = 12 * Math.log2(canto.freq_max_curada / 440) + 69;
-    const salmistaMaxSemi = 12 * Math.log2(userProfile.max.freq / 440) + 69;
-    let ajuste = 0;
-    if (cantoMaxSemi > salmistaMaxSemi) {
-      ajuste = Math.floor(salmistaMaxSemi - cantoMaxSemi);
-    }
-    setTransposition(ajuste);
   };
 
   const renderAssemblyStatus = () => {
@@ -124,7 +115,7 @@ const Canto = ({ user }) => {
             currentMicHz={currentMicHz}
           />
           
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
             <div className="card text-center" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', color: '#555', marginBottom: '1rem', fontWeight: 'bold' }}>
                 Áudio Original ({canto.tom_audio || '?'})
@@ -145,17 +136,42 @@ const Canto = ({ user }) => {
               
               <div className="transposition-controls" style={{ background: '#fdfbf7', padding: '0.5rem', borderRadius: '8px', display: 'inline-flex', alignItems: 'center', marginBottom: '0.5rem' }}>
                  <button className="btn-circle btn-sm" onClick={() => setTransposition(t => t - 1)} style={{ width: '30px', height: '30px', minWidth: '30px' }}>-</button>
-                 <span className="transposition-value" style={{fontWeight: 'bold', fontSize: '1.5rem', color: '#851d1d', margin: '0 1.5rem', minWidth: '45px'}}>{tomAtualVisual}</span>
+                 <span className="transposition-value" style={{fontWeight: 'bold', fontSize: '1.5rem', color: '#851d1d', margin: '0 1.5rem', minWidth: '45px'}}>{capoInfo.tomReal}</span>
                  <button className="btn-circle btn-sm" onClick={() => setTransposition(t => t + 1)} style={{ width: '30px', height: '30px', minWidth: '30px' }}>+</button>
               </div>
               
-              <div style={{ fontSize: '0.8rem', color: '#666', marginBottom: '1rem' }}>
-                {transposition === 0 ? '0' : (transposition > 0 ? `+${transposition}` : transposition)} semitons
+              <div style={{ fontSize: '0.8rem', color: '#666', marginBottom: '1rem', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <span>
+                  {transposition === 0 ? '0' : (transposition > 0 ? `+${transposition}` : transposition)} semitons
+                </span>
+                {capoInfo.formaAcorde !== '?' && transposition !== 0 && (
+                  <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', marginTop: '0.2rem', alignItems: 'center' }}>
+                    <span style={{ background: '#e0f2fe', color: '#0369a1', padding: '0.2rem 0.6rem', borderRadius: '12px', fontWeight: 'bold' }}>🎸 Toque {capoInfo.formaAcorde}</span>
+                    {capoInfo.capoCasa > 0 && (
+                      <span style={{ background: '#fef3c7', color: '#b45309', padding: '0.2rem 0.6rem', borderRadius: '12px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <img src={capoIcon} alt="Capo" style={{ width: '16px', height: '16px', filter: 'hue-rotate(20deg) saturate(150%) brightness(0.8)' }} /> 
+                        Capo {capoInfo.capoCasa}ª
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
               
-              <button className="btn btn-secondary btn-sm auto-adjust-btn w-100" onClick={calcularAjusteMagico} style={{ maxWidth: '200px' }}>
-                 <Settings2 size={14} style={{ marginRight: '0.4rem' }}/> Meu Tom Ideal
-              </button>
+              <div style={{ display: 'flex', gap: '0.5rem', width: '100%', maxWidth: '250px', flexDirection: 'column' }}>
+                <button className="btn btn-secondary btn-sm auto-adjust-btn w-100" onClick={aplicarTomInteligente}>
+                   <Settings2 size={14} style={{ marginRight: '0.4rem' }}/> Meu Tom Ideal
+                </button>
+                {transposition !== 0 && (
+                  <button className="btn btn-outline btn-sm w-100" onClick={() => setTransposition(0)} style={{ borderColor: '#d1d5db', color: '#4b5563' }}>
+                    Voltar ao Tom Original
+                  </button>
+                )}
+                {tomEsforco !== null && tomEsforco !== transposition && (
+                  <button className="btn btn-outline btn-sm w-100" onClick={() => { setTransposition(tomEsforco); setTomEsforco(null); }} style={{ borderColor: '#fcd34d', color: '#b45309', background: '#fffbeb' }}>
+                    💡 Sugestão: Tentar Tom de Esforço
+                  </button>
+                )}
+              </div>
 
               {(!canto.linhas || canto.linhas.length === 0) && canto.acordes_usados && canto.acordes_usados.length > 0 && transposition !== 0 && (
                 <div style={{ marginTop: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', fontSize: '0.85rem', color: '#555' }}>
@@ -168,18 +184,16 @@ const Canto = ({ user }) => {
         </>
       )}
 
-      {showFeedback && !feedbackSent && (
-        <div className="feedback-banner card mb-4" style={{border: '1px solid #e0d8b0', backgroundColor: '#fffcf2'}}>
-          <p style={{marginBottom: '1rem', color: '#8a7a3b'}}><strong>Esse tom sugerido ficou bom para você cantar?</strong></p>
-          <div className="feedback-buttons" style={{display: 'flex', gap: '1rem', flexWrap: 'wrap'}}>
-            <button className="btn btn-outline success-btn flex-1" onClick={() => handleFeedback(true)} style={{flex: 1, minWidth: '150px'}}>
-              <ThumbsUp size={16} /> Sim, ficou ótimo
-            </button>
-            <button className="btn btn-outline danger-btn flex-1" onClick={() => handleFeedback(false)} style={{flex: 1, minWidth: '150px'}}>
-              <ThumbsDown size={16} /> Não, ficou alto demais
-            </button>
-          </div>
-        </div>
+      {showFeedbackBar && user && (
+        <FeedbackTomBar 
+          user={user} 
+          cantoId={id} 
+          tomAtualSemitons={transposition} 
+          onFeedbackApplied={(offsetUi) => {
+            setTransposition(t => t + offsetUi);
+            setShowFeedbackBar(false);
+          }}
+        />
       )}
 
       {user && (
@@ -238,7 +252,7 @@ const Canto = ({ user }) => {
             {canto.acordes_usados.map((c, i) => (
               <div key={i} style={{background: '#fff', padding: '0.3rem 0.5rem', borderRadius: '8px', border: '1px solid #e0f2fe', textAlign: 'center', flex: '1 1 auto', minWidth: '60px'}}>
                 <div style={{color: '#94a3b8', fontSize: '0.8rem', textDecoration: 'line-through'}}>{c}</div>
-                <div style={{color: '#b91c1c', fontWeight: 'bold'}}>{transposeChordString(c, transposition)}</div>
+                <div style={{color: '#b91c1c', fontWeight: 'bold'}}>{transposeChordString(c, capoInfo.diferencaFormaSemitons)}</div>
               </div>
             ))}
           </div>

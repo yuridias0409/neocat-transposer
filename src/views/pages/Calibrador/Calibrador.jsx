@@ -596,7 +596,7 @@ const Calibrador = ({ user }) => {
             </p>
           )}
 
-          <div className="mode-selection mt-4" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+          <div className="mode-selection mt-4">
             {Object.entries(MODE_INFO).map(([key, info]) => {
               const done = calibrations[key];
               const Icon = info.icon;

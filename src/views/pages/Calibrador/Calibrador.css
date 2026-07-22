@@ -109,4 +109,7 @@
   .mode-selection {
     grid-template-columns: 1fr;
   }
+  .calibrador-card {
+    padding: 1.5rem 1rem;
+  }
 }
