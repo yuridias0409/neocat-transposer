@@ -5,23 +5,24 @@ import CantoDAO from '../dao/CantoDAO';
 import UserDAO from '../dao/UserDAO';
 import { calcularTomIdealInteligente } from '../utils/transpositionEngine';
 import { otimizarCapoETom } from '../utils/capoEngine';
+import { getNoteIndex } from '../utils';
 
 export function useCantoController(cantoId, user) {
   const canto = CantoDAO.getById(cantoId);
-  
+
   const [transposition, setTransposition] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isAudioLoaded, setIsAudioLoaded] = useState(false);
   const [progress, setProgress] = useState(0);
   const [userProfile, setUserProfile] = useState(null);
-  
+
   const [notes, setNotes] = useState('');
   const [showNotes, setShowNotes] = useState(false);
   const [showChordGuide, setShowChordGuide] = useState(false);
-  
+
   const [isKaraokeMode, setIsKaraokeMode] = useState(false);
   const [currentMicHz, setCurrentMicHz] = useState(0);
-  
+
   const [showFeedback, setShowFeedback] = useState(false);
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -38,7 +39,7 @@ export function useCantoController(cantoId, user) {
   const startTimeRef = useRef(0);
   const offsetRef = useRef(0);
   const animationRef = useRef(null);
-  
+
   const karaokeAudioCtxRef = useRef(null);
   const karaokeAnalyserRef = useRef(null);
   const karaokeStreamRef = useRef(null);
@@ -70,7 +71,7 @@ export function useCantoController(cantoId, user) {
 
       setIsKaraokeMode(true);
       updateKaraokePitch();
-      
+
       if (!isPlaying) {
         togglePlay();
       }
@@ -93,14 +94,14 @@ export function useCantoController(cantoId, user) {
     if (clarity > 0.85 && pitch > 50 && pitch < 1000) {
       setCurrentMicHz(Math.round(pitch * 100) / 100);
     } else {
-      setCurrentMicHz(0); 
+      setCurrentMicHz(0);
     }
     karaokeAnimRef.current = requestAnimationFrame(updateKaraokePitch);
   };
 
   const stopKaraoke = () => {
     cancelAnimationFrame(karaokeAnimRef.current);
-    if (karaokeStreamRef.current) karaokeStreamRef.current.getTracks().forEach(t => t.stop());
+    if (karaokeStreamRef.current) karaokeStreamRef.current.getTracks().forEach((t) => t.stop());
     if (karaokeAudioCtxRef.current) karaokeAudioCtxRef.current.close();
     setIsKaraokeMode(false);
     setCurrentMicHz(0);
@@ -108,8 +109,17 @@ export function useCantoController(cantoId, user) {
 
   useEffect(() => {
     if (!canto) return;
-    
-    setTransposition(0);
+
+    let offset = 0;
+    if (canto.tom_audio && canto.tom_original) {
+      const idxAudio = getNoteIndex(canto.tom_audio);
+      const idxOriginal = getNoteIndex(canto.tom_original);
+      offset = idxAudio - idxOriginal;
+      if (offset > 6) offset -= 12;
+      if (offset < -6) offset += 12;
+    }
+    setTransposition(offset);
+
     setAiMessage('');
     setShowFeedbackBar(false);
 
@@ -119,8 +129,8 @@ export function useCantoController(cantoId, user) {
       profileData = JSON.parse(savedProfile);
       setUserProfile(profileData);
     }
-    // Não auto-calculamos mais no mount, o usuário inicia no tom 0
-    // Opcionalmente, podemos buscar os dados em background para não travar
+
+
     if (canto.audio_url) {
       pitchShiftRef.current = new Tone.PitchShift({
         pitch: 0,
@@ -146,9 +156,15 @@ export function useCantoController(cantoId, user) {
   }, [canto, cantoId, user]);
 
   useEffect(() => {
-    if (pitchShiftRef.current && canto) {
-      let audioPitchShift = transposition;
-      audioPitchShift = ((audioPitchShift % 12) + 12) % 12;
+    if (pitchShiftRef.current) {
+      let audioPitchShift = transposition - (() => {
+        if (!canto?.tom_audio || !canto?.tom_original) return 0;
+        let offset = getNoteIndex(canto.tom_audio) - getNoteIndex(canto.tom_original);
+        if (offset > 6) offset -= 12;
+        if (offset < -6) offset += 12;
+        return offset;
+      })();
+      audioPitchShift = (audioPitchShift % 12 + 12) % 12;
       if (audioPitchShift > 6) audioPitchShift -= 12;
 
       if (audioPitchShift === 0) {
@@ -163,7 +179,7 @@ export function useCantoController(cantoId, user) {
 
   const togglePlay = async () => {
     if (!isAudioLoaded || !playerRef.current || !playerRef.current.buffer) return;
-    await Tone.start(); 
+    await Tone.start();
     if (isPlaying) {
       playerRef.current.stop();
       setIsPlaying(false);
@@ -173,7 +189,7 @@ export function useCantoController(cantoId, user) {
       playerRef.current.start(0, offsetRef.current);
       setIsPlaying(true);
       startTimeRef.current = Tone.now() - offsetRef.current;
-      
+
       const updateProgress = () => {
         if (playerRef.current && playerRef.current.state === "started") {
           const elapsed = Tone.now() - startTimeRef.current;
@@ -187,7 +203,7 @@ export function useCantoController(cantoId, user) {
               playerRef.current.stop();
               return;
             }
-            setProgress((elapsed / dur) * 100);
+            setProgress(elapsed / dur * 100);
             setCurrentTime(elapsed);
           }
           animationRef.current = requestAnimationFrame(updateProgress);
@@ -202,11 +218,11 @@ export function useCantoController(cantoId, user) {
     const rect = e.currentTarget.getBoundingClientRect();
     const percent = (e.clientX - rect.left) / rect.width;
     const newTime = percent * duration;
-    
+
     offsetRef.current = newTime;
     setProgress(percent * 100);
     setCurrentTime(newTime);
-    
+
     if (isPlaying) {
       playerRef.current.stop();
       playerRef.current.start(0, newTime);
@@ -220,9 +236,9 @@ export function useCantoController(cantoId, user) {
     showToast(isGood ? "Ótimo! O app lembrará dessa preferência." : "Obrigado pelo aviso. Ajustaremos nosso algoritmo!");
   };
 
-  // -----------------------------------------------------
-  // ANOTAÇÕES PESSOAIS DA MÚSICA (Sincronizado via DAO)
-  // -----------------------------------------------------
+
+
+
   useEffect(() => {
     async function loadNotes() {
       if (user && cantoId) {
@@ -250,24 +266,39 @@ export function useCantoController(cantoId, user) {
     }
     const cantoData = await CantoDAO.getPitchMetadata(cantoId);
     const vozSalmista = { minHz: userProfile.min.freq, maxHz: userProfile.max.freq };
-    
+
     const resultado = calcularTomIdealInteligente(vozSalmista, canto, userProfile, cantoData);
-    
-    if (resultado.semitones === transposition) {
+
+    const currentBaseOffset = (() => {
+      if (!canto?.tom_audio || !canto?.tom_original) return 0;
+      let offset = getNoteIndex(canto.tom_audio) - getNoteIndex(canto.tom_original);
+      if (offset > 6) offset -= 12;
+      if (offset < -6) offset += 12;
+      return offset;
+    })();
+
+    if (resultado.semitones === transposition - currentBaseOffset) {
       showToast("Este canto já está no seu tom ideal!");
     }
-    
-    setTransposition(resultado.semitones);
-    setTomEsforco(resultado.semitonesEsforco);
+
+    setTransposition(currentBaseOffset + resultado.semitones);
+    setTomEsforco(resultado.semitonesEsforco !== null ? currentBaseOffset + resultado.semitonesEsforco : null);
     setAiMessage(resultado.mensagem);
     setShowFeedbackBar(true);
   };
 
-  // Calcula info do capotraste
+
   const capoInfo = otimizarCapoETom(canto?.tom_original, transposition);
 
   return {
     canto,
+    baseOffset: (() => {
+      if (!canto?.tom_audio || !canto?.tom_original) return 0;
+      let offset = getNoteIndex(canto.tom_audio) - getNoteIndex(canto.tom_original);
+      if (offset > 6) offset -= 12;
+      if (offset < -6) offset += 12;
+      return offset;
+    })(),
     transposition, setTransposition,
     aplicarTomInteligente,
     tomEsforco, setTomEsforco,

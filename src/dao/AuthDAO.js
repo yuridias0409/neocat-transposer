@@ -2,10 +2,10 @@ import { auth } from '../services/firebase';
 import { sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink, signOut } from 'firebase/auth';
 
 class AuthDAO {
-  // Lista de emails que podem acessar o admin
+
   ALLOWED_ADMINS = [
-    'yuri.dias0409@hotmail.com'
-  ];
+  'yuri.dias0409@hotmail.com'];
+
 
   async sendMagicLink(email) {
     if (!this.ALLOWED_ADMINS.includes(email)) {
@@ -14,7 +14,7 @@ class AuthDAO {
 
     const actionCodeSettings = {
       url: `${window.location.origin}/admin`,
-      handleCodeInApp: true,
+      handleCodeInApp: true
     };
     await sendSignInLinkToEmail(auth, email, actionCodeSettings);
     window.localStorage.setItem('emailForSignIn', email);

@@ -10,7 +10,7 @@ import AdminDashboard from './views/pages/Admin/AdminDashboard';
 
 import UserDAO from './dao/UserDAO';
 import { auth } from './services/firebase';
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
 
 function AdminRoute() {
   const [adminUser, setAdminUser] = useState(null);
@@ -25,33 +25,33 @@ function AdminRoute() {
   }, []);
 
   if (loading) {
-    return <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', fontFamily: 'var(--font-body)'}}>Carregando painel...</div>;
+    return _jsxDEV("div", { style: { display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', fontFamily: 'var(--font-body)' }, children: "Carregando painel..." }, void 0, false);
   }
-  
+
   if (!adminUser) {
-    return <AdminLogin onAuthenticated={setAdminUser} />;
+    return _jsxDEV(AdminLogin, { onAuthenticated: setAdminUser }, void 0, false);
   }
-  
-  return <AdminDashboard />;
+
+  return _jsxDEV(AdminDashboard, {}, void 0, false);
 }
 
 function MainApp({ user, setUser }) {
   if (!user) {
-    return <Login onLogin={setUser} />;
+    return _jsxDEV(Login, { onLogin: setUser }, void 0, false);
   }
 
   return (
-    <div className="app-container">
-      <Navbar user={user} onLogout={() => { UserDAO.clearSession(); setUser(null); }} />
-      <main>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/calibrador" element={<Calibrador user={user} />} />
-          <Route path="/canto/:id" element={<Canto user={user} />} />
-        </Routes>
-      </main>
-    </div>
-  );
+    _jsxDEV("div", { className: "app-container", children: [
+      _jsxDEV(Navbar, { user: user, onLogout: () => {UserDAO.clearSession();setUser(null);} }, void 0, false),
+      _jsxDEV("main", { children:
+        _jsxDEV(Routes, { children: [
+          _jsxDEV(Route, { path: "/", element: _jsxDEV(Dashboard, {}, void 0, false) }, void 0, false),
+          _jsxDEV(Route, { path: "/calibrador", element: _jsxDEV(Calibrador, { user: user }, void 0, false) }, void 0, false),
+          _jsxDEV(Route, { path: "/canto/:id", element: _jsxDEV(Canto, { user: user }, void 0, false) }, void 0, false)] }, void 0, true
+        ) }, void 0, false
+      )] }, void 0, true
+    ));
+
 }
 
 function App() {
@@ -63,16 +63,16 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <Routes>
-        {/* Rota oculta de admin */}
-        <Route path="/admin" element={<AdminRoute />} />
-        
-        {/* App normal de salmistas */}
-        <Route path="/*" element={<MainApp user={user} setUser={setUser} />} />
-      </Routes>
-    </Router>
-  );
+    _jsxDEV(Router, { children:
+      _jsxDEV(Routes, { children: [
+
+        _jsxDEV(Route, { path: "/admin", element: _jsxDEV(AdminRoute, {}, void 0, false) }, void 0, false),
+
+
+        _jsxDEV(Route, { path: "/*", element: _jsxDEV(MainApp, { user: user, setUser: setUser }, void 0, false) }, void 0, false)] }, void 0, true
+      ) }, void 0, false
+    ));
+
 }
 
 export default App;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpen, Mic2, LogOut, User } from 'lucide-react';
-import './Navbar.css';
+import './Navbar.css';import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
 
 const freqToNoteName = (freq) => {
   if (!freq) return '?';
@@ -10,7 +10,7 @@ const freqToNoteName = (freq) => {
   const c0 = a4 * Math.pow(2, -4.75);
   const h = Math.round(12 * Math.log2(freq / c0));
   const octave = Math.floor(h / 12);
-  const n = ((h % 12) + 12) % 12;
+  const n = (h % 12 + 12) % 12;
   return `${notes[n]}${octave}`;
 };
 
@@ -28,54 +28,54 @@ const Navbar = ({ user, onLogout }) => {
     const load = () => {
       const saved = localStorage.getItem('userVoiceProfile');
       if (saved) {
-        try { setVoiceProfile(JSON.parse(saved)); } catch {}
+        try {setVoiceProfile(JSON.parse(saved));} catch {}
       }
     };
     load();
     window.addEventListener('storage', load);
-    // Poll for updates in same tab
+
     const interval = setInterval(load, 3000);
-    return () => { window.removeEventListener('storage', load); clearInterval(interval); };
+    return () => {window.removeEventListener('storage', load);clearInterval(interval);};
   }, []);
 
   const voiceType = voiceProfile ? getVoiceType(voiceProfile.min?.freq) : null;
-  const voiceRange = voiceProfile
-    ? `${freqToNoteName(voiceProfile.min?.freq)} → ${freqToNoteName(voiceProfile.max?.freq)}`
-    : null;
+  const voiceRange = voiceProfile ?
+  `${freqToNoteName(voiceProfile.min?.freq)} → ${freqToNoteName(voiceProfile.max?.freq)}` :
+  null;
 
   return (
-    <nav className="navbar">
-      <div className="container navbar-content">
-        <Link to="/" className="navbar-brand">
-          <span className="font-neocat" style={{ fontSize: '1.8rem', letterSpacing: '1px', color: '#962828' }}>Salmistas</span>
-        </Link>
-        
-        <div className="navbar-links">
-          <Link to="/calibrador" className="btn btn-secondary btn-sm">
-            <Mic2 size={16} />
-            <span>Calibrar Voz</span>
-          </Link>
-          
-          {user && (
-            <div className="user-menu" style={{display: 'flex', alignItems: 'center', gap: '0.5rem', marginLeft: '1rem', borderLeft: '1px solid #ccc', paddingLeft: '1rem'}}>
-              <User size={16} className="text-primary" />
-              <div style={{display: 'flex', flexDirection: 'column', lineHeight: 1.2}}>
-                <span style={{fontSize: '0.85rem', color: '#444', fontWeight: 500}}>{user.split('@')[0]}</span>
-                {voiceType && (
-                  <span style={{fontSize: '0.72rem', color: '#888'}}>
-                    {voiceType} · {voiceRange}
-                  </span>
-                )}
-              </div>
-              <button onClick={onLogout} style={{background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-danger)'}} title="Sair">
-                <LogOut size={16} />
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-    </nav>
-  );
+    _jsxDEV("nav", { className: "navbar", children:
+      _jsxDEV("div", { className: "container navbar-content", children: [
+        _jsxDEV(Link, { to: "/", className: "navbar-brand", children:
+          _jsxDEV("span", { className: "font-neocat", style: { fontSize: '1.8rem', letterSpacing: '1px', color: '#962828' }, children: "Salmistas" }, void 0, false) }, void 0, false
+        ),
+
+        _jsxDEV("div", { className: "navbar-links", children: [
+          _jsxDEV(Link, { to: "/calibrador", className: "btn btn-secondary btn-sm", children: [
+            _jsxDEV(Mic2, { size: 16 }, void 0, false),
+            _jsxDEV("span", { children: "Calibrar Voz" }, void 0, false)] }, void 0, true
+          ),
+
+          user &&
+          _jsxDEV("div", { className: "user-menu", style: { display: 'flex', alignItems: 'center', gap: '0.5rem', marginLeft: '1rem', borderLeft: '1px solid #ccc', paddingLeft: '1rem' }, children: [
+            _jsxDEV(User, { size: 16, className: "text-primary" }, void 0, false),
+            _jsxDEV("div", { style: { display: 'flex', flexDirection: 'column', lineHeight: 1.2 }, children: [
+              _jsxDEV("span", { style: { fontSize: '0.85rem', color: '#444', fontWeight: 500 }, children: user.split('@')[0] }, void 0, false),
+              voiceType &&
+              _jsxDEV("span", { style: { fontSize: '0.72rem', color: '#888' }, children: [
+                voiceType, " · ", voiceRange] }, void 0, true
+              )] }, void 0, true
+
+            ),
+            _jsxDEV("button", { onClick: onLogout, style: { background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-danger)' }, title: "Sair", children:
+              _jsxDEV(LogOut, { size: 16 }, void 0, false) }, void 0, false
+            )] }, void 0, true
+          )] }, void 0, true
+
+        )] }, void 0, true
+      ) }, void 0, false
+    ));
+
 };
 
 export default Navbar;

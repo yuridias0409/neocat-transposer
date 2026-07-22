@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AuthDAO from '../../../dao/AuthDAO';
+import AuthDAO from '../../../dao/AuthDAO';import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
 
 export function AdminLogin({ onAuthenticated }) {
   const [email, setEmail] = useState('');
@@ -10,12 +10,12 @@ export function AdminLogin({ onAuthenticated }) {
   useEffect(() => {
     if (AuthDAO.isSignInUrl(window.location.href)) {
       setLoading(true);
-      AuthDAO.signInWithUrl(window.location.href)
-        .then((user) => {
-          onAuthenticated(user);
-        })
-        .catch((error) => console.error("Erro na autenticação:", error))
-        .finally(() => setLoading(false));
+      AuthDAO.signInWithUrl(window.location.href).
+      then((user) => {
+        onAuthenticated(user);
+      }).
+      catch((error) => console.error("Erro na autenticação:", error)).
+      finally(() => setLoading(false));
     }
   }, [onAuthenticated]);
 
@@ -35,31 +35,31 @@ export function AdminLogin({ onAuthenticated }) {
     }
   };
 
-  if (loading) return <div>Autenticando acesso restrito...</div>;
+  if (loading) return _jsxDEV("div", { children: "Autenticando acesso restrito..." }, void 0, false);
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '400px', margin: 'auto', fontFamily: 'var(--font-body)' }}>
-      <h2>Painel Administrativo - Acesso Oculto</h2>
-      {sent ? (
-        <p>✅ Link de acesso enviado para <strong>{email}</strong>. Abra seu e-mail para entrar.</p>
-      ) : (
-        <form onSubmit={handleSendLink}>
-          <label>E-mail Autorizado:</label>
-          <input 
-            type="email" 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
-            required 
-            placeholder="seu-email@dominio.com"
-            style={{ width: '100%', padding: '8px', margin: '10px 0', borderRadius: '8px', border: '1px solid #ccc' }}
-          />
-          {errorMsg && <p style={{color: 'red', fontSize: '0.9rem'}}>{errorMsg}</p>}
-          <button className="btn btn-primary" type="submit" disabled={loading} style={{ padding: '10px 20px', width: '100%' }}>
-            {loading ? 'Enviando...' : 'Receber Link de Acesso'}
-          </button>
-        </form>
-      )}
-    </div>
-  );
+    _jsxDEV("div", { style: { padding: '2rem', maxWidth: '400px', margin: 'auto', fontFamily: 'var(--font-body)' }, children: [
+      _jsxDEV("h2", { children: "Painel Administrativo - Acesso Oculto" }, void 0, false),
+      sent ?
+      _jsxDEV("p", { children: ["✅ Link de acesso enviado para ", _jsxDEV("strong", { children: email }, void 0, false), ". Abra seu e-mail para entrar."] }, void 0, true) :
+
+      _jsxDEV("form", { onSubmit: handleSendLink, children: [
+        _jsxDEV("label", { children: "E-mail Autorizado:" }, void 0, false),
+        _jsxDEV("input", {
+          type: "email",
+          value: email,
+          onChange: (e) => setEmail(e.target.value),
+          required: true,
+          placeholder: "seu-email@dominio.com",
+          style: { width: '100%', padding: '8px', margin: '10px 0', borderRadius: '8px', border: '1px solid #ccc' } }, void 0, false
+        ),
+        errorMsg && _jsxDEV("p", { style: { color: 'red', fontSize: '0.9rem' }, children: errorMsg }, void 0, false),
+        _jsxDEV("button", { className: "btn btn-primary", type: "submit", disabled: loading, style: { padding: '10px 20px', width: '100%' }, children:
+          loading ? 'Enviando...' : 'Receber Link de Acesso' }, void 0, false
+        )] }, void 0, true
+      )] }, void 0, true
+
+    ));
+
 }
 export default AdminLogin;

@@ -7,13 +7,14 @@ import { AudioPlayerView } from '../../components/Canto/AudioPlayerView';
 import { KaraokePanelView } from '../../components/Canto/KaraokePanelView';
 import FeedbackTomBar from '../../components/Canto/FeedbackTomBar';
 import capoIcon from '../../../assets/capotraste.png';
-import './Canto.css'; // Keep the existing CSS for now, I will move it later
+import './Canto.css';import { jsxDEV as _jsxDEV, Fragment as _Fragment } from "react/jsx-dev-runtime";
 
 const Canto = ({ user }) => {
   const { id } = useParams();
-  
+
   const {
     canto,
+    baseOffset,
     transposition, setTransposition,
     isPlaying, togglePlay,
     isAudioLoaded, progress, currentTime, duration, handleSeek,
@@ -28,7 +29,7 @@ const Canto = ({ user }) => {
     capoInfo
   } = useCantoController(id, user);
 
-  if (!canto) return <div className="container canto-page"><p>Canto não encontrado.</p></div>;
+  if (!canto) return _jsxDEV("div", { className: "container canto-page", children: _jsxDEV("p", { children: "Canto não encontrado." }, void 0, false) }, void 0, false);
 
   const tomAtualVisual = transposeChordString(canto.tom_original, transposition);
 
@@ -44,225 +45,219 @@ const Canto = ({ user }) => {
     if (!songMaxFreq || songMaxFreq === -Infinity) return null;
 
     const currentMaxFreq = songMaxFreq * Math.pow(2, transposition / 12);
-    const assemblyMaxLimit = 246.94; // B3
+    const assemblyMaxLimit = 246.94;
     const idealAssemblyTransposition = Math.floor(12 * Math.log2(assemblyMaxLimit / songMaxFreq));
     const capoEquiv = transposition - idealAssemblyTransposition > 0 && transposition - idealAssemblyTransposition <= 11;
-    
+
     if (capoEquiv) return null;
 
     if (transposition === idealAssemblyTransposition) {
       return (
-        <div className="alert alert-success mb-4" style={{backgroundColor: '#dcfce7', color: '#166534', padding: '1rem', borderRadius: '8px', border: '1px solid #bbf7d0'}}>
-          <strong><Users size={18} style={{marginRight: '0.5rem', verticalAlign: 'text-bottom'}} /> Cenário Perfeito:</strong> 
-          <p style={{margin: '0.5rem 0 0 0'}}>Este tom ({tomAtualVisual}) é o ideal para a assembleia também cantar o refrão confortavelmente!</p>
-        </div>
-      );
+        _jsxDEV("div", { className: "alert alert-success mb-4", style: { backgroundColor: '#dcfce7', color: '#166534', padding: '1rem', borderRadius: '8px', border: '1px solid #bbf7d0' }, children: [
+          _jsxDEV("strong", { children: [_jsxDEV(Users, { size: 18, style: { marginRight: '0.5rem', verticalAlign: 'text-bottom' } }, void 0, false), " Cenário Perfeito:"] }, void 0, true),
+          _jsxDEV("p", { style: { margin: '0.5rem 0 0 0' }, children: ["Este tom (", tomAtualVisual, ") é o ideal para a assembleia também cantar o refrão confortavelmente!"] }, void 0, true)] }, void 0, true
+        ));
+
     }
 
     if (currentMaxFreq > assemblyMaxLimit) {
       return (
-        <div className="alert alert-warning mb-4" style={{backgroundColor: '#fef3c7', color: '#92400e', padding: '1rem', borderRadius: '8px', border: '1px solid #fde68a'}}>
-          <strong><Users size={18} style={{marginRight: '0.5rem', verticalAlign: 'text-bottom'}} /> Assembleia Desconfortável</strong> 
-          <p style={{margin: '0.5rem 0 0 0'}}>O refrão está muito agudo para o povo. Sugerimos {idealAssemblyTransposition > 0 ? `+${idealAssemblyTransposition}` : idealAssemblyTransposition} semitons se a prioridade for a participação da assembleia.</p>
-        </div>
-      );
+        _jsxDEV("div", { className: "alert alert-warning mb-4", style: { backgroundColor: '#fef3c7', color: '#92400e', padding: '1rem', borderRadius: '8px', border: '1px solid #fde68a' }, children: [
+          _jsxDEV("strong", { children: [_jsxDEV(Users, { size: 18, style: { marginRight: '0.5rem', verticalAlign: 'text-bottom' } }, void 0, false), " Assembleia Desconfortável"] }, void 0, true),
+          _jsxDEV("p", { style: { margin: '0.5rem 0 0 0' }, children: ["O refrão está muito agudo para o povo. Sugerimos ", idealAssemblyTransposition > 0 ? `+${idealAssemblyTransposition}` : idealAssemblyTransposition, " semitons se a prioridade for a participação da assembleia."] }, void 0, true)] }, void 0, true
+        ));
+
     }
     return null;
   };
 
   return (
-    <div className="container canto-page" style={{position: 'relative'}}>
-      {toastMessage && (
-        <div style={{
+    _jsxDEV("div", { className: "container canto-page", style: { position: 'relative' }, children: [
+      toastMessage &&
+      _jsxDEV("div", { style: {
           position: 'fixed', bottom: '2rem', left: '50%', transform: 'translateX(-50%)',
           backgroundColor: '#333', color: 'white', padding: '1rem 2rem', borderRadius: '8px',
           boxShadow: '0 4px 12px rgba(0,0,0,0.15)', zIndex: 9999, whiteSpace: 'pre-line',
           textAlign: 'center', fontFamily: 'var(--font-body)', fontSize: '1rem'
-        }}>
-          {toastMessage}
-        </div>
-      )}
-      <div className="canto-header mb-4">
-        <div className="canto-title-block" style={{ width: '100%' }}>
-          <h1 style={{ marginBottom: '0.5rem' }}>{canto.titulo}</h1>
-          <div className="canto-meta-info">
-            <span className="badge badge-primary">Tom Original: {canto.tom_original}</span>
-          </div>
-        </div>
-      </div>
+        }, children:
+        toastMessage }, void 0, false
+      ),
 
-      {renderAssemblyStatus()}
+      _jsxDEV("div", { className: "canto-header mb-4", children:
+        _jsxDEV("div", { className: "canto-title-block", style: { width: '100%' }, children: [
+          _jsxDEV("h1", { style: { marginBottom: '0.5rem' }, children: canto.titulo }, void 0, false),
+          _jsxDEV("div", { className: "canto-meta-info", children:
+            _jsxDEV("span", { className: "badge badge-primary", children: ["Tom Original: ", canto.tom_original] }, void 0, true) }, void 0, false
+          )] }, void 0, true
+        ) }, void 0, false
+      ),
 
-      {canto.audio_url && (
-        <>
-          <AudioPlayerView 
-            canto={canto}
-            isPlaying={isPlaying}
-            togglePlay={togglePlay}
-            isAudioLoaded={isAudioLoaded}
-            progress={progress}
-            currentTime={currentTime}
-            duration={duration}
-            handleSeek={handleSeek}
-            isKaraokeMode={isKaraokeMode}
-            startKaraoke={startKaraoke}
-            stopKaraoke={stopKaraoke}
-            formatTime={formatTime}
-          />
-          <KaraokePanelView 
-            isKaraokeMode={isKaraokeMode}
-            userProfile={userProfile}
-            currentMicHz={currentMicHz}
-          />
-          
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
-            <div className="card text-center" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', color: '#555', marginBottom: '1rem', fontWeight: 'bold' }}>
-                Áudio Original ({canto.tom_audio || '?'})
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'center', gap: '6px', alignItems: 'center', height: '40px' }}>
-                <div style={{ width: '4px', height: '16px', background: '#d4af37', borderRadius: '2px' }}></div>
-                <div style={{ width: '4px', height: '28px', background: '#d4af37', borderRadius: '2px' }}></div>
-                <div style={{ width: '4px', height: '12px', background: '#d4af37', borderRadius: '2px' }}></div>
-                <div style={{ width: '4px', height: '40px', background: '#d4af37', borderRadius: '2px' }}></div>
-                <div style={{ width: '4px', height: '24px', background: '#d4af37', borderRadius: '2px' }}></div>
-              </div>
-            </div>
+      renderAssemblyStatus(),
 
-            <div className="card text-center" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-              <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', color: '#555', marginBottom: '0.75rem', fontWeight: 'bold' }}>
-                Transposição
-              </div>
-              
-              <div className="transposition-controls" style={{ background: '#fdfbf7', padding: '0.5rem', borderRadius: '8px', display: 'inline-flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-                 <button className="btn-circle btn-sm" onClick={() => setTransposition(t => t - 1)} style={{ width: '30px', height: '30px', minWidth: '30px' }}>-</button>
-                 <span className="transposition-value" style={{fontWeight: 'bold', fontSize: '1.5rem', color: '#851d1d', margin: '0 1.5rem', minWidth: '45px'}}>{capoInfo.tomReal}</span>
-                 <button className="btn-circle btn-sm" onClick={() => setTransposition(t => t + 1)} style={{ width: '30px', height: '30px', minWidth: '30px' }}>+</button>
-              </div>
-              
-              <div style={{ fontSize: '0.8rem', color: '#666', marginBottom: '1rem', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <span>
-                  {transposition === 0 ? '0' : (transposition > 0 ? `+${transposition}` : transposition)} semitons
-                </span>
-                {capoInfo.formaAcorde !== '?' && transposition !== 0 && (
-                  <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', marginTop: '0.2rem', alignItems: 'center' }}>
-                    <span style={{ background: '#e0f2fe', color: '#0369a1', padding: '0.2rem 0.6rem', borderRadius: '12px', fontWeight: 'bold' }}>🎸 Toque {capoInfo.formaAcorde}</span>
-                    {capoInfo.capoCasa > 0 && (
-                      <span style={{ background: '#fef3c7', color: '#b45309', padding: '0.2rem 0.6rem', borderRadius: '12px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                        <img src={capoIcon} alt="Capo" style={{ width: '16px', height: '16px', filter: 'hue-rotate(20deg) saturate(150%) brightness(0.8)' }} /> 
-                        Capo {capoInfo.capoCasa}ª
-                      </span>
-                    )}
-                  </div>
-                )}
-              </div>
-              
-              <div style={{ display: 'flex', gap: '0.5rem', width: '100%', maxWidth: '250px', flexDirection: 'column' }}>
-                <button className="btn btn-secondary btn-sm auto-adjust-btn w-100" onClick={aplicarTomInteligente}>
-                   <Settings2 size={14} style={{ marginRight: '0.4rem' }}/> Meu Tom Ideal
-                </button>
-                {transposition !== 0 && (
-                  <button className="btn btn-outline btn-sm w-100" onClick={() => setTransposition(0)} style={{ borderColor: '#d1d5db', color: '#4b5563' }}>
-                    Voltar ao Tom Original
-                  </button>
-                )}
-                {tomEsforco !== null && tomEsforco !== transposition && (
-                  <button className="btn btn-outline btn-sm w-100" onClick={() => { setTransposition(tomEsforco); setTomEsforco(null); }} style={{ borderColor: '#fcd34d', color: '#b45309', background: '#fffbeb' }}>
-                    💡 Sugestão: Tentar Tom de Esforço
-                  </button>
-                )}
-              </div>
+      canto.audio_url &&
+      _jsxDEV(_Fragment, { children: [
+        _jsxDEV(AudioPlayerView, {
+          canto: canto,
+          isPlaying: isPlaying,
+          togglePlay: togglePlay,
+          isAudioLoaded: isAudioLoaded,
+          progress: progress,
+          currentTime: currentTime,
+          duration: duration,
+          handleSeek: handleSeek,
+          isKaraokeMode: isKaraokeMode,
+          startKaraoke: startKaraoke,
+          stopKaraoke: stopKaraoke,
+          formatTime: formatTime }, void 0, false
+        ),
+        _jsxDEV(KaraokePanelView, {
+          isKaraokeMode: isKaraokeMode,
+          userProfile: userProfile,
+          currentMicHz: currentMicHz }, void 0, false
+        ),
 
-              {(!canto.linhas || canto.linhas.length === 0) && canto.acordes_usados && canto.acordes_usados.length > 0 && transposition !== 0 && (
-                <div style={{ marginTop: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', fontSize: '0.85rem', color: '#555' }}>
-                  <input type="checkbox" id="chordGuideToggle" checked={showChordGuide} onChange={(e) => setShowChordGuide(e.target.checked)} style={{ cursor: 'pointer', width: '16px', height: '16px', accentColor: '#0369a1' }} />
-                  <label htmlFor="chordGuideToggle" style={{ cursor: 'pointer', margin: 0 }}>Mostrar Guia de Acordes</label>
-                </div>
-              )}
-            </div>
-          </div>
-        </>
-      )}
+        _jsxDEV("div", { style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }, children: [
+          _jsxDEV("div", { className: "card text-center", style: { padding: '1.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }, children: [
+            _jsxDEV("div", { style: { fontSize: '0.8rem', textTransform: 'uppercase', color: '#555', marginBottom: '1rem', fontWeight: 'bold' }, children: ["Áudio Original (",
+              canto.tom_audio || '?', ")"] }, void 0, true
+            ),
+            _jsxDEV("div", { style: { display: 'flex', justifyContent: 'center', gap: '6px', alignItems: 'center', height: '40px' }, children: [
+              _jsxDEV("div", { style: { width: '4px', height: '16px', background: '#d4af37', borderRadius: '2px' } }, void 0, false),
+              _jsxDEV("div", { style: { width: '4px', height: '28px', background: '#d4af37', borderRadius: '2px' } }, void 0, false),
+              _jsxDEV("div", { style: { width: '4px', height: '12px', background: '#d4af37', borderRadius: '2px' } }, void 0, false),
+              _jsxDEV("div", { style: { width: '4px', height: '40px', background: '#d4af37', borderRadius: '2px' } }, void 0, false),
+              _jsxDEV("div", { style: { width: '4px', height: '24px', background: '#d4af37', borderRadius: '2px' } }, void 0, false)] }, void 0, true
+            )] }, void 0, true
+          ),
 
-      {showFeedbackBar && user && (
-        <FeedbackTomBar 
-          user={user} 
-          cantoId={id} 
-          tomAtualSemitons={transposition} 
-          onFeedbackApplied={(offsetUi) => {
-            setTransposition(t => t + offsetUi);
-            setShowFeedbackBar(false);
-          }}
-        />
-      )}
+          _jsxDEV("div", { className: "card text-center", style: { padding: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }, children: [
+            _jsxDEV("div", { style: { fontSize: '0.8rem', textTransform: 'uppercase', color: '#555', marginBottom: '0.75rem', fontWeight: 'bold' }, children: "Transposição" }, void 0, false
 
-      {user && (
-        <div className="notepad-section mb-4">
-          <div className="card" style={{backgroundColor: '#fffdf5', border: '1px solid #e0d8b0', transition: 'all 0.3s ease'}}>
-            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#8a7a3b', cursor: 'pointer'}} onClick={() => setShowNotes(!showNotes)}>
-              <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
-                <Book size={18} /> <strong>Anotações do Salmista</strong>
-              </div>
-              <div style={{ position: 'relative', width: '36px', height: '20px', backgroundColor: showNotes ? '#a13333' : '#cbd5e1', borderRadius: '20px', transition: '0.3s', display: 'flex', alignItems: 'center', padding: '2px' }}>
-                <div style={{ width: '16px', height: '16px', backgroundColor: 'white', borderRadius: '50%', transition: '0.3s', transform: showNotes ? 'translateX(16px)' : 'translateX(0)', boxShadow: '0 1px 3px rgba(0,0,0,0.2)' }} />
-              </div>
-            </div>
-            {showNotes && (
-              <textarea 
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                onBlur={saveNotes}
-                placeholder="Escreva dicas, ritmos ou lembretes sobre este canto..."
-                style={{width: '100%', minHeight: '80px', border: 'none', background: 'transparent', outline: 'none', fontFamily: 'var(--font-body)', resize: 'vertical', marginTop: '1rem', borderTop: '1px dashed #e0d8b0', paddingTop: '1rem'}}
-              />
-            )}
-          </div>
-        </div>
-      )}
+            ),
 
-      <div className="cifra-container card text-center" style={{position: 'relative', paddingTop: '2rem'}}>        <div style={{ display: 'flex', flexWrap: 'wrap-reverse', gap: '2rem', justifyContent: 'center', alignItems: 'flex-start', textAlign: 'left' }}>
-          
-          <div style={{ flex: '3 1 500px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            {canto.imagens_originais && canto.imagens_originais.length > 0 ? (
-              <div className="cifra-imagens-sheet text-center" style={{ width: '100%' }}>
-            {canto.imagens_originais.map((imgUrl, i) => (
-              <img 
-                key={i} 
-                src={imgUrl} 
-                alt={`Ficha ${i+1}`} 
-                referrerPolicy="no-referrer"
-                style={{maxWidth: '100%', height: 'auto', marginBottom: '1rem', border: '1px solid #eee', borderRadius: '8px'}} 
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="p-4" style={{color: '#666'}}>
-            Nenhuma cifra em texto ou imagem encontrada para este canto.
-          </div>
-        )}
-      </div>
+            _jsxDEV("div", { className: "transposition-controls", style: { background: '#fdfbf7', padding: '0.5rem', borderRadius: '8px', display: 'inline-flex', alignItems: 'center', marginBottom: '0.5rem' }, children: [
+              _jsxDEV("button", { className: "btn-circle btn-sm", onClick: () => setTransposition((t) => t - 1), style: { width: '30px', height: '30px', minWidth: '30px' }, children: "-" }, void 0, false),
+              _jsxDEV("span", { className: "transposition-value", style: { fontWeight: 'bold', fontSize: '1.5rem', color: '#851d1d', margin: '0 1.5rem', minWidth: '45px' }, children: capoInfo.tomReal }, void 0, false),
+              _jsxDEV("button", { className: "btn-circle btn-sm", onClick: () => setTransposition((t) => t + 1), style: { width: '30px', height: '30px', minWidth: '30px' }, children: "+" }, void 0, false)] }, void 0, true
+            ),
 
-      {(showChordGuide) && (!canto.linhas || canto.linhas.length === 0) && canto.acordes_usados && canto.acordes_usados.length > 0 && transposition !== 0 && (
-        <div className="guia-acordes-sidebar" style={{ flex: '1 1 300px', maxWidth: '450px', backgroundColor: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: '12px', padding: '1rem', alignSelf: 'flex-start' }}>
-          <div style={{color: '#0369a1', marginBottom: '0.75rem'}}>
-            <strong><SlidersHorizontal size={18} style={{marginRight: '0.5rem', verticalAlign: 'text-bottom'}} /> Guia de Acordes</strong>
-            <p style={{margin: '0.25rem 0 0 0', fontSize: '0.8rem'}}>A imagem não muda, use este guia para tocar no novo tom:</p>
-          </div>
-          <div style={{display: 'flex', flexWrap: 'wrap', gap: '0.5rem', fontFamily: 'monospace', fontSize: '1.1rem'}}>
-            {canto.acordes_usados.map((c, i) => (
-              <div key={i} style={{background: '#fff', padding: '0.3rem 0.5rem', borderRadius: '8px', border: '1px solid #e0f2fe', textAlign: 'center', flex: '1 1 auto', minWidth: '60px'}}>
-                <div style={{color: '#94a3b8', fontSize: '0.8rem', textDecoration: 'line-through'}}>{c}</div>
-                <div style={{color: '#b91c1c', fontWeight: 'bold'}}>{transposeChordString(c, capoInfo.diferencaFormaSemitons)}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+            _jsxDEV("div", { style: { fontSize: '0.8rem', color: '#666', marginBottom: '1rem', display: 'flex', flexDirection: 'column', gap: '4px' }, children: [
+              _jsxDEV("span", { children: [
+                transposition - baseOffset === 0 ? '0' : transposition - baseOffset > 0 ? `+${transposition - baseOffset}` : transposition - baseOffset, " semitons"] }, void 0, true
+              ),
+              capoInfo.formaAcorde !== '?' && (transposition !== baseOffset || showFeedbackBar) &&
+              _jsxDEV("div", { style: { display: 'flex', gap: '0.5rem', justifyContent: 'center', marginTop: '0.2rem', alignItems: 'center' }, children: [
+                _jsxDEV("span", { style: { background: '#e0f2fe', color: '#0369a1', padding: '0.2rem 0.6rem', borderRadius: '12px', fontWeight: 'bold' }, children: ["🎸 Toque ", capoInfo.formaAcorde] }, void 0, true),
+                capoInfo.capoCasa > 0 &&
+                _jsxDEV("span", { style: { background: '#fef3c7', color: '#b45309', padding: '0.2rem 0.6rem', borderRadius: '12px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '4px' }, children: [
+                  _jsxDEV("img", { src: capoIcon, alt: "Capo", style: { width: '16px', height: '16px', filter: 'hue-rotate(20deg) saturate(150%) brightness(0.8)' } }, void 0, false), "Capo ",
+                  capoInfo.capoCasa, "ª"] }, void 0, true
+                )] }, void 0, true
+              )] }, void 0, true
+            ),
 
-    </div>
-  </div>
-</div>
-  );
+            _jsxDEV("div", { style: { display: 'flex', gap: '0.5rem', width: '100%', maxWidth: '250px', flexDirection: 'column' }, children: [
+              _jsxDEV("button", { className: "btn btn-secondary btn-sm auto-adjust-btn w-100", onClick: aplicarTomInteligente, children: [
+                _jsxDEV(Settings2, { size: 14, style: { marginRight: '0.4rem' } }, void 0, false), " Meu Tom Ideal"] }, void 0, true
+              ),
+              transposition !== baseOffset &&
+              _jsxDEV("button", { className: "btn btn-outline btn-sm w-100", onClick: () => setTransposition(baseOffset), style: { borderColor: '#d1d5db', color: '#4b5563' }, children: "Voltar ao Tom Original" }, void 0, false
+              ),
+
+              tomEsforco !== null && tomEsforco !== transposition &&
+              _jsxDEV("button", { className: "btn btn-outline btn-sm w-100", onClick: () => {setTransposition(tomEsforco);setTomEsforco(null);}, style: { borderColor: '#fcd34d', color: '#b45309', background: '#fffbeb' }, children: "💡 Sugestão: Tentar Tom de Esforço" }, void 0, false
+              )] }, void 0, true
+            ),
+
+            (!canto.linhas || canto.linhas.length === 0) && canto.acordes_usados && canto.acordes_usados.length > 0 && (transposition !== baseOffset || showFeedbackBar) &&
+            _jsxDEV("div", { style: { marginTop: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', fontSize: '0.85rem', color: '#555' }, children: [
+              _jsxDEV("input", { type: "checkbox", id: "chordGuideToggle", checked: showChordGuide, onChange: (e) => setShowChordGuide(e.target.checked), style: { cursor: 'pointer', width: '16px', height: '16px', accentColor: '#0369a1' } }, void 0, false),
+              _jsxDEV("label", { htmlFor: "chordGuideToggle", style: { cursor: 'pointer', margin: 0 }, children: "Mostrar Guia de Acordes" }, void 0, false)] }, void 0, true
+            )] }, void 0, true
+          )] }, void 0, true
+        )] }, void 0, true
+      ),
+
+
+      showFeedbackBar && user &&
+      _jsxDEV(FeedbackTomBar, {
+        user: user,
+        cantoId: id,
+        tomAtualSemitons: transposition,
+        onFeedbackApplied: (offsetUi) => {
+          setTransposition((t) => t + offsetUi);
+          setShowFeedbackBar(false);
+        } }, void 0, false
+      ),
+
+
+      user &&
+      _jsxDEV("div", { className: "notepad-section mb-4", children:
+        _jsxDEV("div", { className: "card", style: { backgroundColor: '#fffdf5', border: '1px solid #e0d8b0', transition: 'all 0.3s ease' }, children: [
+          _jsxDEV("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#8a7a3b', cursor: 'pointer' }, onClick: () => setShowNotes(!showNotes), children: [
+            _jsxDEV("div", { style: { display: 'flex', alignItems: 'center', gap: '0.5rem' }, children: [
+              _jsxDEV(Book, { size: 18 }, void 0, false), " ", _jsxDEV("strong", { children: "Anotações do Salmista" }, void 0, false)] }, void 0, true
+            ),
+            _jsxDEV("div", { style: { position: 'relative', width: '36px', height: '20px', backgroundColor: showNotes ? '#a13333' : '#cbd5e1', borderRadius: '20px', transition: '0.3s', display: 'flex', alignItems: 'center', padding: '2px' }, children:
+              _jsxDEV("div", { style: { width: '16px', height: '16px', backgroundColor: 'white', borderRadius: '50%', transition: '0.3s', transform: showNotes ? 'translateX(16px)' : 'translateX(0)', boxShadow: '0 1px 3px rgba(0,0,0,0.2)' } }, void 0, false) }, void 0, false
+            )] }, void 0, true
+          ),
+          showNotes &&
+          _jsxDEV("textarea", {
+            value: notes,
+            onChange: (e) => setNotes(e.target.value),
+            onBlur: saveNotes,
+            placeholder: "Escreva dicas, ritmos ou lembretes sobre este canto...",
+            style: { width: '100%', minHeight: '80px', border: 'none', background: 'transparent', outline: 'none', fontFamily: 'var(--font-body)', resize: 'vertical', marginTop: '1rem', borderTop: '1px dashed #e0d8b0', paddingTop: '1rem' } }, void 0, false
+          )] }, void 0, true
+
+        ) }, void 0, false
+      ),
+
+
+      _jsxDEV("div", { className: "cifra-container card text-center", style: { position: 'relative', paddingTop: '2rem' }, children: ["        ", _jsxDEV("div", { style: { display: 'flex', flexWrap: 'wrap-reverse', gap: '2rem', justifyContent: 'center', alignItems: 'flex-start', textAlign: 'left' }, children: [
+
+          _jsxDEV("div", { style: { flex: '3 1 500px', display: 'flex', flexDirection: 'column', alignItems: 'center' }, children:
+            canto.imagens_originais && canto.imagens_originais.length > 0 ?
+            _jsxDEV("div", { className: "cifra-imagens-sheet text-center", style: { width: '100%' }, children:
+              canto.imagens_originais.map((imgUrl, i) =>
+              _jsxDEV("img", {
+
+                src: imgUrl,
+                alt: `Ficha ${i + 1}`,
+                referrerPolicy: "no-referrer",
+                style: { maxWidth: '100%', height: 'auto', marginBottom: '1rem', border: '1px solid #eee', borderRadius: '8px' } }, i, false
+              )
+              ) }, void 0, false
+            ) :
+
+            _jsxDEV("div", { className: "p-4", style: { color: '#666' }, children: "Nenhuma cifra em texto ou imagem encontrada para este canto." }, void 0, false
+
+            ) }, void 0, false
+
+          ),
+
+          showChordGuide && (!canto.linhas || canto.linhas.length === 0) && canto.acordes_usados && canto.acordes_usados.length > 0 && transposition !== 0 &&
+          _jsxDEV("div", { className: "guia-acordes-sidebar", style: { flex: '1 1 300px', maxWidth: '450px', backgroundColor: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: '12px', padding: '1rem', alignSelf: 'flex-start' }, children: [
+            _jsxDEV("div", { style: { color: '#0369a1', marginBottom: '0.75rem' }, children: [
+              _jsxDEV("strong", { children: [_jsxDEV(SlidersHorizontal, { size: 18, style: { marginRight: '0.5rem', verticalAlign: 'text-bottom' } }, void 0, false), " Guia de Acordes"] }, void 0, true),
+              _jsxDEV("p", { style: { margin: '0.25rem 0 0 0', fontSize: '0.8rem' }, children: "A imagem não muda, use este guia para tocar no novo tom:" }, void 0, false)] }, void 0, true
+            ),
+            _jsxDEV("div", { style: { display: 'flex', flexWrap: 'wrap', gap: '0.5rem', fontFamily: 'monospace', fontSize: '1.1rem' }, children:
+              canto.acordes_usados.map((c, i) =>
+              _jsxDEV("div", { style: { background: '#fff', padding: '0.3rem 0.5rem', borderRadius: '8px', border: '1px solid #e0f2fe', textAlign: 'center', flex: '1 1 auto', minWidth: '60px' }, children: [
+                _jsxDEV("div", { style: { color: '#94a3b8', fontSize: '0.8rem', textDecoration: 'line-through' }, children: c }, void 0, false),
+                _jsxDEV("div", { style: { color: '#b91c1c', fontWeight: 'bold' }, children: transposeChordString(c, capoInfo.diferencaFormaSemitons) }, void 0, false)] }, i, true
+              )
+              ) }, void 0, false
+            )] }, void 0, true
+          )] }, void 0, true
+
+
+        )] }, void 0, true
+      )] }, void 0, true
+    ));
+
 };
 
 export default Canto;

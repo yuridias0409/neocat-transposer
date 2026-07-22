@@ -2,16 +2,16 @@ import { db } from '../services/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 class UserDAO {
-  /**
-   * Pega o email logado localmente (session)
-   */
+
+
+
   getCurrentUserEmail() {
     return localStorage.getItem('salmistasEmail');
   }
 
-  /**
-   * Define o email ativo na sessão
-   */
+
+
+
   setCurrentUserEmail(email) {
     if (email) {
       localStorage.setItem('salmistasEmail', email);
@@ -20,12 +20,12 @@ class UserDAO {
     }
   }
 
-  /**
-   * Recupera o perfil do usuário atual a partir do Firestore
-   */
+
+
+
   async getProfile(email) {
     if (!email) return null;
-    
+
     try {
       const docRef = doc(db, 'users', email);
       const docSnap = await getDoc(docRef);
@@ -42,22 +42,22 @@ class UserDAO {
     } catch (err) {
       console.error("Erro ao carregar perfil do Firestore", err);
     }
-    
-    // Fallback: Tenta pegar o que já tinha antes da nuvem ou do cache
+
+
     const savedProfile = localStorage.getItem('userVoiceProfile');
     if (savedProfile) {
-      try { return JSON.parse(savedProfile); } catch (e) { return null; }
+      try {return JSON.parse(savedProfile);} catch (e) {return null;}
     }
     return null;
   }
 
-  /**
-   * Salva o perfil e os testes do usuário no Firestore
-   */
+
+
+
   async saveProfile(email, profileData, fullCalibrationData = null) {
     if (!email) return;
-    
-    // Salva no LocalStorage como cache rápido
+
+
     localStorage.setItem('userVoiceProfile', JSON.stringify(profileData));
     if (fullCalibrationData) {
       localStorage.setItem('calibrationData', JSON.stringify(fullCalibrationData));
@@ -65,9 +65,9 @@ class UserDAO {
 
     try {
       const docRef = doc(db, 'users', email);
-      const dataToSave = { 
-        profile: profileData, 
-        atualizado_em: new Date().toISOString() 
+      const dataToSave = {
+        profile: profileData,
+        atualizado_em: new Date().toISOString()
       };
       if (fullCalibrationData) {
         dataToSave.calibrationData = fullCalibrationData;
@@ -79,9 +79,9 @@ class UserDAO {
     }
   }
 
-  /**
-   * Busca as anotações de um canto específico para o usuário
-   */
+
+
+
   async getNote(email, cantoId) {
     if (!email || !cantoId) return '';
     try {
@@ -90,21 +90,21 @@ class UserDAO {
       if (snap.exists()) {
         return snap.data().texto || '';
       }
-    } catch(err) {
+    } catch (err) {
       console.error(err);
     }
-    // Fallback local
+
     return localStorage.getItem(`salmistasNotes_${email}_${cantoId}`) || '';
   }
 
-  /**
-   * Salva as anotações de um canto específico no Firestore
-   */
+
+
+
   async saveNote(email, cantoId, texto) {
     if (!email || !cantoId) return;
-    
+
     localStorage.setItem(`salmistasNotes_${email}_${cantoId}`, texto);
-    
+
     try {
       const noteRef = doc(db, `users/${email}/anotacoes`, cantoId);
       await setDoc(noteRef, { texto, atualizado_em: new Date().toISOString() }, { merge: true });
@@ -113,9 +113,9 @@ class UserDAO {
     }
   }
 
-  /**
-   * Apaga a sessão
-   */
+
+
+
   clearSession() {
     localStorage.removeItem('salmistasEmail');
     localStorage.removeItem('salmistasUser');

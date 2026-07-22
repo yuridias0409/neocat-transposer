@@ -5,7 +5,7 @@ import { doc, setDoc } from 'firebase/firestore';
 import { cantosData } from '../../../data';
 import { Mic, FileAudio, UploadCloud, Square, Play } from 'lucide-react';
 import CantoDAO from '../../../dao/CantoDAO';
-import { CantoSearchSelect } from '../../components/Admin/CantoSearchSelect';
+import { CantoSearchSelect } from '../../components/Admin/CantoSearchSelect';import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
 
 export function AdminDashboard() {
   const [cantoId, setCantoId] = useState('');
@@ -17,7 +17,7 @@ export function AdminDashboard() {
   const [scanProgress, setScanProgress] = useState(0);
 
   const [mlData, setMlData] = useState(null);
-  
+
   useEffect(() => {
     async function loadMlData() {
       const data = await CantoDAO.getAllCantosMetadata();
@@ -25,13 +25,13 @@ export function AdminDashboard() {
     }
     loadMlData();
   }, []);
-  
+
   const audioCtxRef = useRef(null);
   const analyserRef = useRef(null);
   const streamRef = useRef(null);
   const animationFrameRef = useRef(null);
 
-  // Monitoramento via Microfone
+
   const startMonitoring = async () => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     streamRef.current = stream;
@@ -64,7 +64,7 @@ export function AdminDashboard() {
     if (clarity > 0.85 && pitch > 50 && pitch < 1000) {
       const roundedHz = Math.round(pitch * 100) / 100;
       setCurrentHz(roundedHz);
-      setHzHistory(prev => [...prev, roundedHz]);
+      setHzHistory((prev) => [...prev, roundedHz]);
     }
 
     animationFrameRef.current = requestAnimationFrame(updatePitch);
@@ -72,12 +72,12 @@ export function AdminDashboard() {
 
   const stopMonitoring = () => {
     cancelAnimationFrame(animationFrameRef.current);
-    if (streamRef.current) streamRef.current.getTracks().forEach(t => t.stop());
+    if (streamRef.current) streamRef.current.getTracks().forEach((t) => t.stop());
     if (audioCtxRef.current) audioCtxRef.current.close();
     setIsRecording(false);
   };
 
-  // Varredura de arquivo MP3 Existente
+
   const handleScanFile = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -89,21 +89,21 @@ export function AdminDashboard() {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const fileBuffer = await file.arrayBuffer();
     const audioBuffer = await audioCtx.decodeAudioData(fileBuffer);
-    
-    // OfflineAudioContext para varredura rápida sem tocar o áudio
+
+
     const offlineCtx = new OfflineAudioContext(1, audioBuffer.length, audioBuffer.sampleRate);
     const source = offlineCtx.createBufferSource();
     source.buffer = audioBuffer;
-    
-    // We cannot easily use ScriptProcessor or Analyser in OfflineAudioContext like we do in realtime.
-    // Instead we process the channel data directly with pitchy
+
+
+
     const channelData = audioBuffer.getChannelData(0);
     const windowSize = 2048;
     const detector = PitchDetector.forFloat32Array(windowSize);
     const sampleRate = audioBuffer.sampleRate;
-    
+
     const newHistory = [];
-    const step = windowSize; 
+    const step = windowSize;
 
     for (let i = 0; i < channelData.length - windowSize; i += step) {
       const windowData = channelData.slice(i, i + windowSize);
@@ -111,11 +111,11 @@ export function AdminDashboard() {
       if (clarity > 0.85 && pitch > 50 && pitch < 1000) {
         newHistory.push(Math.round(pitch * 100) / 100);
       }
-      
-      // Update progress every 100 iterations to avoid freezing UI
+
+
       if (i % (step * 100) === 0) {
-        setScanProgress(Math.round((i / channelData.length) * 100));
-        await new Promise(resolve => setTimeout(resolve, 0)); // yield to UI
+        setScanProgress(Math.round(i / channelData.length * 100));
+        await new Promise((resolve) => setTimeout(resolve, 0));
       }
     }
 
@@ -148,138 +148,138 @@ export function AdminDashboard() {
     try {
       await setDoc(doc(db, "cantos", cantoId), dataToSave, { merge: true });
       alert(`Dados salvos com sucesso no Firestore para ${cantoId}!\nMin: ${minCurada}Hz | Max: ${maxCurada}Hz`);
-    } catch(err) {
+    } catch (err) {
       console.error(err);
       alert('Erro ao salvar no Firestore: ' + err.message);
     }
   };
 
   return (
-    <div className="container" style={{ padding: '2rem', fontFamily: 'var(--font-body)' }}>
-      <h2>Mapeador de Frequências Oculto 🎛️</h2>
-      <p style={{color: '#666'}}>
-        Nenhum áudio gravado aqui será salvo em mp3. O sistema captura apenas os cálculos físicos (Hz).
-      </p>
+    _jsxDEV("div", { className: "container", style: { padding: '2rem', fontFamily: 'var(--font-body)' }, children: [
+      _jsxDEV("h2", { children: "Mapeador de Frequências Oculto 🎛️" }, void 0, false),
+      _jsxDEV("p", { style: { color: '#666' }, children: "Nenhum áudio gravado aqui será salvo em mp3. O sistema captura apenas os cálculos físicos (Hz)." }, void 0, false
 
-      <div className="card mb-4" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <div style={{ zIndex: 10 }}>
-          <label style={{fontWeight: 'bold', display: 'block', marginBottom: '0.5rem'}}>Selecione o Canto:</label>
-          <CantoSearchSelect 
-            value={cantoId}
-            onChange={(id) => {
+      ),
+
+      _jsxDEV("div", { className: "card mb-4", style: { padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }, children: [
+        _jsxDEV("div", { style: { zIndex: 10 }, children: [
+          _jsxDEV("label", { style: { fontWeight: 'bold', display: 'block', marginBottom: '0.5rem' }, children: "Selecione o Canto:" }, void 0, false),
+          _jsxDEV(CantoSearchSelect, {
+            value: cantoId,
+            onChange: (id) => {
               setCantoId(id);
               setTomGravacao(cantosData[id]?.tom_original || '');
-            }}
-          />
-        </div>
+            } }, void 0, false
+          )] }, void 0, true
+        ),
 
-        <div style={{ zIndex: 5 }}>
-          <label style={{fontWeight: 'bold', display: 'block', marginBottom: '0.5rem'}}>Tom Base da Gravação/Áudio:</label>
-          <input 
-            type="text" 
-            placeholder="Ex: La-, Sol, Do, Mi..." 
-            value={tomGravacao}
-            onChange={e => setTomGravacao(e.target.value)}
-            style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #ccc', fontSize: '1rem' }}
-          />
-          <small style={{color: '#666'}}>Diga em qual tom você vai cantar ou em qual tom está o arquivo MP3.</small>
-        </div>
-      </div>
+        _jsxDEV("div", { style: { zIndex: 5 }, children: [
+          _jsxDEV("label", { style: { fontWeight: 'bold', display: 'block', marginBottom: '0.5rem' }, children: "Tom Base da Gravação/Áudio:" }, void 0, false),
+          _jsxDEV("input", {
+            type: "text",
+            placeholder: "Ex: La-, Sol, Do, Mi...",
+            value: tomGravacao,
+            onChange: (e) => setTomGravacao(e.target.value),
+            style: { width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #ccc', fontSize: '1rem' } }, void 0, false
+          ),
+          _jsxDEV("small", { style: { color: '#666' }, children: "Diga em qual tom você vai cantar ou em qual tom está o arquivo MP3." }, void 0, false)] }, void 0, true
+        )] }, void 0, true
+      ),
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem' }}>
-        <div className="card text-center" style={{ padding: '2rem' }}>
-          <div style={{ background: '#fef2f2', width: '60px', height: '60px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem', color: '#b91c1c' }}>
-            <Mic size={32} />
-          </div>
-          <h4>Cantar ao Vivo</h4>
-          <p style={{fontSize: '0.9rem', color: '#666', marginBottom: '1.5rem'}}>Cante o canto inteiro para registrar os picos vocais em tempo real.</p>
-          {!isRecording ? (
-            <button className="btn btn-primary w-100" onClick={startMonitoring} style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.75rem'}}>
-              <Play size={18} /> Começar a Cantar
-            </button>
-          ) : (
-            <button className="btn btn-outline danger-btn w-100" onClick={stopMonitoring} style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.75rem'}}>
-              <Square size={18} /> Parar Captação
-            </button>
-          )}
-          {isRecording && <h3 style={{marginTop: '1rem', color: '#0369a1'}}>{currentHz} Hz</h3>}
-        </div>
+      _jsxDEV("div", { style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem' }, children: [
+        _jsxDEV("div", { className: "card text-center", style: { padding: '2rem' }, children: [
+          _jsxDEV("div", { style: { background: '#fef2f2', width: '60px', height: '60px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem', color: '#b91c1c' }, children:
+            _jsxDEV(Mic, { size: 32 }, void 0, false) }, void 0, false
+          ),
+          _jsxDEV("h4", { children: "Cantar ao Vivo" }, void 0, false),
+          _jsxDEV("p", { style: { fontSize: '0.9rem', color: '#666', marginBottom: '1.5rem' }, children: "Cante o canto inteiro para registrar os picos vocais em tempo real." }, void 0, false),
+          !isRecording ?
+          _jsxDEV("button", { className: "btn btn-primary w-100", onClick: startMonitoring, style: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.75rem' }, children: [
+            _jsxDEV(Play, { size: 18 }, void 0, false), " Começar a Cantar"] }, void 0, true
+          ) :
 
-        <div className="card text-center" style={{ padding: '2rem' }}>
-          <div style={{ background: '#f0f9ff', width: '60px', height: '60px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem', color: '#0369a1' }}>
-            <FileAudio size={32} />
-          </div>
-          <h4>Analisar MP3</h4>
-          <p style={{fontSize: '0.9rem', color: '#666', marginBottom: '1.5rem'}}>Envie um áudio limpo (preferencialmente só voz) para varredura rápida.</p>
-          
-          <label className="btn btn-secondary w-100" style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', cursor: 'pointer', padding: '0.75rem'}}>
-            <UploadCloud size={18} /> Escolher Arquivo MP3
-            <input type="file" accept="audio/*" onChange={handleScanFile} disabled={isScanningFile || isRecording} style={{display: 'none'}} />
-          </label>
+          _jsxDEV("button", { className: "btn btn-outline danger-btn w-100", onClick: stopMonitoring, style: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.75rem' }, children: [
+            _jsxDEV(Square, { size: 18 }, void 0, false), " Parar Captação"] }, void 0, true
+          ),
 
-          {isScanningFile && (
-            <div style={{marginTop: '1rem'}}>
-              <p>Processando... {scanProgress}%</p>
-              <progress value={scanProgress} max="100" style={{width: '100%'}}></progress>
-            </div>
-          )}
-        </div>
-      </div>
+          isRecording && _jsxDEV("h3", { style: { marginTop: '1rem', color: '#0369a1' }, children: [currentHz, " Hz"] }, void 0, true)] }, void 0, true
+        ),
 
-      {hzHistory.length > 0 && !isRecording && !isScanningFile && (
-        <div className="card text-center mt-4" style={{ padding: '1.5rem', background: '#f0fdf4', border: '1px solid #bbf7d0' }}>
-          <h4 style={{color: '#166534'}}>Análise Concluída ✅</h4>
-          <p style={{color: '#15803d'}}>Total de Pontos de Frequência Registrados: <strong>{hzHistory.length}</strong></p>
-          <button className="btn btn-primary" onClick={handleSaveToFirestore} style={{marginTop: '1rem', background: '#15803d'}}>
-            💾 Salvar Metadados no Firestore
-          </button>
-        </div>
-      )}
+        _jsxDEV("div", { className: "card text-center", style: { padding: '2rem' }, children: [
+          _jsxDEV("div", { style: { background: '#f0f9ff', width: '60px', height: '60px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem', color: '#0369a1' }, children:
+            _jsxDEV(FileAudio, { size: 32 }, void 0, false) }, void 0, false
+          ),
+          _jsxDEV("h4", { children: "Analisar MP3" }, void 0, false),
+          _jsxDEV("p", { style: { fontSize: '0.9rem', color: '#666', marginBottom: '1.5rem' }, children: "Envie um áudio limpo (preferencialmente só voz) para varredura rápida." }, void 0, false),
 
-      {/* DASHBOARD DE MACHINE LEARNING */}
-      <div className="card mt-5" style={{ padding: '2rem' }}>
-        <h3 style={{ borderBottom: '2px solid var(--color-bg-secondary)', paddingBottom: '0.5rem', marginBottom: '1.5rem' }}>
-          📊 Dashboard de Machine Learning (Feedbacks Globais)
-        </h3>
-        
-        {mlData ? (
-          Object.entries(mlData).filter(([_, data]) => data.metricas_feedback).length > 0 ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {Object.entries(mlData)
-                .filter(([_, data]) => data.metricas_feedback)
-                .map(([id, data]) => {
-                  const m = data.metricas_feedback;
-                  const c = cantosData[id];
-                  return (
-                    <div key={id} style={{ padding: '1rem', background: 'var(--color-bg-secondary)', borderRadius: '8px' }}>
-                      <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--color-secondary)' }}>{c?.titulo || id}</h4>
-                      <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', fontSize: '0.9rem' }}>
-                        <span style={{ background: '#fff', padding: '0.2rem 0.6rem', borderRadius: '4px' }}>
-                          <strong>Total:</strong> {m.total_avaliacoes}
-                        </span>
-                        <span style={{ background: '#e6f4ea', color: '#166534', padding: '0.2rem 0.6rem', borderRadius: '4px' }}>
-                          <strong>Ótimo:</strong> {m.qtd_otimo || 0}
-                        </span>
-                        <span style={{ background: '#fef2f2', color: '#991b1b', padding: '0.2rem 0.6rem', borderRadius: '4px' }}>
-                          <strong>Alto Demais:</strong> {m.qtd_alto_demais || 0}
-                        </span>
-                        <span style={{ background: '#fef2f2', color: '#991b1b', padding: '0.2rem 0.6rem', borderRadius: '4px' }}>
-                          <strong>Baixo Demais:</strong> {m.qtd_baixo_demais || 0}
-                        </span>
-                      </div>
-                    </div>
-                  )
-              })}
-            </div>
-          ) : (
-            <p style={{ color: '#666' }}>Ainda não há feedbacks de Machine Learning coletados para nenhum canto.</p>
-          )
-        ) : (
-          <p style={{ color: '#666' }}>Carregando dados de aprendizado...</p>
-        )}
-      </div>
+          _jsxDEV("label", { className: "btn btn-secondary w-100", style: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', cursor: 'pointer', padding: '0.75rem' }, children: [
+            _jsxDEV(UploadCloud, { size: 18 }, void 0, false), " Escolher Arquivo MP3",
+            _jsxDEV("input", { type: "file", accept: "audio/*", onChange: handleScanFile, disabled: isScanningFile || isRecording, style: { display: 'none' } }, void 0, false)] }, void 0, true
+          ),
 
-    </div>
-  );
+          isScanningFile &&
+          _jsxDEV("div", { style: { marginTop: '1rem' }, children: [
+            _jsxDEV("p", { children: ["Processando... ", scanProgress, "%"] }, void 0, true),
+            _jsxDEV("progress", { value: scanProgress, max: "100", style: { width: '100%' } }, void 0, false)] }, void 0, true
+          )] }, void 0, true
+
+        )] }, void 0, true
+      ),
+
+      hzHistory.length > 0 && !isRecording && !isScanningFile &&
+      _jsxDEV("div", { className: "card text-center mt-4", style: { padding: '1.5rem', background: '#f0fdf4', border: '1px solid #bbf7d0' }, children: [
+        _jsxDEV("h4", { style: { color: '#166534' }, children: "Análise Concluída ✅" }, void 0, false),
+        _jsxDEV("p", { style: { color: '#15803d' }, children: ["Total de Pontos de Frequência Registrados: ", _jsxDEV("strong", { children: hzHistory.length }, void 0, false)] }, void 0, true),
+        _jsxDEV("button", { className: "btn btn-primary", onClick: handleSaveToFirestore, style: { marginTop: '1rem', background: '#15803d' }, children: "💾 Salvar Metadados no Firestore" }, void 0, false
+
+        )] }, void 0, true
+      ),
+
+
+
+      _jsxDEV("div", { className: "card mt-5", style: { padding: '2rem' }, children: [
+        _jsxDEV("h3", { style: { borderBottom: '2px solid var(--color-bg-secondary)', paddingBottom: '0.5rem', marginBottom: '1.5rem' }, children: "📊 Dashboard de Machine Learning (Feedbacks Globais)" }, void 0, false
+
+        ),
+
+        mlData ?
+        Object.entries(mlData).filter(([_, data]) => data.metricas_feedback).length > 0 ?
+        _jsxDEV("div", { style: { display: 'flex', flexDirection: 'column', gap: '1rem' }, children:
+          Object.entries(mlData).
+          filter(([_, data]) => data.metricas_feedback).
+          map(([id, data]) => {
+            const m = data.metricas_feedback;
+            const c = cantosData[id];
+            return (
+              _jsxDEV("div", { style: { padding: '1rem', background: 'var(--color-bg-secondary)', borderRadius: '8px' }, children: [
+                _jsxDEV("h4", { style: { margin: '0 0 0.5rem 0', color: 'var(--color-secondary)' }, children: c?.titulo || id }, void 0, false),
+                _jsxDEV("div", { style: { display: 'flex', gap: '1rem', flexWrap: 'wrap', fontSize: '0.9rem' }, children: [
+                  _jsxDEV("span", { style: { background: '#fff', padding: '0.2rem 0.6rem', borderRadius: '4px' }, children: [
+                    _jsxDEV("strong", { children: "Total:" }, void 0, false), " ", m.total_avaliacoes] }, void 0, true
+                  ),
+                  _jsxDEV("span", { style: { background: '#e6f4ea', color: '#166534', padding: '0.2rem 0.6rem', borderRadius: '4px' }, children: [
+                    _jsxDEV("strong", { children: "Ótimo:" }, void 0, false), " ", m.qtd_otimo || 0] }, void 0, true
+                  ),
+                  _jsxDEV("span", { style: { background: '#fef2f2', color: '#991b1b', padding: '0.2rem 0.6rem', borderRadius: '4px' }, children: [
+                    _jsxDEV("strong", { children: "Alto Demais:" }, void 0, false), " ", m.qtd_alto_demais || 0] }, void 0, true
+                  ),
+                  _jsxDEV("span", { style: { background: '#fef2f2', color: '#991b1b', padding: '0.2rem 0.6rem', borderRadius: '4px' }, children: [
+                    _jsxDEV("strong", { children: "Baixo Demais:" }, void 0, false), " ", m.qtd_baixo_demais || 0] }, void 0, true
+                  )] }, void 0, true
+                )] }, id, true
+              ));
+
+          }) }, void 0, false
+        ) :
+
+        _jsxDEV("p", { style: { color: '#666' }, children: "Ainda não há feedbacks de Machine Learning coletados para nenhum canto." }, void 0, false) :
+
+
+        _jsxDEV("p", { style: { color: '#666' }, children: "Carregando dados de aprendizado..." }, void 0, false)] }, void 0, true
+
+      )] }, void 0, true
+
+    ));
+
 }
 export default AdminDashboard;
