@@ -252,6 +252,11 @@ export function useCantoController(cantoId, user) {
     const vozSalmista = { minHz: userProfile.min.freq, maxHz: userProfile.max.freq };
     
     const resultado = calcularTomIdealInteligente(vozSalmista, canto, userProfile, cantoData);
+    
+    if (resultado.semitones === transposition) {
+      showToast("Este canto já está no seu tom ideal!");
+    }
+    
     setTransposition(resultado.semitones);
     setTomEsforco(resultado.semitonesEsforco);
     setAiMessage(resultado.mensagem);
