@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { Mic, CheckCircle, ArrowRight, Guitar, ThumbsUp, ThumbsDown, User, Play, Square, UserPlus, Music2, X } from 'lucide-react';
 import { PitchDetector } from 'pitchy';
 import * as Tone from 'tone';
@@ -139,7 +140,17 @@ const useMicPitch = ({ onNoteConfirmed, step, SUSTAIN_DURATION = 3000 }) => {
     if (clarity > 0.8 && pitch > 50 && pitch < 1000) {
       const noteData = freqToNote(pitch);
       setCurrentNote(noteData);
-      if (sustainNoteRef.current && sustainNoteRef.current.name === noteData.name) {
+      
+      let isSameSustain = false;
+      if (sustainNoteRef.current) {
+        const semisOld = 12 * Math.log2(sustainNoteRef.current.freq / 440) + 69;
+        const semisNew = 12 * Math.log2(pitch / 440) + 69;
+        if (Math.abs(semisOld - semisNew) <= 1.5) {
+          isSameSustain = true;
+        }
+      }
+
+      if (isSameSustain) {
         const elapsed = Date.now() - sustainStartRef.current;
         if (elapsed >= SUSTAIN_DURATION) {
           sustainNoteRef.current = null;
@@ -346,11 +357,13 @@ const MicStep = ({ title, desc, mic, savedNote, savedLabel }) => (
     <div className={`mic-button ${mic.isRecording ? 'recording' : ''}`} onClick={mic.toggle}>
       <Mic size={32} />
     </div>
-    <div className="live-note-display mt-3">
+    <div className="live-note-display mt-3" style={{ minHeight: '120px' }}>
       {mic.currentNote
         ? <h1 style={{ color: 'var(--color-primary)', fontSize: '3rem', margin: 0 }}>{mic.currentNote.name}</h1>
         : <h1 style={{ color: '#ccc', fontSize: '3rem', margin: 0 }}>--</h1>}
-      {mic.isRecording && mic.currentNote && <SustainBar progress={mic.sustainProgress} />}
+      <div style={{ opacity: (mic.isRecording && mic.currentNote) ? 1 : 0, transition: 'opacity 0.2s', pointerEvents: 'none' }}>
+        <SustainBar progress={mic.sustainProgress} />
+      </div>
       {savedNote && !mic.isRecording && (
         <p style={{ color: '#666', marginTop: '0.5rem' }}>✅ {savedLabel}: <strong>{savedNote.name}</strong></p>
       )}
@@ -655,6 +668,14 @@ const Calibrador = ({ user }) => {
               <div style={{ marginTop: '0.25rem', fontSize: '1.05rem' }}>
                 {getVoiceType(storageData.combined.min?.freq)} · {getVoiceRange(storageData.combined.min?.freq, storageData.combined.max?.freq)}
               </div>
+            </div>
+          )}
+
+          {totalDone > 0 && (
+            <div style={{ marginTop: '1.5rem' }}>
+              <Link to="/" className="btn btn-primary" style={{ width: '100%', maxWidth: '300px' }}>
+                Ir para os cantos <ArrowRight size={18} style={{ marginLeft: '0.5rem' }} />
+              </Link>
             </div>
           )}
         </div>
