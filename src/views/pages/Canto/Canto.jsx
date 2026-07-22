@@ -240,31 +240,10 @@ const Canto = ({ user }) => {
       ),
 
 
-      _jsxDEV("div", { className: "cifra-container card text-center", style: { position: 'relative', paddingTop: '2rem' }, children: ["        ", _jsxDEV("div", { style: { display: 'flex', flexWrap: 'wrap-reverse', gap: '2rem', justifyContent: 'center', alignItems: 'flex-start', textAlign: 'left' }, children: [
-
-          _jsxDEV("div", { style: { flex: '3 1 500px', display: 'flex', flexDirection: 'column', alignItems: 'center' }, children: [
-
-            canto.imagens_originais && canto.imagens_originais.length > 0 ?
-            _jsxDEV("div", { className: "cifra-imagens-sheet text-center", style: { width: '100%' }, children:
-              canto.imagens_originais.map((imgUrl, i) =>
-              _jsxDEV("img", {
-
-                src: imgUrl,
-                alt: `Ficha ${i + 1}`,
-                referrerPolicy: "no-referrer",
-                style: { maxWidth: '100%', height: 'auto', marginBottom: '1rem', border: '1px solid #eee', borderRadius: '8px' } }, i, false
-              )
-              ) }, void 0, false
-            ) :
-
-            _jsxDEV("div", { className: "p-4", style: { color: '#666' }, children: "Nenhuma cifra em texto ou imagem encontrada para este canto." }, void 0, false
-
-            )] }, void 0, true
-
-          ),
+      _jsxDEV("div", { className: "cifra-container card text-center", style: { position: 'relative', paddingTop: '2rem' }, children: ["        ", _jsxDEV("div", { style: { display: 'flex', flexDirection: 'column', gap: '2rem', justifyContent: 'center', alignItems: 'center', textAlign: 'left' }, children: [
 
           (!canto.linhas || canto.linhas.length === 0) && canto.acordes_usados && canto.acordes_usados.length > 0 && (transposition !== 0 || showFeedbackBar) &&
-          _jsxDEV("div", { style: { flex: '1 1 300px', maxWidth: '350px', alignSelf: 'flex-start', display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'center' }, children: [
+          _jsxDEV("div", { style: { width: '100%', maxWidth: '500px', display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'center', marginBottom: '1rem' }, children: [
             _jsxDEV("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', fontSize: '0.85rem', color: '#555', background: '#fff', padding: '0.4rem 0.75rem', borderRadius: '6px', border: '1px solid #e2e8f0', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', width: '100%', maxWidth: '200px' }, children: [
               _jsxDEV("input", { type: "checkbox", id: "chordGuideToggleSidebar", checked: showChordGuide, onChange: (e) => setShowChordGuide(e.target.checked), style: { cursor: 'pointer', width: '14px', height: '14px', accentColor: '#0369a1' } }, void 0, false),
               _jsxDEV("label", { htmlFor: "chordGuideToggleSidebar", style: { cursor: 'pointer', margin: 0, fontWeight: 'bold' }, children: "Guia de Acordes" }, void 0, false)] }, void 0, true
@@ -285,8 +264,28 @@ const Canto = ({ user }) => {
                 ) }, void 0, false
               )] }, void 0, true
             )] }, void 0, true
-          )] }, void 0, true
+          ),
 
+          _jsxDEV("div", { style: { width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }, children: [
+
+            canto.imagens_originais && canto.imagens_originais.length > 0 ?
+            _jsxDEV("div", { className: "cifra-imagens-sheet text-center", style: { width: '100%' }, children:
+              canto.imagens_originais.map((imgUrl, i) =>
+              _jsxDEV("img", {
+
+                src: imgUrl,
+                alt: `Ficha ${i + 1}`,
+                referrerPolicy: "no-referrer",
+                style: { maxWidth: '100%', height: 'auto', marginBottom: '1rem', border: '1px solid #eee', borderRadius: '8px' } }, i, false
+              )
+              ) }, void 0, false
+            ) :
+
+            _jsxDEV("div", { className: "p-4", style: { color: '#666' }, children: "Nenhuma cifra em texto ou imagem encontrada para este canto." }, void 0, false
+
+            )] }, void 0, true
+
+          )] }, void 0, true
 
         )] }, void 0, true
       )] }, void 0, true
