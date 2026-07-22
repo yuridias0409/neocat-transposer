@@ -125,32 +125,57 @@ const Canto = ({ user }) => {
 
       renderAssemblyStatus(),
 
-      canto.audio_url &&
-      _jsxDEV(_Fragment, { children: [
-        _jsxDEV(AudioPlayerView, {
-          canto: canto,
-          isPlaying: isPlaying,
-          togglePlay: togglePlay,
-          isAudioLoaded: isAudioLoaded,
-          progress: progress,
-          currentTime: currentTime,
-          duration: duration,
-          handleSeek: handleSeek,
-          isKaraokeMode: isKaraokeMode,
-          startKaraoke: startKaraoke,
-          stopKaraoke: stopKaraoke,
-          formatTime: formatTime }, void 0, false
-        ),
-        _jsxDEV(KaraokePanelView, {
-          isKaraokeMode: isKaraokeMode,
-          userProfile: userProfile,
-          currentMicHz: currentMicHz }, void 0, false
-        )] }, void 0, true
-      ),
+      _jsxDEV("div", { className: "canto-desktop-grid", children: [
+        _jsxDEV("div", { className: "canto-left-col", children: [
+          canto.audio_url &&
+          _jsxDEV(_Fragment, { children: [
+            _jsxDEV(AudioPlayerView, {
+              canto: canto,
+              isPlaying: isPlaying,
+              togglePlay: togglePlay,
+              isAudioLoaded: isAudioLoaded,
+              progress: progress,
+              currentTime: currentTime,
+              duration: duration,
+              handleSeek: handleSeek,
+              isKaraokeMode: isKaraokeMode,
+              startKaraoke: startKaraoke,
+              stopKaraoke: stopKaraoke,
+              formatTime: formatTime }, void 0, false
+            ),
+            _jsxDEV(KaraokePanelView, {
+              isKaraokeMode: isKaraokeMode,
+              userProfile: userProfile,
+              currentMicHz: currentMicHz }, void 0, false
+            )] }, void 0, true
+          ),
 
-      _jsxDEV("div", { style: { display: 'flex', justifyContent: 'center', marginBottom: '1.5rem' }, children: [
+          user &&
+          _jsxDEV("div", { className: `notepad-section mb-0 ${showNotes ? 'expanded' : ''}`, children:
+            _jsxDEV("div", { className: `card notepad-card-container ${showNotes ? 'expanded' : ''}`, style: { backgroundColor: '#fff', border: '1px solid #e2e8f0', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', transition: 'all 0.3s ease', borderRadius: '12px' }, children: [
+              _jsxDEV("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#475569', cursor: 'pointer' }, onClick: () => setShowNotes(!showNotes), children: [
+                _jsxDEV("div", { style: { display: 'flex', alignItems: 'center', gap: '0.5rem' }, children: [
+                  _jsxDEV(Book, { size: 18, color: '#0ea5e9' }, void 0, false), " ", _jsxDEV("strong", { style: { fontWeight: '600' }, children: "Anotações do Salmista" }, void 0, false)] }, void 0, true
+                ),
+                _jsxDEV("div", { style: { position: 'relative', width: '40px', height: '24px', backgroundColor: showNotes ? '#0ea5e9' : '#cbd5e1', borderRadius: '24px', transition: '0.3s', display: 'flex', alignItems: 'center', padding: '2px' }, children:
+                  _jsxDEV("div", { style: { width: '20px', height: '20px', backgroundColor: 'white', borderRadius: '50%', transition: '0.3s', transform: showNotes ? 'translateX(16px)' : 'translateX(0)', boxShadow: '0 2px 4px rgba(0,0,0,0.2)' } }, void 0, false) }, void 0, false
+                )] }, void 0, true
+              ),
+              showNotes &&
+              _jsxDEV("textarea", {
+                className: "notepad-textarea",
+                value: notes,
+                onChange: (e) => setNotes(e.target.value),
+                onBlur: saveNotes,
+                placeholder: "Escreva dicas, ritmos ou lembretes sobre este canto...",
+                style: { width: '100%', minHeight: '80px', border: 'none', background: 'transparent', outline: 'none', fontFamily: 'var(--font-body)', resize: 'none', marginTop: '1rem', borderTop: '1px dashed #e0d8b0', paddingTop: '1rem' } }, void 0, false
+              )] }, void 0, true
+            ) }, void 0, false
+          )
+        ] }, void 0, true),
 
-          _jsxDEV("div", { className: "card text-center", style: { padding: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', maxWidth: '400px' }, children: [
+        _jsxDEV("div", { className: "canto-right-col", children: [
+          _jsxDEV("div", { className: "card text-center transpo-card", style: { padding: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }, children: [
             _jsxDEV("div", { style: { fontSize: '0.8rem', textTransform: 'uppercase', color: '#555', marginBottom: '0.75rem', fontWeight: 'bold' }, children: "Transposição" }, void 0, false
             ),
 
@@ -185,7 +210,7 @@ const Canto = ({ user }) => {
             ] }, void 0, true
             ),
 
-            _jsxDEV("div", { style: { display: 'flex', gap: '0.5rem', width: '100%', flexWrap: 'wrap', justifyContent: 'center' }, children: [
+            _jsxDEV("div", { style: { display: 'flex', gap: '0.5rem', width: '100%', flexWrap: 'wrap', justifyContent: 'center', marginTop: 'auto' }, children: [
               _jsxDEV("button", { className: "btn btn-secondary btn-sm", onClick: aplicarTomInteligente, style: { flex: '1 1 140px' }, children: [
                 _jsxDEV(Settings2, { size: 14, style: { marginRight: '0.4rem' } }, void 0, false), " Meu Tom Ideal"] }, void 0, true
               ),
@@ -199,10 +224,9 @@ const Canto = ({ user }) => {
               )] }, void 0, true
             )
           ] }, void 0, true
-        )
-      ] }, void 0, true
-      ),
-
+          )
+        ] }, void 0, true)
+      ] }, void 0, true),
 
       showFeedbackBar && user &&
       _jsxDEV(FeedbackTomBar, {
@@ -213,30 +237,6 @@ const Canto = ({ user }) => {
           setTransposition((t) => t + offsetUi);
           setShowFeedbackBar(false);
         } }, void 0, false
-      ),
-
-
-      user &&
-      _jsxDEV("div", { className: "notepad-section mb-4", children:
-        _jsxDEV("div", { className: "card", style: { backgroundColor: '#fff', border: '1px solid #e2e8f0', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', transition: 'all 0.3s ease', borderRadius: '12px' }, children: [
-          _jsxDEV("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#475569', cursor: 'pointer' }, onClick: () => setShowNotes(!showNotes), children: [
-            _jsxDEV("div", { style: { display: 'flex', alignItems: 'center', gap: '0.5rem' }, children: [
-              _jsxDEV(Book, { size: 18, color: '#0ea5e9' }, void 0, false), " ", _jsxDEV("strong", { style: { fontWeight: '600' }, children: "Anotações do Salmista" }, void 0, false)] }, void 0, true
-            ),
-            _jsxDEV("div", { style: { position: 'relative', width: '40px', height: '24px', backgroundColor: showNotes ? '#0ea5e9' : '#cbd5e1', borderRadius: '24px', transition: '0.3s', display: 'flex', alignItems: 'center', padding: '2px' }, children:
-              _jsxDEV("div", { style: { width: '20px', height: '20px', backgroundColor: 'white', borderRadius: '50%', transition: '0.3s', transform: showNotes ? 'translateX(16px)' : 'translateX(0)', boxShadow: '0 2px 4px rgba(0,0,0,0.2)' } }, void 0, false) }, void 0, false
-            )] }, void 0, true
-          ),
-          showNotes &&
-          _jsxDEV("textarea", {
-            value: notes,
-            onChange: (e) => setNotes(e.target.value),
-            onBlur: saveNotes,
-            placeholder: "Escreva dicas, ritmos ou lembretes sobre este canto...",
-            style: { width: '100%', minHeight: '80px', border: 'none', background: 'transparent', outline: 'none', fontFamily: 'var(--font-body)', resize: 'vertical', marginTop: '1rem', borderTop: '1px dashed #e0d8b0', paddingTop: '1rem' } }, void 0, false
-          )] }, void 0, true
-
-        ) }, void 0, false
       ),
 
 

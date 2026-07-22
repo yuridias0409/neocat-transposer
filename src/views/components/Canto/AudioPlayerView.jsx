@@ -18,8 +18,8 @@ export function AudioPlayerView({
   if (!canto || !canto.audio_url) return null;
 
   return (
-    _jsxDEV("div", { className: "audio-section mb-4", children:
-      _jsxDEV("div", { className: "audio-player card mb-3", children:
+    _jsxDEV("div", { className: "audio-section", children:
+      _jsxDEV("div", { className: "audio-player card", children:
         _jsxDEV("div", { className: "player-controls", children: [
           _jsxDEV("button", { className: "btn-circle play-btn", onClick: togglePlay, disabled: !isAudioLoaded, children:
             isPlaying ? _jsxDEV(Pause, { size: 20, fill: "currentColor" }, void 0, false) : _jsxDEV(Play, { size: 20, fill: "currentColor" }, void 0, false) }, void 0, false

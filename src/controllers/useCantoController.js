@@ -105,6 +105,12 @@ export function useCantoController(cantoId, user) {
     if (karaokeAudioCtxRef.current) karaokeAudioCtxRef.current.close();
     setIsKaraokeMode(false);
     setCurrentMicHz(0);
+    if (isPlaying) {
+      playerRef.current.stop();
+      setIsPlaying(false);
+      offsetRef.current = Tone.now() - startTimeRef.current;
+      cancelAnimationFrame(animationRef.current);
+    }
   };
 
   useEffect(() => {
