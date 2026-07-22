@@ -92,9 +92,29 @@ def main():
         norm = normalize_title(s['title'])
         old_songs_map[norm] = s
         
+    MANUAL_MAP = {
+        "avemariaii1984": "avemariaii",
+        "ideeanunciaiaomeusirmaos": "ideeanunciaiaosmeusirmaos",
+        "ideeanunciaianusirmaos": "ideeanunciaiaosmeusirmaos",
+        "ideeanunciaimeusirmaos": "ideeanunciaiaosmeusirmaos",
+        "atilevantomeusolhos": "atilevantoosmeusolhos",
+        "elielilamasabactani": "elielilammasabactani",
+        "emtualuzsenhorvemosaluz": "natualuzsenhorvemosaluz",
+        "comolirioentreespinhos": "comoumlirioentreosespinhos",
+        "ladainhadetodosossantos": "ladainhadossantos",
+        "preconiopascal": "preconiopascal",
+        "oracaoeucaristicaii": "oracaoeucaristicaii"
+    }
+        
     modificados = 0
     for key, canto in db.items():
+        if 'freq_min_curada' in canto:
+            continue # already processed
+            
         norm = normalize_title(canto['titulo'])
+        if norm in MANUAL_MAP:
+            norm = MANUAL_MAP[norm]
+            
         if norm in old_songs_map:
             old_s = old_songs_map[norm]
             
