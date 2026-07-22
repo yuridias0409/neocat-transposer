@@ -2,6 +2,8 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Settings2, SlidersHorizontal, Users, Book, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { transposeChordString } from '../../../utils';
+import { otimizarCapoETom } from '../../../utils/capoEngine';
+import { calcularTomIdealInteligente } from '../../../utils/transpositionEngine';
 import { useCantoController } from '../../../controllers/useCantoController';
 import { AudioPlayerView } from '../../components/Canto/AudioPlayerView';
 import { KaraokePanelView } from '../../components/Canto/KaraokePanelView';
@@ -86,8 +88,37 @@ const Canto = ({ user }) => {
       _jsxDEV("div", { className: "canto-header mb-4", children:
         _jsxDEV("div", { className: "canto-title-block", style: { width: '100%' }, children: [
           _jsxDEV("h1", { style: { marginBottom: '0.5rem' }, children: canto.titulo }, void 0, false),
-          _jsxDEV("div", { className: "canto-meta-info", children:
-            _jsxDEV("span", { className: "badge badge-primary", children: ["Tom Original: ", canto.tom_original] }, void 0, true) }, void 0, false
+          _jsxDEV("div", { className: "canto-meta-info", style: { display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }, children: [
+            _jsxDEV("span", { className: "badge badge-primary", children: ["Tom Original: ", canto.tom_original] }, void 0, true),
+            (() => {
+              const savedOffset = userProfile?.cantos_validados?.[id];
+              let badgeOffset = savedOffset;
+              let isSaved = true;
+
+              if (savedOffset === undefined && userProfile) {
+                const vozSalmista = {
+                  minHz: userProfile.f0_min || 110,
+                  maxHz: userProfile.f0_max || 330,
+                  tipoVoz: userProfile.tipoVoz || 'Desconhecido'
+                };
+                const res = calcularTomIdealInteligente(vozSalmista, canto, userProfile);
+                if (res) badgeOffset = res.semitones;
+                isSaved = false;
+              }
+
+              if (badgeOffset !== undefined && canto.tom_original !== '?') {
+                const badgeCapo = otimizarCapoETom(canto.tom_original, badgeOffset);
+                return _jsxDEV("div", { style: { display: 'flex', alignItems: 'center', gap: '4px', marginLeft: '0.5rem' }, children: [
+                  _jsxDEV("span", { style: { color: isSaved ? '#15803d' : '#ca8a04', fontSize: '0.8rem', fontWeight: 'bold', marginRight: '4px' }, children: isSaved ? "✅ Tom Salvo:" : "Sugerido:" }, void 0, false),
+                  _jsxDEV("span", { style: { background: isSaved ? '#dcfce7' : '#e0f2fe', color: isSaved ? '#166534' : '#0369a1', padding: '0.2rem 0.6rem', borderRadius: '12px', fontWeight: 'bold', fontSize: '0.85rem' }, children: ["🎸 ", badgeCapo.formaAcorde] }, void 0, true),
+                  badgeCapo.capoCasa > 0 && _jsxDEV("span", { style: { background: isSaved ? '#dcfce7' : '#fef3c7', color: isSaved ? '#166534' : '#b45309', padding: '0.2rem 0.6rem', borderRadius: '12px', fontWeight: 'bold', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '4px' }, children: [
+                    _jsxDEV("img", { src: capoIcon, alt: "Capo", style: { width: '14px', height: '14px', filter: isSaved ? 'none' : 'hue-rotate(20deg) saturate(150%) brightness(0.8)' } }, void 0, false), `Capo ${badgeCapo.capoCasa}ª`
+                  ] }, void 0, true)
+                ] }, void 0, true);
+              }
+              return null;
+            })()
+          ] }, void 0, true
           )] }, void 0, true
         ) }, void 0, false
       ),
@@ -117,24 +148,10 @@ const Canto = ({ user }) => {
         )] }, void 0, true
       ),
 
-      _jsxDEV("div", { style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }, children: [
-        canto.audio_url &&
-        _jsxDEV("div", { className: "card text-center", style: { padding: '1.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }, children: [
-            _jsxDEV("div", { style: { fontSize: '0.8rem', textTransform: 'uppercase', color: '#555', marginBottom: '1rem', fontWeight: 'bold' }, children: ["Áudio Original (",
-              canto.tom_audio || '?', ")"] }, void 0, true
-            ),
-            _jsxDEV("div", { style: { display: 'flex', justifyContent: 'center', gap: '6px', alignItems: 'center', height: '40px' }, children: [
-              _jsxDEV("div", { style: { width: '4px', height: '16px', background: '#d4af37', borderRadius: '2px' } }, void 0, false),
-              _jsxDEV("div", { style: { width: '4px', height: '28px', background: '#d4af37', borderRadius: '2px' } }, void 0, false),
-              _jsxDEV("div", { style: { width: '4px', height: '12px', background: '#d4af37', borderRadius: '2px' } }, void 0, false),
-              _jsxDEV("div", { style: { width: '4px', height: '40px', background: '#d4af37', borderRadius: '2px' } }, void 0, false),
-              _jsxDEV("div", { style: { width: '4px', height: '24px', background: '#d4af37', borderRadius: '2px' } }, void 0, false)] }, void 0, true
-            )] }, void 0, true
-          ),
+      _jsxDEV("div", { style: { display: 'flex', justifyContent: 'center', marginBottom: '1.5rem' }, children: [
 
-          _jsxDEV("div", { className: "card text-center", style: { padding: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }, children: [
+          _jsxDEV("div", { className: "card text-center", style: { padding: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', maxWidth: '400px' }, children: [
             _jsxDEV("div", { style: { fontSize: '0.8rem', textTransform: 'uppercase', color: '#555', marginBottom: '0.75rem', fontWeight: 'bold' }, children: "Transposição" }, void 0, false
-
             ),
 
             _jsxDEV("div", { className: "transposition-controls", style: { background: '#fdfbf7', padding: '0.5rem', borderRadius: '8px', display: 'inline-flex', alignItems: 'center', marginBottom: '0.5rem' }, children: [
@@ -152,31 +169,38 @@ const Canto = ({ user }) => {
                 _jsxDEV("span", { style: { background: '#e0f2fe', color: '#0369a1', padding: '0.2rem 0.6rem', borderRadius: '12px', fontWeight: 'bold' }, children: ["🎸 Toque ", capoInfo.formaAcorde] }, void 0, true),
                 capoInfo.capoCasa > 0 &&
                 _jsxDEV("span", { style: { background: '#fef3c7', color: '#b45309', padding: '0.2rem 0.6rem', borderRadius: '12px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '4px' }, children: [
-                  _jsxDEV("img", { src: capoIcon, alt: "Capo", style: { width: '16px', height: '16px', filter: 'hue-rotate(20deg) saturate(150%) brightness(0.8)' } }, void 0, false), "Capo ",
-                  capoInfo.capoCasa, "ª"] }, void 0, true
-                )] }, void 0, true
-              )] }, void 0, true
+                  _jsxDEV("img", { src: capoIcon, alt: "Capo", style: { width: '16px', height: '16px' } }, void 0, false), `Capo ${capoInfo.capoCasa}ª`
+                ] }, void 0, true)] }, void 0, true
+              ),
+              
+              transposition !== 0 &&
+              _jsxDEV("button", {
+                onClick: () => setTransposition(0),
+                style: { background: 'none', border: 'none', color: '#0ea5e9', fontSize: '0.8rem', textDecoration: 'underline', cursor: 'pointer', marginTop: '0.5rem', fontWeight: '600' },
+                children: `Voltar ao Tom Original (${canto.tom_original})`
+              }, void 0, false),
+
+              canto.audio_url && canto.tom_audio && canto.tom_audio !== '?' &&
+              _jsxDEV("div", { style: { fontSize: '0.7rem', color: '#94a3b8', marginTop: '0.5rem' }, children: `Áudio gravado em ${canto.tom_audio}` }, void 0, false)
+            ] }, void 0, true
             ),
 
-            _jsxDEV("div", { style: { display: 'flex', gap: '0.5rem', width: '100%', maxWidth: '250px', flexDirection: 'column' }, children: [
-              _jsxDEV("button", { className: "btn btn-secondary btn-sm auto-adjust-btn w-100", onClick: aplicarTomInteligente, children: [
+            _jsxDEV("div", { style: { display: 'flex', gap: '0.5rem', width: '100%', flexWrap: 'wrap', justifyContent: 'center' }, children: [
+              _jsxDEV("button", { className: "btn btn-secondary btn-sm", onClick: aplicarTomInteligente, style: { flex: '1 1 140px' }, children: [
                 _jsxDEV(Settings2, { size: 14, style: { marginRight: '0.4rem' } }, void 0, false), " Meu Tom Ideal"] }, void 0, true
               ),
-              transposition !== baseOffset &&
-              _jsxDEV("button", { className: "btn btn-outline btn-sm w-100", onClick: () => setTransposition(baseOffset), style: { borderColor: '#d1d5db', color: '#4b5563' }, children: "Voltar ao Tom Original" }, void 0, false
+              user &&
+              _jsxDEV("button", { className: "btn btn-outline btn-sm", onClick: () => setShowFeedbackBar(true), style: { flex: '1 1 140px', borderColor: '#bbf7d0', color: '#16a34a', background: '#f0fdf4' }, children: [
+                _jsxDEV(ThumbsUp, { size: 14, style: { marginRight: '0.4rem' } }, void 0, false), " Avaliar este tom"] }, void 0, true
               ),
 
               tomEsforco !== null && tomEsforco !== transposition &&
               _jsxDEV("button", { className: "btn btn-outline btn-sm w-100", onClick: () => {setTransposition(tomEsforco);setTomEsforco(null);}, style: { borderColor: '#fcd34d', color: '#b45309', background: '#fffbeb' }, children: "💡 Sugestão: Tentar Tom de Esforço" }, void 0, false
               )] }, void 0, true
-            ),
-
-            (!canto.linhas || canto.linhas.length === 0) && canto.acordes_usados && canto.acordes_usados.length > 0 && (transposition !== baseOffset || showFeedbackBar) &&
-            _jsxDEV("div", { style: { marginTop: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', fontSize: '0.85rem', color: '#555' }, children: [
-              _jsxDEV("input", { type: "checkbox", id: "chordGuideToggle", checked: showChordGuide, onChange: (e) => setShowChordGuide(e.target.checked), style: { cursor: 'pointer', width: '16px', height: '16px', accentColor: '#0369a1' } }, void 0, false),
-              _jsxDEV("label", { htmlFor: "chordGuideToggle", style: { cursor: 'pointer', margin: 0 }, children: "Mostrar Guia de Acordes" }, void 0, false)] }, void 0, true
-            )] }, void 0, true
-          )] }, void 0, true
+            )
+          ] }, void 0, true
+        )
+      ] }, void 0, true
       ),
 
 
@@ -194,13 +218,13 @@ const Canto = ({ user }) => {
 
       user &&
       _jsxDEV("div", { className: "notepad-section mb-4", children:
-        _jsxDEV("div", { className: "card", style: { backgroundColor: '#fffdf5', border: '1px solid #e0d8b0', transition: 'all 0.3s ease' }, children: [
-          _jsxDEV("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#8a7a3b', cursor: 'pointer' }, onClick: () => setShowNotes(!showNotes), children: [
+        _jsxDEV("div", { className: "card", style: { backgroundColor: '#fff', border: '1px solid #e2e8f0', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', transition: 'all 0.3s ease', borderRadius: '12px' }, children: [
+          _jsxDEV("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#475569', cursor: 'pointer' }, onClick: () => setShowNotes(!showNotes), children: [
             _jsxDEV("div", { style: { display: 'flex', alignItems: 'center', gap: '0.5rem' }, children: [
-              _jsxDEV(Book, { size: 18 }, void 0, false), " ", _jsxDEV("strong", { children: "Anotações do Salmista" }, void 0, false)] }, void 0, true
+              _jsxDEV(Book, { size: 18, color: '#0ea5e9' }, void 0, false), " ", _jsxDEV("strong", { style: { fontWeight: '600' }, children: "Anotações do Salmista" }, void 0, false)] }, void 0, true
             ),
-            _jsxDEV("div", { style: { position: 'relative', width: '36px', height: '20px', backgroundColor: showNotes ? '#a13333' : '#cbd5e1', borderRadius: '20px', transition: '0.3s', display: 'flex', alignItems: 'center', padding: '2px' }, children:
-              _jsxDEV("div", { style: { width: '16px', height: '16px', backgroundColor: 'white', borderRadius: '50%', transition: '0.3s', transform: showNotes ? 'translateX(16px)' : 'translateX(0)', boxShadow: '0 1px 3px rgba(0,0,0,0.2)' } }, void 0, false) }, void 0, false
+            _jsxDEV("div", { style: { position: 'relative', width: '40px', height: '24px', backgroundColor: showNotes ? '#0ea5e9' : '#cbd5e1', borderRadius: '24px', transition: '0.3s', display: 'flex', alignItems: 'center', padding: '2px' }, children:
+              _jsxDEV("div", { style: { width: '20px', height: '20px', backgroundColor: 'white', borderRadius: '50%', transition: '0.3s', transform: showNotes ? 'translateX(16px)' : 'translateX(0)', boxShadow: '0 2px 4px rgba(0,0,0,0.2)' } }, void 0, false) }, void 0, false
             )] }, void 0, true
           ),
           showNotes &&
@@ -218,7 +242,8 @@ const Canto = ({ user }) => {
 
       _jsxDEV("div", { className: "cifra-container card text-center", style: { position: 'relative', paddingTop: '2rem' }, children: ["        ", _jsxDEV("div", { style: { display: 'flex', flexWrap: 'wrap-reverse', gap: '2rem', justifyContent: 'center', alignItems: 'flex-start', textAlign: 'left' }, children: [
 
-          _jsxDEV("div", { style: { flex: '3 1 500px', display: 'flex', flexDirection: 'column', alignItems: 'center' }, children:
+          _jsxDEV("div", { style: { flex: '3 1 500px', display: 'flex', flexDirection: 'column', alignItems: 'center' }, children: [
+
             canto.imagens_originais && canto.imagens_originais.length > 0 ?
             _jsxDEV("div", { className: "cifra-imagens-sheet text-center", style: { width: '100%' }, children:
               canto.imagens_originais.map((imgUrl, i) =>
@@ -234,23 +259,31 @@ const Canto = ({ user }) => {
 
             _jsxDEV("div", { className: "p-4", style: { color: '#666' }, children: "Nenhuma cifra em texto ou imagem encontrada para este canto." }, void 0, false
 
-            ) }, void 0, false
+            )] }, void 0, true
 
           ),
 
-          showChordGuide && (!canto.linhas || canto.linhas.length === 0) && canto.acordes_usados && canto.acordes_usados.length > 0 && transposition !== 0 &&
-          _jsxDEV("div", { className: "guia-acordes-sidebar", style: { flex: '1 1 300px', maxWidth: '450px', backgroundColor: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: '12px', padding: '1rem', alignSelf: 'flex-start' }, children: [
-            _jsxDEV("div", { style: { color: '#0369a1', marginBottom: '0.75rem' }, children: [
-              _jsxDEV("strong", { children: [_jsxDEV(SlidersHorizontal, { size: 18, style: { marginRight: '0.5rem', verticalAlign: 'text-bottom' } }, void 0, false), " Guia de Acordes"] }, void 0, true),
-              _jsxDEV("p", { style: { margin: '0.25rem 0 0 0', fontSize: '0.8rem' }, children: "A imagem não muda, use este guia para tocar no novo tom:" }, void 0, false)] }, void 0, true
+          (!canto.linhas || canto.linhas.length === 0) && canto.acordes_usados && canto.acordes_usados.length > 0 && (transposition !== 0 || showFeedbackBar) &&
+          _jsxDEV("div", { style: { flex: '1 1 300px', maxWidth: '350px', alignSelf: 'flex-start', display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'center' }, children: [
+            _jsxDEV("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', fontSize: '0.85rem', color: '#555', background: '#fff', padding: '0.4rem 0.75rem', borderRadius: '6px', border: '1px solid #e2e8f0', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', width: '100%', maxWidth: '200px' }, children: [
+              _jsxDEV("input", { type: "checkbox", id: "chordGuideToggleSidebar", checked: showChordGuide, onChange: (e) => setShowChordGuide(e.target.checked), style: { cursor: 'pointer', width: '14px', height: '14px', accentColor: '#0369a1' } }, void 0, false),
+              _jsxDEV("label", { htmlFor: "chordGuideToggleSidebar", style: { cursor: 'pointer', margin: 0, fontWeight: 'bold' }, children: "Guia de Acordes" }, void 0, false)] }, void 0, true
             ),
-            _jsxDEV("div", { style: { display: 'flex', flexWrap: 'wrap', gap: '0.5rem', fontFamily: 'monospace', fontSize: '1.1rem' }, children:
-              canto.acordes_usados.map((c, i) =>
-              _jsxDEV("div", { style: { background: '#fff', padding: '0.3rem 0.5rem', borderRadius: '8px', border: '1px solid #e0f2fe', textAlign: 'center', flex: '1 1 auto', minWidth: '60px' }, children: [
-                _jsxDEV("div", { style: { color: '#94a3b8', fontSize: '0.8rem', textDecoration: 'line-through' }, children: c }, void 0, false),
-                _jsxDEV("div", { style: { color: '#b91c1c', fontWeight: 'bold' }, children: transposeChordString(c, capoInfo.diferencaFormaSemitons) }, void 0, false)] }, i, true
-              )
-              ) }, void 0, false
+
+            showChordGuide &&
+            _jsxDEV("div", { className: "guia-acordes-sidebar", style: { backgroundColor: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: '10px', padding: '0.75rem', width: '100%' }, children: [
+              _jsxDEV("div", { style: { color: '#0369a1', marginBottom: '0.5rem', textAlign: 'center' }, children: [
+                _jsxDEV("strong", { style: { fontSize: '0.9rem' }, children: [_jsxDEV(SlidersHorizontal, { size: 14, style: { marginRight: '0.3rem', verticalAlign: 'text-bottom' } }, void 0, false), " Guia de Acordes"] }, void 0, true),
+                _jsxDEV("p", { style: { margin: '0.25rem 0 0 0', fontSize: '0.75rem' }, children: "A imagem não muda, use este guia para tocar no novo tom:" }, void 0, false)] }, void 0, true
+              ),
+              _jsxDEV("div", { style: { display: 'flex', flexWrap: 'wrap', gap: '0.4rem', fontFamily: 'monospace', fontSize: '1rem', justifyContent: 'center' }, children:
+                canto.acordes_usados.map((c, i) =>
+                _jsxDEV("div", { style: { background: '#fff', padding: '0.2rem 0.4rem', borderRadius: '6px', border: '1px solid #e0f2fe', textAlign: 'center', flex: '1 1 auto', minWidth: '45px' }, children: [
+                  _jsxDEV("div", { style: { color: '#94a3b8', fontSize: '0.7rem', textDecoration: 'line-through' }, children: c }, void 0, false),
+                  _jsxDEV("div", { style: { color: '#b91c1c', fontWeight: 'bold' }, children: transposeChordString(c, capoInfo.diferencaFormaSemitons) }, void 0, false)] }, i, true
+                )
+                ) }, void 0, false
+              )] }, void 0, true
             )] }, void 0, true
           )] }, void 0, true
 

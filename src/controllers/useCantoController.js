@@ -110,16 +110,6 @@ export function useCantoController(cantoId, user) {
   useEffect(() => {
     if (!canto) return;
 
-    let offset = 0;
-    if (canto.tom_audio && canto.tom_original) {
-      const idxAudio = getNoteIndex(canto.tom_audio);
-      const idxOriginal = getNoteIndex(canto.tom_original);
-      offset = idxAudio - idxOriginal;
-      if (offset > 6) offset -= 12;
-      if (offset < -6) offset += 12;
-    }
-    setTransposition(offset);
-
     setAiMessage('');
     setShowFeedbackBar(false);
 
@@ -130,6 +120,29 @@ export function useCantoController(cantoId, user) {
       setUserProfile(profileData);
     }
 
+    const currentBaseOffset = (() => {
+      if (!canto?.tom_audio || !canto?.tom_original) return 0;
+      let off = getNoteIndex(canto.tom_audio) - getNoteIndex(canto.tom_original);
+      if (off > 6) off -= 12;
+      if (off < -6) off += 12;
+      return off;
+    })();
+
+    if (profileData && profileData.cantos_validados && profileData.cantos_validados[cantoId] !== undefined) {
+      setTransposition(profileData.cantos_validados[cantoId]);
+    } else {
+      let aiOffset = 0;
+      if (profileData) {
+        const vozSalmista = {
+          minHz: profileData.f0_min || 110,
+          maxHz: profileData.f0_max || 330,
+          tipoVoz: profileData.tipoVoz || 'Desconhecido'
+        };
+        const res = calcularTomIdealInteligente(vozSalmista, canto, profileData);
+        if (res) aiOffset = res.semitones;
+      }
+      setTransposition(currentBaseOffset + aiOffset);
+    }
 
     if (canto.audio_url) {
       pitchShiftRef.current = new Tone.PitchShift({
@@ -262,6 +275,12 @@ export function useCantoController(cantoId, user) {
   const aplicarTomInteligente = async () => {
     if (!userProfile || !canto.freq_min_curada || !canto.freq_max_curada) {
       showToast("Precisamos do seu perfil vocal calibrado e dos dados do canto.");
+      return;
+    }
+
+    if (userProfile.cantos_validados && userProfile.cantos_validados[cantoId] !== undefined) {
+      setTransposition(userProfile.cantos_validados[cantoId]);
+      showToast("Recuperado da Memória de Repertório (Tom previamente validado)!");
       return;
     }
     const cantoData = await CantoDAO.getPitchMetadata(cantoId);

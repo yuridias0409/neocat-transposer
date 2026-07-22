@@ -2,10 +2,21 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Music, Volume2 } from 'lucide-react';
 import { cantosData } from '../../../data';
+import { otimizarCapoETom } from '../../../utils/capoEngine';
+import { calcularTomIdealInteligente } from '../../../utils/transpositionEngine';
+import capoIcon from '../../../assets/capotraste.png';
 import './Dashboard.css';import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
 
 const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [userProfile, setUserProfile] = useState(null);
+
+  React.useEffect(() => {
+    try {
+      const p = localStorage.getItem('userVoiceProfile');
+      if (p) setUserProfile(JSON.parse(p));
+    } catch (e) {}
+  }, []);
 
   const allCantos = Object.values(cantosData);
   const cantos = allCantos.filter((canto) =>
@@ -81,8 +92,34 @@ const Dashboard = () => {
 
                   _jsxDEV("span", { className: "canto-list-title", style: { lineHeight: '1.3' }, children: canto.titulo }, void 0, false)] }, void 0, true
                 ),
-                canto.tom_original !== '?' &&
-                _jsxDEV("span", { className: "badge badge-outline canto-list-badge", children: canto.tom_original }, void 0, false)] }, canto.id, true
+                (() => {
+                  const savedOffset = userProfile?.cantos_validados?.[canto.id];
+                  let offsetToUse = savedOffset;
+                  let isSaved = true;
+
+                  if (savedOffset === undefined && userProfile) {
+                    const vozSalmista = {
+                      minHz: userProfile.f0_min || 110,
+                      maxHz: userProfile.f0_max || 330,
+                      tipoVoz: userProfile.tipoVoz || 'Desconhecido'
+                    };
+                    const res = calcularTomIdealInteligente(vozSalmista, canto, userProfile);
+                    if (res) offsetToUse = res.semitones;
+                    isSaved = false;
+                  }
+
+                  if (offsetToUse !== undefined && canto.tom_original !== '?') {
+                    const capoData = otimizarCapoETom(canto.tom_original, offsetToUse);
+                    return _jsxDEV("div", { style: { display: 'flex', alignItems: 'center', gap: '4px' }, children: [
+                      isSaved && _jsxDEV("span", { title: "Confirmado na Memória", style: { fontSize: '14px' }, children: "✅" }, void 0, false),
+                      _jsxDEV("span", { style: { background: isSaved ? '#dcfce7' : '#e0f2fe', color: isSaved ? '#166534' : '#0369a1', padding: '0.2rem 0.6rem', borderRadius: '12px', fontWeight: 'bold', fontSize: '0.8rem' }, children: ["🎸 ", capoData.formaAcorde] }, void 0, true),
+                      capoData.capoCasa > 0 && _jsxDEV("span", { style: { background: isSaved ? '#dcfce7' : '#fef3c7', color: isSaved ? '#166534' : '#b45309', padding: '0.2rem 0.6rem', borderRadius: '12px', fontWeight: 'bold', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '4px' }, children: [
+                        _jsxDEV("img", { src: capoIcon, alt: "Capo", style: { width: '14px', height: '14px', filter: isSaved ? 'none' : 'hue-rotate(20deg) saturate(150%) brightness(0.8)' } }, void 0, false), `Capo ${capoData.capoCasa}ª`
+                      ] }, void 0, true)
+                    ] }, void 0, true);
+                  }
+                  return canto.tom_original !== '?' && _jsxDEV("span", { className: "badge badge-outline canto-list-badge", children: canto.tom_original }, void 0, false);
+                })()] }, canto.id, true
 
               )
               ) }, void 0, false

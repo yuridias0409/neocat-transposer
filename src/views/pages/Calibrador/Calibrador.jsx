@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Mic, CheckCircle, ArrowRight, Guitar, ThumbsUp, ThumbsDown, User, Play, Square, UserPlus, Music2, X } from 'lucide-react';
 import { PitchDetector } from 'pitchy';
 import * as Tone from 'tone';
@@ -79,7 +79,7 @@ const baseFreqs = { 'E2': 82.41, 'A2': 110.00, 'D3': 146.83, 'G3': 196.00, 'C4':
 const MODE_INFO = {
   assistant: { label: 'Salmista Assistente', desc: 'Guiado por áudio', icon: UserPlus, color: '#b91c1c' },
   mic: { label: 'Automático (Microfone)', desc: 'Cante e eu descubro', icon: Mic, color: '#b91c1c' },
-  empirical: { label: 'Prático (Com Violão)', desc: 'Toque os acordes e teste', icon: Guitar, color: '#b91c1c' },
+  // empirical: { label: 'Prático (Com Violão)', desc: 'Toque os acordes e teste', icon: Guitar, color: '#b91c1c' },
   hum: { label: 'Cantarolar', desc: 'Cantarole e eu gravo', icon: Music2, color: '#b91c1c' }
 };
 
@@ -387,10 +387,11 @@ _jsxDEV("div", { className: "step-pane text-center", style: { animation: 'fadeIn
 
 
 
-const Calibrador = ({ user }) => {
+export default function Calibrador({ user }) {
+  const navigate = useNavigate();
   const [storageData, setStorageData] = useState(loadStorage);
   const [mode, setMode] = useState(null);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [noteSaved, setNoteSaved] = useState(false);
   const [minNote, setMinNote] = useState(null);
   const [maxNote, setMaxNote] = useState(null);
@@ -708,7 +709,7 @@ const Calibrador = ({ user }) => {
           _jsxDEV("p", { className: "mb-4", style: { color: '#666' }, children: "A IA ajustará as cifras para você." }, void 0, false),
           _jsxDEV("div", { style: { display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }, children: [
             _jsxDEV("button", { className: "btn btn-outline", onClick: () => {setMode(null);}, children: "Fazer outro teste" }, void 0, false),
-            _jsxDEV("button", { className: "btn btn-secondary", onClick: () => window.location.href = '/', children: "Voltar aos Cantos" }, void 0, false)] }, void 0, true
+            _jsxDEV("button", { className: "btn btn-secondary", onClick: () => navigate('/'), children: "Voltar aos Cantos" }, void 0, false)] }, void 0, true
           )] }, void 0, true
         ) }, void 0, false
       ));
@@ -993,4 +994,3 @@ const Calibrador = ({ user }) => {
 
 };
 
-export default Calibrador;
