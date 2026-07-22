@@ -9,9 +9,24 @@ import AdminLogin from './views/pages/Admin/AdminLogin';
 import AdminDashboard from './views/pages/Admin/AdminDashboard';
 
 import UserDAO from './dao/UserDAO';
+import { auth } from './services/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 
 function AdminRoute() {
   const [adminUser, setAdminUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setAdminUser(user);
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  if (loading) {
+    return <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', fontFamily: 'var(--font-body)'}}>Carregando painel...</div>;
+  }
   
   if (!adminUser) {
     return <AdminLogin onAuthenticated={setAdminUser} />;

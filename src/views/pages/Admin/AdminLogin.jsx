@@ -1,23 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { auth } from '../../../services/firebase';
-import { sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth';
+import AuthDAO from '../../../dao/AuthDAO';
 
 export function AdminLogin({ onAuthenticated }) {
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
-    if (isSignInWithEmailLink(auth, window.location.href)) {
-      let emailForSignIn = window.localStorage.getItem('emailForSignIn');
-      if (!emailForSignIn) {
-        emailForSignIn = window.prompt('Confirme seu e-mail para concluir o acesso admin:');
-      }
+    if (AuthDAO.isSignInUrl(window.location.href)) {
       setLoading(true);
-      signInWithEmailLink(auth, emailForSignIn, window.location.href)
-        .then((result) => {
-          window.localStorage.removeItem('emailForSignIn');
-          onAuthenticated(result.user);
+      AuthDAO.signInWithUrl(window.location.href)
+        .then((user) => {
+          onAuthenticated(user);
         })
         .catch((error) => console.error("Erro na autenticação:", error))
         .finally(() => setLoading(false));
@@ -26,17 +21,17 @@ export function AdminLogin({ onAuthenticated }) {
 
   const handleSendLink = async (e) => {
     e.preventDefault();
-    const actionCodeSettings = {
-      url: `${window.location.origin}/admin`,
-      handleCodeInApp: true,
-    };
+    setErrorMsg('');
+    setLoading(true);
 
     try {
-      await sendSignInLinkToEmail(auth, email, actionCodeSettings);
-      window.localStorage.setItem('emailForSignIn', email);
+      await AuthDAO.sendMagicLink(email);
       setSent(true);
     } catch (error) {
       console.error("Erro ao enviar e-mail:", error);
+      setErrorMsg(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -58,7 +53,10 @@ export function AdminLogin({ onAuthenticated }) {
             placeholder="seu-email@dominio.com"
             style={{ width: '100%', padding: '8px', margin: '10px 0', borderRadius: '8px', border: '1px solid #ccc' }}
           />
-          <button className="btn btn-primary" type="submit" style={{ padding: '10px 20px', width: '100%' }}>Receber Link de Acesso</button>
+          {errorMsg && <p style={{color: 'red', fontSize: '0.9rem'}}>{errorMsg}</p>}
+          <button className="btn btn-primary" type="submit" disabled={loading} style={{ padding: '10px 20px', width: '100%' }}>
+            {loading ? 'Enviando...' : 'Receber Link de Acesso'}
+          </button>
         </form>
       )}
     </div>
