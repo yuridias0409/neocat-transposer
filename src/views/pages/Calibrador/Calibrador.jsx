@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Mic, CheckCircle, ArrowRight, Guitar, ThumbsUp, ThumbsDown, User, Play, Square, UserPlus, Music2, X } from 'lucide-react';
 import { PitchDetector } from 'pitchy';
 import * as Tone from 'tone';
+import UserDAO from '../../../dao/UserDAO';
 import './Calibrador.css';
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -373,7 +374,7 @@ const SuccessScreen = ({ emoji, title, noteLabel, note, subtitle, onNext, nextLa
 
 // ─── Main Component ────────────────────────────────────────────────────────
 
-const Calibrador = () => {
+const Calibrador = ({ user }) => {
   const [storageData, setStorageData] = useState(loadStorage);
   const [mode, setMode] = useState(null);
   const [step, setStep] = useState(1);
@@ -394,7 +395,7 @@ const Calibrador = () => {
   const { calibrations } = storageData;
 
   // ── Save a calibration result ──────────────────────────────────────────
-  const saveCalibration = (modeKey, min, max) => {
+  const saveCalibration = async (modeKey, min, max) => {
     const newCals = {
       ...calibrations,
       [modeKey]: { min, max, completedAt: new Date().toISOString() }
@@ -403,6 +404,9 @@ const Calibrador = () => {
     const newData = { calibrations: newCals, combined };
     setStorageData(newData);
     saveStorage(newData);
+    if (user && combined) {
+      await UserDAO.saveProfile(user, combined, newData);
+    }
   };
 
   // ── Finish flow ────────────────────────────────────────────────────────

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Music, Volume2 } from 'lucide-react';
-import { cantosData } from '../data';
+import { cantosData } from '../../../data';
 import './Dashboard.css';
 
 const Dashboard = () => {

@@ -1,15 +1,40 @@
 import React, { useState } from 'react';
 import { User } from 'lucide-react';
+import UserDAO from '../../../dao/UserDAO';
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (email.trim() !== '') {
-      localStorage.setItem('salmistasUser', email);
-      onLogin(email);
+      setLoading(true);
+      const emailLower = email.toLowerCase().trim();
+      
+      // Define a sessão local
+      UserDAO.setCurrentUserEmail(emailLower);
+      
+      // Busca no Firebase
+      const profile = await UserDAO.getProfile(emailLower);
+      
+      // Se não achou perfil na nuvem, garante que não fique lixo de outro user no cache
+      if (!profile) {
+        localStorage.removeItem('userVoiceProfile');
+        localStorage.removeItem('calibrationData');
+      }
+
+      // Chama o hook onLogin para atualizar o App
+      onLogin(emailLower);
+      
+      if (!profile) {
+        navigate('/calibrador');
+      } else {
+        navigate('/');
+      }
     }
   };
 
@@ -33,8 +58,8 @@ const Login = ({ onLogin }) => {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary w-100">
-            Entrar
+          <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+            {loading ? 'Carregando...' : 'Entrar'}
           </button>
         </form>
       </div>
