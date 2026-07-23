@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Mic2, LogOut, User, Menu, X, ChevronDown } from 'lucide-react';
+import { Mic2, LogOut, User, Menu, X, ChevronDown, ShieldCheck } from 'lucide-react';
+import AuthDAO from '../dao/AuthDAO';
 import './Navbar.css';
 
 const freqToNoteName = (freq) => {
@@ -127,6 +128,12 @@ const Navbar = ({ user, onLogout }) => {
                       <Mic2 size={16} />
                       <span>Calibrar a voz</span>
                     </Link>
+                    {AuthDAO.isAdmin(user) && (
+                      <Link to="/admin" className="dropdown-item text-primary">
+                        <ShieldCheck size={16} />
+                        <span>Área Admin</span>
+                      </Link>
+                    )}
                     <div className="dropdown-divider"></div>
                     <button onClick={onLogout} className="dropdown-item text-danger">
                       <LogOut size={16} />
@@ -203,6 +210,14 @@ const Navbar = ({ user, onLogout }) => {
           {user && (
             <div className="mobile-user-section">
               <UserMenuContent />
+              
+              {AuthDAO.isAdmin(user) && (
+                <Link to="/admin" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '1rem', color: '#0369a1' }}>
+                  <ShieldCheck size={18} />
+                  <span>Área Admin</span>
+                </Link>
+              )}
+
               <button onClick={onLogout} className="mobile-logout-btn">
                 <LogOut size={18} />
                 <span>Sair</span>

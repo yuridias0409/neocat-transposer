@@ -6,6 +6,7 @@ import UserDAO from '../dao/UserDAO';
 import { calcularTomIdealInteligente } from '../utils/transpositionEngine';
 import { otimizarCapoETom } from '../utils/capoEngine';
 import { getNoteIndex } from '../utils';
+import { processarFeedbackEAprender } from '../utils/FeedbackEngine';
 
 export function useCantoController(cantoId, user) {
   const canto = CantoDAO.getById(cantoId);
@@ -20,11 +21,6 @@ export function useCantoController(cantoId, user) {
   const [showNotes, setShowNotes] = useState(false);
   const [showChordGuide, setShowChordGuide] = useState(false);
 
-  const [isKaraokeMode, setIsKaraokeMode] = useState(false);
-  const [currentMicHz, setCurrentMicHz] = useState(0);
-
-  const [showFeedback, setShowFeedback] = useState(false);
-  const [feedbackSent, setFeedbackSent] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [pitchData, setPitchData] = useState(null);
   const [fontSize, setFontSize] = useState(1.1);
@@ -33,7 +29,8 @@ export function useCantoController(cantoId, user) {
   const [duration, setDuration] = useState(0);
 
   const [aiMessage, setAiMessage] = useState('');
-  const [showFeedbackBar, setShowFeedbackBar] = useState(false);
+  const [initialTransposition, setInitialTransposition] = useState(null);
+  const [isToneSaved, setIsToneSaved] = useState(false);
 
   const playerRef = useRef(null);
   const pitchShiftRef = useRef(null);
@@ -126,7 +123,7 @@ export function useCantoController(cantoId, user) {
     if (!canto) return;
 
     setAiMessage('');
-    setShowFeedbackBar(false);
+    setIsToneSaved(false);
 
     const savedProfile = localStorage.getItem('userVoiceProfile');
     let profileData = null;
@@ -145,6 +142,7 @@ export function useCantoController(cantoId, user) {
 
     if (profileData && profileData.cantos_validados && profileData.cantos_validados[cantoId] !== undefined) {
       setTransposition(profileData.cantos_validados[cantoId]);
+      setInitialTransposition(profileData.cantos_validados[cantoId]);
     } else {
       let aiOffset = 0;
       if (profileData) {
@@ -157,6 +155,7 @@ export function useCantoController(cantoId, user) {
         if (res) aiOffset = res.semitones;
       }
       setTransposition(currentBaseOffset + aiOffset);
+      setInitialTransposition(currentBaseOffset + aiOffset);
     }
 
     if (canto.audio_url) {
@@ -202,8 +201,7 @@ export function useCantoController(cantoId, user) {
         pitchShiftRef.current.pitch = audioPitchShift;
       }
     }
-    if (transposition !== 0 && !feedbackSent) setShowFeedback(true);
-  }, [transposition, canto, feedbackSent]);
+  }, [transposition, canto]);
 
   const togglePlay = async () => {
     if (!isAudioLoaded || !playerRef.current || !playerRef.current.buffer) return;
@@ -258,10 +256,33 @@ export function useCantoController(cantoId, user) {
     }
   };
 
-  const handleFeedback = (isGood) => {
-    setFeedbackSent(true);
-    setShowFeedback(false);
-    showToast(isGood ? "Ótimo! O app lembrará dessa preferência." : "Obrigado pelo aviso. Ajustaremos nosso algoritmo!");
+  const salvarTomPreferido = async () => {
+    if (!user) {
+      showToast("Você precisa estar logado para salvar seu tom preferido.");
+      return;
+    }
+
+    try {
+      let tipoFeedback = 'OPTIMAL';
+      if (initialTransposition !== null) {
+        if (transposition > initialTransposition) tipoFeedback = 'TOO_LOW'; // IA sugeriu muito baixo
+        else if (transposition < initialTransposition) tipoFeedback = 'TOO_HIGH'; // IA sugeriu muito alto
+      }
+
+      await processarFeedbackEAprender({
+        userId: user,
+        cantoId,
+        tipoFeedback,
+        tomAtualSemitons: transposition
+      });
+
+      setIsToneSaved(true);
+      setInitialTransposition(transposition);
+      showToast("✅ Tom salvo com sucesso! O aplicativo lembrará dessa preferência.");
+    } catch (err) {
+      console.error("Erro ao salvar tom", err);
+      showToast("Ocorreu um erro ao salvar seu tom preferido.");
+    }
   };
 
 
@@ -316,9 +337,10 @@ export function useCantoController(cantoId, user) {
     }
 
     setTransposition(currentBaseOffset + resultado.semitones);
+    setInitialTransposition(currentBaseOffset + resultado.semitones);
     setTomEsforco(resultado.semitonesEsforco !== null ? currentBaseOffset + resultado.semitonesEsforco : null);
     setAiMessage(resultado.mensagem);
-    setShowFeedbackBar(true);
+    setIsToneSaved(false);
   };
 
 
@@ -343,10 +365,9 @@ export function useCantoController(cantoId, user) {
     notes, setNotes, showNotes, setShowNotes, saveNotes,
     showChordGuide, setShowChordGuide,
     isKaraokeMode, currentMicHz, pitchData, startKaraoke, stopKaraoke,
-    showFeedback, feedbackSent, handleFeedback,
     isGenerating, setIsGenerating,
     fontSize, setFontSize,
     toastMessage, showToast,
-    aiMessage, showFeedbackBar, setShowFeedbackBar
+    aiMessage, initialTransposition, isToneSaved, salvarTomPreferido
   };
 }
