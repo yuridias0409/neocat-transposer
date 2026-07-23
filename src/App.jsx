@@ -27,7 +27,11 @@ function MainApp({ user, setUser }) {
 
   return (
     <div className="app-container">
-      <Navbar user={user} onLogout={async () => { await AuthDAO.logout(); UserDAO.clearSession(); setUser(null); }} />
+      <Navbar user={user} onLogout={async () => { 
+        UserDAO.clearSession(); 
+        setUser(null); 
+        await AuthDAO.logout(); 
+      }} />
       <main>
         <Routes>
           <Route path="/" element={<Dashboard />} />
