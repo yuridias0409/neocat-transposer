@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Mic2, LogOut, User, Menu, X, ChevronDown, ShieldCheck, KeyRound } from 'lucide-react';
+import { getVoiceClassification } from '../utils/musicMath';
 import AuthDAO from '../dao/AuthDAO';
 import './Navbar.css';
 
@@ -15,14 +16,9 @@ const freqToNoteName = (freq) => {
   return `${notes[n]}${octave}`;
 };
 
-const getVoiceType = (minFreq) => {
-  if (!minFreq) return null;
-  if (minFreq < 100) return 'Baixo/Barítono';
-  if (minFreq < 150) return 'Tenor/Contralto';
-  return 'Soprano/Mezzo';
-};
 
-const Navbar = ({ user, onLogout }) => {
+
+const Navbar = ({ user, isAdmin, onLogout }) => {
   const [voiceProfile, setVoiceProfile] = useState(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDesktopDropdownOpen, setIsDesktopDropdownOpen] = useState(false);
@@ -74,7 +70,7 @@ const Navbar = ({ user, onLogout }) => {
     return () => { window.removeEventListener('storage', load); clearInterval(interval); };
   }, []);
 
-  const voiceType = voiceProfile ? getVoiceType(voiceProfile.min?.freq) : null;
+  const voiceType = voiceProfile ? getVoiceClassification(voiceProfile.min?.freq, voiceProfile.max?.freq) : null;
   const voiceRange = voiceProfile ? 
     `${freqToNoteName(voiceProfile.min?.freq)} → ${freqToNoteName(voiceProfile.max?.freq)}` : 
     null;
@@ -85,7 +81,7 @@ const Navbar = ({ user, onLogout }) => {
         <span className="user-name">{user.split('@')[0]}</span>
         {voiceType && (
           <div className="voice-badge">
-            <span className="voice-type-text">{voiceType}</span>
+            <span className="voice-type-text">{voiceType}:</span>
             <span className="voice-range-text">{voiceRange}</span>
           </div>
         )}
@@ -167,7 +163,7 @@ const Navbar = ({ user, onLogout }) => {
                       <Mic2 size={16} />
                       <span>Calibrar a voz</span>
                     </Link>
-                    {AuthDAO.isAdmin(user) && (
+                    {isAdmin && (
                       <Link to="/admin" className="dropdown-item text-primary">
                         <ShieldCheck size={16} />
                         <span>Área Admin</span>
@@ -255,7 +251,7 @@ const Navbar = ({ user, onLogout }) => {
               <UserMenuContent />
               
               <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                {AuthDAO.isAdmin(user) && (
+                {isAdmin && (
                   <Link to="/admin" className="mobile-admin-btn" onClick={() => setIsMobileMenuOpen(false)}>
                     <ShieldCheck size={18} />
                     <span>Área Admin</span>

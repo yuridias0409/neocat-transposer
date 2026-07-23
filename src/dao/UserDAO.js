@@ -1,5 +1,5 @@
 import { db } from '../services/firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 
 class UserDAO {
 
@@ -72,25 +72,61 @@ class UserDAO {
 
 
 
-  async saveProfile(email, profileData, fullCalibrationData = null) {
+  async saveProfile(email, profileData, fullCalibrationData = undefined) {
     if (!email) return;
     const encodedEmail = btoa(email);
 
-    localStorage.setItem('userVoiceProfile', JSON.stringify(profileData));
-    if (fullCalibrationData) {
-      localStorage.setItem('calibrationData', JSON.stringify(fullCalibrationData));
+    if (profileData) {
+      let existing = {};
+      try {
+        const raw = localStorage.getItem('userVoiceProfile');
+        if (raw) existing = JSON.parse(raw);
+      } catch (e) {}
+      localStorage.setItem('userVoiceProfile', JSON.stringify({ ...existing, ...profileData }));
+    } else {
+      localStorage.removeItem('userVoiceProfile');
+    }
+
+    if (fullCalibrationData !== undefined) {
+      if (fullCalibrationData) {
+        localStorage.setItem('calibrationData', JSON.stringify(fullCalibrationData));
+      } else {
+        localStorage.removeItem('calibrationData');
+      }
     }
 
     try {
       const docRef = doc(db, 'users', encodedEmail);
-      const dataToSave = {
-        profile: profileData,
-        atualizado_em: new Date().toISOString()
-      };
-      if (fullCalibrationData) {
-        dataToSave.calibrationData = fullCalibrationData;
+      const docSnap = await getDoc(docRef);
+      
+      if (docSnap.exists()) {
+        const dataToUpdate = {
+          atualizado_em: new Date().toISOString()
+        };
+        
+        if (profileData) {
+          for (const [key, value] of Object.entries(profileData)) {
+            dataToUpdate[`profile.${key}`] = value;
+          }
+        } else {
+          dataToUpdate.profile = null;
+        }
+        
+        if (fullCalibrationData !== undefined) {
+          dataToUpdate.calibrationData = fullCalibrationData;
+        }
+        
+        await updateDoc(docRef, dataToUpdate);
+      } else {
+        const dataToSave = {
+          profile: profileData,
+          atualizado_em: new Date().toISOString()
+        };
+        if (fullCalibrationData !== undefined) {
+          dataToSave.calibrationData = fullCalibrationData;
+        }
+        await setDoc(docRef, dataToSave);
       }
-      await setDoc(docRef, dataToSave, { merge: true });
     } catch (err) {
       console.error("Erro ao salvar perfil no Firestore", err);
       throw err;

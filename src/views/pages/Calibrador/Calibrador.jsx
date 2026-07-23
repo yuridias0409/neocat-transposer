@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mic, CheckCircle, ArrowRight, Guitar, ThumbsUp, ThumbsDown, User, Play, Square, UserPlus, Music2, X } from 'lucide-react';
+import { getVoiceClassification } from '../../../utils/musicMath';
+import VoiceClassifier from '../../../utils/VoiceClassifier';
 import { PitchDetector } from 'pitchy';
 import * as Tone from 'tone';
 import UserDAO from '../../../dao/UserDAO';
 import './Calibrador.css';import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
-
-
 
 const freqToNote = (freq) => {
   if (!freq || freq < 20) return null;
@@ -24,12 +24,7 @@ const freqToNoteName = (freq) => {
   return n ? n.name : '?';
 };
 
-const getVoiceType = (minFreq) => {
-  if (!minFreq) return 'Desconhecido';
-  if (minFreq < 100) return 'Baixo/Barítono';
-  if (minFreq < 150) return 'Tenor/Contralto';
-  return 'Soprano/Mezzo';
-};
+
 
 const getVoiceRange = (minFreq, maxFreq) => {
   if (!minFreq || !maxFreq) return null;
@@ -40,12 +35,26 @@ const getVoiceRange = (minFreq, maxFreq) => {
   return `${freqToNoteName(minFreq)} → ${freqToNoteName(maxFreq)}${octStr}`;
 };
 
+const getGender = (tipoVoz) => {
+  if (['Baixo', 'Barítono', 'Tenor'].includes(tipoVoz)) return 'masculino';
+  if (['Contralto', 'Mezzo-Soprano', 'Soprano'].includes(tipoVoz)) return 'feminino';
+  return 'masculino'; // default
+};
+
 const computeCombined = (calibrations) => {
   const vals = Object.values(calibrations).filter((c) => c && c.min && c.max);
   if (vals.length === 0) return null;
   const avgMin = vals.reduce((s, c) => s + c.min.freq, 0) / vals.length;
   const avgMax = vals.reduce((s, c) => s + c.max.freq, 0) / vals.length;
+  const tipo = getVoiceClassification(avgMin, avgMax);
+  const gender = getGender(tipo);
   return {
+    minHz: avgMin,
+    maxHz: avgMax,
+    f0_min: avgMin,
+    f0_max: avgMax,
+    tipoVoz: tipo,
+    gender: gender,
     min: { name: freqToNoteName(avgMin), freq: avgMin },
     max: { name: freqToNoteName(avgMax), freq: avgMax }
   };
@@ -70,7 +79,14 @@ const loadStorage = () => {
 const saveStorage = (data) => {
   localStorage.setItem('calibrationData', JSON.stringify(data));
   if (data.combined) {
-    localStorage.setItem('userVoiceProfile', JSON.stringify({ ...data.combined, learningCautela: 0 }));
+    let existingProfile = {};
+    try {
+      const rawProfile = localStorage.getItem('userVoiceProfile');
+      if (rawProfile) existingProfile = JSON.parse(rawProfile);
+    } catch {}
+    localStorage.setItem('userVoiceProfile', JSON.stringify({ ...existingProfile, ...data.combined, learningCautela: 0 }));
+  } else {
+    localStorage.removeItem('userVoiceProfile');
   }
 };
 
@@ -162,7 +178,7 @@ const useMicPitch = ({ onNoteConfirmed, step, SUSTAIN_DURATION = 3000 }) => {
           setIsRecording(false);
           setCurrentNote(null);
           setSustainProgress(0);
-          onNoteRef.current(noteData, stepRef.current);
+          onNoteRef.current(noteData, stepRef.current, input);
           return;
         }
       } else {
@@ -269,7 +285,7 @@ const useAveragePitch = ({ onDone, AVERAGE_DURATION = 5000 }) => {
       setIsRecording(false);
       setCurrentNote(null);
       setProgress(100);
-      onDoneRef.current(noteData, samples.length);
+      onDoneRef.current(noteData, samples.length, input);
       return;
     }
 
@@ -397,6 +413,8 @@ export default function Calibrador({ user }) {
   const [maxNote, setMaxNote] = useState(null);
   const [empCapo, setEmpCapo] = useState(0);
   const [refazerModal, setRefazerModal] = useState(null);
+  const [lowBuffer, setLowBuffer] = useState(null);
+  const [highBuffer, setHighBuffer] = useState(null);
 
 
   const [assistantGender, setAssistantGender] = useState(null);
@@ -415,11 +433,28 @@ export default function Calibrador({ user }) {
       [modeKey]: { min, max, completedAt: new Date().toISOString() }
     };
     const combined = computeCombined(newCals);
+    
+    // DSP Voice Classifier integration
+    if (lowBuffer && highBuffer && modeKey !== 'assistant') {
+      try {
+        const classifier = new VoiceClassifier(Tone.context.sampleRate || 44100);
+        const dspResult = classifier.analyze(lowBuffer, highBuffer);
+        if (dspResult && dspResult.classificacao !== 'Indefinido') {
+          combined.tipoVoz = dspResult.classificacao;
+          combined.gender = getGender(dspResult.classificacao);
+          combined.dspMetricas = dspResult.metricas;
+        }
+      } catch (e) {
+        console.error("DSP Classifier error:", e);
+      }
+    }
+    
     const newData = { calibrations: newCals, combined };
     setStorageData(newData);
     saveStorage(newData);
     if (user && combined) {
-      await UserDAO.saveProfile(user, combined, newData);
+      const email = typeof user === 'string' ? user : (user.email || user.uid);
+      await UserDAO.saveProfile(email, combined, newData);
     }
   };
 
@@ -432,24 +467,28 @@ export default function Calibrador({ user }) {
 
   const mic = useMicPitch({
     step,
-    onNoteConfirmed: (noteData, currentStep) => {
+    onNoteConfirmed: (noteData, currentStep, buffer) => {
       if (currentStep === 2) {
         setMinNote(noteData);
+        if (buffer) setLowBuffer(new Float32Array(buffer));
         setNoteSaved('grave');
       } else if (currentStep === 3) {
         setMaxNote(noteData);
+        if (buffer) setHighBuffer(new Float32Array(buffer));
         setNoteSaved('agudo');
       }
     }
   });
 
   const hum = useAveragePitch({
-    onDone: (noteData) => {
+    onDone: (noteData, count, buffer) => {
       if (step === 2) {
         setMinNote(noteData);
+        if (buffer) setLowBuffer(new Float32Array(buffer));
         setNoteSaved('grave');
       } else if (step === 3) {
         setMaxNote(noteData);
+        if (buffer) setHighBuffer(new Float32Array(buffer));
         setNoteSaved('agudo');
       }
     }
@@ -462,6 +501,8 @@ export default function Calibrador({ user }) {
     setNoteSaved(false);
     setMinNote(null);
     setMaxNote(null);
+    setLowBuffer(null);
+    setHighBuffer(null);
     setEmpCapo(0);
     setAssistantGender(null);
     setAstOffsetGrave(0);
@@ -592,6 +633,10 @@ export default function Calibrador({ user }) {
                   const newData = { calibrations: newCals, combined };
                   setStorageData(newData);
                   saveStorage(newData);
+                  if (user) {
+                    const email = typeof user === 'string' ? user : (user.email || user.uid);
+                    UserDAO.saveProfile(email, combined, newData).catch(console.error);
+                  }
                   setRefazerModal(null);
                 }, children: "Remover Calibração" }, void 0, false
 
@@ -616,7 +661,7 @@ export default function Calibrador({ user }) {
               const Icon = info.icon;
               if (done) {
                 const range = getVoiceRange(done.min?.freq, done.max?.freq);
-                const vtype = getVoiceType(done.min?.freq);
+                const vtype = getVoiceClassification(done.min?.freq, done.max?.freq);
                 return (
                   _jsxDEV("button", { onClick: () => setRefazerModal(key),
                     style: {
@@ -667,7 +712,7 @@ export default function Calibrador({ user }) {
           _jsxDEV("div", { style: { marginTop: '1.5rem', padding: '1rem', background: '#f0fdf4', borderRadius: '10px', border: '1px solid #86efac', color: '#166534' }, children: [
             _jsxDEV("strong", { children: ["🎼 Perfil combinado (", Object.keys(calibrations).length, " testes):"] }, void 0, true),
             _jsxDEV("div", { style: { marginTop: '0.25rem', fontSize: '1.05rem' }, children: [
-              getVoiceType(storageData.combined.min?.freq), " · ", getVoiceRange(storageData.combined.min?.freq, storageData.combined.max?.freq)] }, void 0, true
+              getVoiceClassification(storageData.combined.min?.freq, storageData.combined.max?.freq), " · ", getVoiceRange(storageData.combined.min?.freq, storageData.combined.max?.freq)] }, void 0, true
             )] }, void 0, true
           ),
 
@@ -698,7 +743,7 @@ export default function Calibrador({ user }) {
           _jsxDEV("h2", { children: "Perfil Salvo!" }, void 0, false),
           cal &&
           _jsxDEV("p", { style: { fontSize: '1.1rem', color: '#444', marginBottom: '0.5rem' }, children: [
-            _jsxDEV("strong", { children: getVoiceType(cal.min?.freq) }, void 0, false), " · ", getVoiceRange(cal.min?.freq, cal.max?.freq)] }, void 0, true
+            _jsxDEV("strong", { children: getVoiceClassification(cal.min?.freq, cal.max?.freq) }, void 0, false), " · ", getVoiceRange(cal.min?.freq, cal.max?.freq)] }, void 0, true
           ),
 
           Object.keys(calibrations).length > 1 && storageData.combined &&

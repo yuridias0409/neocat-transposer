@@ -3,13 +3,21 @@ import { sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink, sign
 
 class AuthDAO {
 
-  ALLOWED_ADMINS = [
-    'yuri.dias0409@hotmail.com'
-  ];
-
-  isAdmin(email) {
+  async isAdmin(email) {
     if (!email) return false;
-    return this.ALLOWED_ADMINS.includes(email.toLowerCase().trim());
+    const { doc, getDoc } = await import('firebase/firestore');
+    const { db } = await import('../services/firebase');
+    try {
+      const docRef = doc(db, 'configs', 'admins');
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const allowed = docSnap.data().allowed_emails || [];
+        return allowed.includes(email.toLowerCase().trim());
+      }
+    } catch (e) {
+      console.error("Erro ao verificar admin:", e);
+    }
+    return false;
   }
 
   async loginWithPassword(email, password) {

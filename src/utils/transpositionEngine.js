@@ -11,6 +11,30 @@ export function calcularTomIdealInteligente(vozSalmista, canto, perfilUsuario = 
   const songWideness = cantoMaxSemi - cantoMinSemi;
   const singerWideness = salmistaMaxSemi - salmistaMinSemi;
 
+  // 1. Agrupamento por Classificação Vocal (Clustering Intelligence)
+  const iaDataVoice = cantoFirebaseData?.ia_metrics?.[vozSalmista.tipoVoz];
+  if (iaDataVoice) {
+    let maxVotes = 0;
+    let totalVotes = 0;
+    let bestTransposition = null;
+    for (const [transpStr, votes] of Object.entries(iaDataVoice)) {
+      totalVotes += votes;
+      if (votes > maxVotes) {
+        maxVotes = votes;
+        bestTransposition = parseInt(transpStr, 10);
+      }
+    }
+    
+    // Se >= 50% dos salmistas deste tipo de voz concordam num tom (min 2 votos)
+    if (maxVotes >= 2 && (maxVotes / totalVotes) >= 0.5 && bestTransposition !== null) {
+      return {
+        semitones: bestTransposition,
+        semitonesEsforco: bestTransposition,
+        mensagem: `Tom inteligente baseado em salmistas com a mesma voz que você (${vozSalmista.tipoVoz}).`
+      };
+    }
+  }
+
 
 
   const offsetFromSingerLowest = songWideness >= singerWideness ?

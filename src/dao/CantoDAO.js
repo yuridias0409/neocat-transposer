@@ -32,8 +32,16 @@ class CantoDAO {
     try {
       const docRef = doc(db, "cantos", id);
       const snap = await getDoc(docRef);
+      
+      const iaRef = doc(db, "ia_song_metrics", id);
+      const iaSnap = await getDoc(iaRef);
+      
       if (snap.exists()) {
-        return snap.data();
+        const data = snap.data();
+        if (iaSnap.exists()) {
+          data.ia_metrics = iaSnap.data();
+        }
+        return data;
       }
     } catch (err) {
       console.error(err);

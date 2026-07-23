@@ -1,5 +1,6 @@
 import { db } from '../services/firebase';
 import { doc, getDoc, updateDoc, increment, setDoc, collection } from 'firebase/firestore';
+import { hzToNoteName } from './musicMath';
 
 export async function processarFeedbackEAprender({ userId, cantoId, tipoFeedback, tomAtualSemitons }) {
   if (!userId || !cantoId) return { success: false, requireRecalibration: false };
@@ -21,7 +22,8 @@ export async function processarFeedbackEAprender({ userId, cantoId, tipoFeedback
   const cantoSnap = await getDoc(cantoRef);
   let cantoData = cantoSnap.exists() ? cantoSnap.data() : null;
 
-  const userRef = doc(db, "users", userId);
+  const encodedUserId = btoa(userId);
+  const userRef = doc(db, "users", encodedUserId);
   const userSnap = await getDoc(userRef);
   let userData = userSnap.exists() ? userSnap.data() : { profile: {} };
   let profile = userData.profile || {};
@@ -29,6 +31,7 @@ export async function processarFeedbackEAprender({ userId, cantoId, tipoFeedback
   let f0_max = profile.f0_max || 329.63;
   let cantosValidados = profile.cantos_validados || {};
   let totalErrosContínuos = profile.feedbacks_negativos_consecutivos || 0;
+  let comfortMap = profile.comfort_map || {};
 
   // 3. Aprendizado Pessoal e Memória de Repertório
   if (tipoFeedback !== 'OPTIMAL') {
@@ -82,18 +85,39 @@ export async function processarFeedbackEAprender({ userId, cantoId, tipoFeedback
     // Anexar temporariamente ao profile para salvar depois
     profile.outlier_agudo_count = outlierAgudoCount;
     profile.outlier_grave_count = outlierGraveCount;
+
+    // Mapa de Conforto (Heatmap)
+    if (cantoData && cantoData.freq_max_curada && cantoData.freq_min_curada) {
+      const freqMaxReal = cantoData.freq_max_curada * Math.pow(2, tomAtualSemitons / 12);
+      const freqMinReal = cantoData.freq_min_curada * Math.pow(2, tomAtualSemitons / 12);
+      
+      const maxNote = hzToNoteName(freqMaxReal);
+      const minNote = hzToNoteName(freqMinReal);
+
+      if (maxNote && maxNote !== "--") comfortMap[maxNote] = (comfortMap[maxNote] || 0) + 1;
+      if (minNote && minNote !== "--") comfortMap[minNote] = (comfortMap[minNote] || 0) + 1;
+    }
+    
+    // Salva no banco de inteligência global
+    if (profile.tipoVoz) {
+      const iaSongRef = doc(db, "ia_song_metrics", cantoId);
+      await setDoc(iaSongRef, {
+        [profile.tipoVoz]: {
+          [tomAtualSemitons.toString()]: increment(1)
+        }
+      }, { merge: true });
+    }
   }
 
   // Salva no banco do usuário
-  await setDoc(userRef, {
-    profile: {
-      ...profile,
-      f0_min: parseFloat(f0_min.toFixed(2)),
-      f0_max: parseFloat(f0_max.toFixed(2)),
-      cantos_validados: cantosValidados,
-      feedbacks_negativos_consecutivos: totalErrosContínuos
-    }
-  }, { merge: true });
+  const userUpdate = {
+    "profile.f0_min": parseFloat(f0_min.toFixed(2)),
+    "profile.f0_max": parseFloat(f0_max.toFixed(2)),
+    "profile.cantos_validados": cantosValidados,
+    "profile.feedbacks_negativos_consecutivos": totalErrosContínuos,
+    "profile.comfort_map": comfortMap
+  };
+  await updateDoc(userRef, userUpdate);
 
   // Salva no localStorage
   try {
@@ -102,6 +126,7 @@ export async function processarFeedbackEAprender({ userId, cantoId, tipoFeedback
     localProfile.f0_max = parseFloat(f0_max.toFixed(2));
     localProfile.cantos_validados = cantosValidados;
     localProfile.feedbacks_negativos_consecutivos = totalErrosContínuos;
+    localProfile.comfort_map = comfortMap;
     localStorage.setItem('userVoiceProfile', JSON.stringify(localProfile));
   } catch (e) {}
 

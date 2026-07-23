@@ -13,21 +13,21 @@ import AuthDAO from './dao/AuthDAO';
 import { auth } from './services/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 
-function AdminRoute({ user }) {
-  if (!user || !AuthDAO.isAdmin(user)) {
+function AdminRoute({ isAdmin }) {
+  if (!isAdmin) {
     return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', fontFamily: 'var(--font-body)' }}>Acesso negado. Apenas administradores autorizados.</div>;
   }
   return <AdminDashboard />;
 }
 
-function MainApp({ user, setUser }) {
+function MainApp({ user, setUser, isAdmin }) {
   if (!user) {
     return <Login onLogin={setUser} />;
   }
 
   return (
     <div className="app-container">
-      <Navbar user={user} onLogout={async () => { 
+      <Navbar user={user} isAdmin={isAdmin} onLogout={async () => { 
         UserDAO.clearSession(); 
         setUser(null); 
         await AuthDAO.logout(); 
@@ -37,7 +37,7 @@ function MainApp({ user, setUser }) {
           <Route path="/" element={<Dashboard />} />
           <Route path="/calibrador" element={<Calibrador user={user} />} />
           <Route path="/canto/:id" element={<Canto user={user} />} />
-          <Route path="/admin" element={<AdminRoute user={user} />} />
+          <Route path="/admin" element={<AdminRoute isAdmin={isAdmin} />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
@@ -48,24 +48,32 @@ function MainApp({ user, setUser }) {
 
 function App() {
   const [user, setUser] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
     // Escuta mudanças no estado de autenticação do Firebase para todos os usuários
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      let finalUser = null;
+      let finalIsAdmin = false;
+      
       if (firebaseUser) {
         UserDAO.setCurrentUserEmail(firebaseUser.email);
         await UserDAO.getProfile(firebaseUser.email); // Busca e migra o perfil ANTES de renderizar as rotas internas
-        setUser(firebaseUser.email);
+        finalIsAdmin = await AuthDAO.isAdmin(firebaseUser.email);
+        finalUser = firebaseUser.email;
       } else {
-        // Fallback para sessão antiga/local, se existir (para não deslogar quem acabou de abrir o app após a atualização)
+        // Fallback para sessão antiga/local, se existir
         const savedUser = UserDAO.getCurrentUserEmail();
         if (savedUser) {
           await UserDAO.getProfile(savedUser);
-          setUser(savedUser);
+          finalIsAdmin = await AuthDAO.isAdmin(savedUser);
+          finalUser = savedUser;
         }
-        else setUser(null);
       }
+      
+      setIsAdmin(finalIsAdmin);
+      setUser(finalUser);
       setAuthLoading(false);
     });
 
@@ -78,7 +86,7 @@ function App() {
 
   return (
     <Router>
-      <MainApp user={user} setUser={setUser} />
+      <MainApp user={user} setUser={setUser} isAdmin={isAdmin} />
     </Router>
   );
 }
