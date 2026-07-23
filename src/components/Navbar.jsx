@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Mic2, LogOut, User, Menu, X, ChevronDown, ShieldCheck, KeyRound } from 'lucide-react';
+import { Mic2, LogOut, User, Menu, X, ChevronDown, ShieldCheck, KeyRound, Music, Download } from 'lucide-react';
 import { getVoiceClassification } from '../utils/musicMath';
 import AuthDAO from '../dao/AuthDAO';
 import './Navbar.css';
@@ -140,12 +140,15 @@ const Navbar = ({ user, isAdmin, onLogout }) => {
           </div>
 
           {}
-          <div className="navbar-center desktop-only">
-            <Link to="/" className="nav-link-main">Cantos</Link>
-          </div>
+          <div className="navbar-center desktop-only"></div>
 
           {}
-          <div className="navbar-right desktop-only">
+          <div className="navbar-right desktop-only" style={{ gap: '1rem' }}>
+            <Link to="/" className="btn btn-secondary btn-sm calib-btn">
+              <Music size={16} />
+              <span>Cantos</span>
+            </Link>
+
             <Link to="/calibrador" className="btn btn-secondary btn-sm calib-btn">
               <Mic2 size={16} />
               <span>Calibrar Voz</span>
@@ -213,33 +216,13 @@ const Navbar = ({ user, isAdmin, onLogout }) => {
             <X size={28} color="#962828" />
           </button>
         </div>
-
         <div className="mobile-menu-content">
-          <div className="mobile-nav-links">
-            <Link to="/" className="mobile-nav-link font-neocat" onClick={() => setIsMobileMenuOpen(false)}>Cantos</Link>
-            <button
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                window.dispatchEvent(new Event('triggerInstallApp'));
-              }}
-              style={{
-                background: 'none',
-                border: 'none',
-                padding: 0,
-                textAlign: 'left',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                color: 'inherit'
-              }}
-              className="mobile-nav-link font-neocat">
-              
-              Baixar App
-            </button>
-          </div>
-
-          <div className="mobile-actions">
+          <div className="mobile-actions" style={{ gap: '1rem' }}>
+            <Link to="/" className="btn btn-secondary mobile-calib-btn" onClick={() => setIsMobileMenuOpen(false)}>
+              <Music size={18} />
+              <span>Cantos</span>
+            </Link>
+            
             <Link to="/calibrador" className="btn btn-secondary mobile-calib-btn">
               <Mic2 size={18} />
               <span>Calibrar Voz</span>
@@ -257,6 +240,17 @@ const Navbar = ({ user, isAdmin, onLogout }) => {
                     <span>Área Admin</span>
                   </Link>
               }
+
+                <button
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    window.dispatchEvent(new Event('triggerInstallApp'));
+                  }}
+                  className="mobile-pwd-btn"
+                >
+                  <Download size={18} />
+                  <span>Baixar App</span>
+                </button>
 
                 <button onClick={() => {setIsMobileMenuOpen(false);setShowPasswordModal(true);}} className="mobile-pwd-btn">
                   <KeyRound size={18} />

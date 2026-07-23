@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Music, Volume2 } from 'lucide-react';
+import { Search, Music, Volume2, ChevronDown } from 'lucide-react';
 import { cantosData } from '../../../data';
 import { otimizarCapoETom } from '../../../utils/capoEngine';
 import { calcularTomIdealInteligente } from '../../../utils/transpositionEngine';
 import CantoDAO from '../../../dao/CantoDAO';
 import capoIcon from '../../../assets/capotraste.png';
-import './Dashboard.css';import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
+import './Dashboard.css';
 
 const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [userProfile, setUserProfile] = useState(null);
   const [allIntelligentData, setAllIntelligentData] = useState({});
 
-  React.useEffect(() => {
+  useEffect(() => {
     try {
       const p = localStorage.getItem('userVoiceProfile');
       if (p) setUserProfile(JSON.parse(p));
@@ -24,15 +24,15 @@ const Dashboard = () => {
 
   const allCantos = Object.values(cantosData);
   const cantos = allCantos.filter((canto) =>
-  canto.titulo.toLowerCase().includes(searchTerm.toLowerCase())
+    canto.titulo.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const etapas = [
-  { nome: 'Pré-Catecumenato', cor: 'branco', cantos: cantos.filter((c) => c.cor === 'branco') },
-  { nome: 'Catecumenato', cor: 'azul', cantos: cantos.filter((c) => c.cor === 'azul') },
-  { nome: 'Eleição', cor: 'verde', cantos: cantos.filter((c) => c.cor === 'verde') },
-  { nome: 'Liturgia', cor: 'amarelo', cantos: cantos.filter((c) => c.cor === 'amarelo') }];
-
+    { nome: 'Pré-Catecumenato', cor: 'branco', cantos: cantos.filter((c) => c.cor === 'branco') },
+    { nome: 'Catecumenato', cor: 'azul', cantos: cantos.filter((c) => c.cor === 'azul') },
+    { nome: 'Eleição', cor: 'verde', cantos: cantos.filter((c) => c.cor === 'verde') },
+    { nome: 'Liturgia', cor: 'amarelo', cantos: cantos.filter((c) => c.cor === 'amarelo') }
+  ];
 
   const [collapsedSections, setCollapsedSections] = useState({
     'branco': false,
@@ -49,100 +49,125 @@ const Dashboard = () => {
   };
 
   return (
-    _jsxDEV("div", { className: "container dashboard-page", children: [
+    <div className="container dashboard-page">
+      <div className="dashboard-header-modern">
+        <h1>Cantos</h1>
+        <p>Explore o repertório do Caminho Neocatecumenal</p>
+      </div>
 
-      _jsxDEV("div", { className: "search-bar-container mb-4", children:
-        _jsxDEV("div", { className: "search-bar", children: [
-          _jsxDEV(Search, { size: 20, className: "search-icon" }, void 0, false),
-          _jsxDEV("input", {
-            type: "text",
-            placeholder: "Buscar por título...",
-            className: "search-input",
-            value: searchTerm,
-            onChange: (e) => setSearchTerm(e.target.value) }, void 0, false
-          )] }, void 0, true
-        ) }, void 0, false
-      ),
+      <div className="search-bar-container">
+        <div className="search-bar-modern">
+          <Search size={22} className="search-icon" />
+          <input
+            type="text"
+            placeholder="Buscar por título..."
+            className="search-input"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+      </div>
 
-      _jsxDEV("div", { className: "etapas-container", children: [
-        etapas.map((etapa) => {
+      <div className="etapas-container">
+        {etapas.map((etapa) => {
           const cantosOrdenados = etapa.cantos.sort((a, b) => a.titulo.localeCompare(b.titulo));
           const isCollapsed = collapsedSections[etapa.cor];
 
-          return cantosOrdenados.length > 0 &&
-          _jsxDEV("div", { className: `etapa-section etapa-${etapa.cor}`, children: [
-            _jsxDEV("div", {
-              className: "etapa-header",
-              onClick: () => toggleSection(etapa.cor),
-              style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', userSelect: 'none', padding: '0.5rem 0' }, children: [
+          if (cantosOrdenados.length === 0) return null;
 
-              _jsxDEV("h2", { className: "etapa-title", style: { margin: 0, borderBottom: 'none' }, children: [
-                etapa.nome, " ", _jsxDEV("span", { style: { fontSize: '1rem', color: '#888', fontWeight: 'normal' }, children: ["(", cantosOrdenados.length, ")"] }, void 0, true)] }, void 0, true
-              ),
-              _jsxDEV("div", { style: { color: '#888', transform: isCollapsed ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }, children: "▼" }, void 0, false
+          return (
+            <div key={etapa.cor} className={`etapa-card etapa-${etapa.cor}`}>
+              <div
+                className="etapa-header"
+                onClick={() => toggleSection(etapa.cor)}
+              >
+                <h2 className="etapa-title">
+                  {etapa.nome} <span className="etapa-count">({cantosOrdenados.length})</span>
+                </h2>
+                <ChevronDown 
+                  className="etapa-chevron" 
+                  size={24}
+                  style={{ transform: isCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)' }} 
+                />
+              </div>
+              
+              <div className={`cantos-grid ${isCollapsed ? 'collapsed' : 'expanded'}`}>
+                {cantosOrdenados.map((canto) => {
+                  const savedOffset = userProfile?.cantos_validados?.[canto.id];
+                  let offsetToUse = savedOffset;
+                  let isSaved = true;
 
-              )] }, void 0, true),
-                      !isCollapsed &&
-            _jsxDEV("div", { className: "cantos-list", style: { marginTop: '1rem', borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '1rem' }, children:
-              cantosOrdenados.map((canto) => {
-                const savedOffset = userProfile?.cantos_validados?.[canto.id];
-                let offsetToUse = savedOffset;
-                let isSaved = true;
-
-                if (savedOffset === undefined && userProfile) {
-                  const vozSalmista = {
-                    minHz: userProfile.min?.freq || userProfile.f0_min || 110,
-                    maxHz: userProfile.max?.freq || userProfile.f0_max || 330,
-                    tipoVoz: userProfile.tipoVoz || 'Desconhecido'
-                  };
-                  const res = calcularTomIdealInteligente(vozSalmista, canto, userProfile, allIntelligentData[canto.id] || {});
-                  
-                  if (res) {
-                    let resOffset = res.semitones;
-                    resOffset = ((resOffset % 12) + 12) % 12;
-                    if (resOffset > 6) resOffset -= 12;
-                    offsetToUse = resOffset;
+                  if (savedOffset === undefined && userProfile) {
+                    const vozSalmista = {
+                      minHz: userProfile.min?.freq || userProfile.f0_min || 110,
+                      maxHz: userProfile.max?.freq || userProfile.f0_max || 330,
+                      tipoVoz: userProfile.tipoVoz || 'Desconhecido'
+                    };
+                    const res = calcularTomIdealInteligente(vozSalmista, canto, userProfile, allIntelligentData[canto.id] || {});
+                    
+                    if (res) {
+                      let resOffset = res.semitones;
+                      resOffset = ((resOffset % 12) + 12) % 12;
+                      if (resOffset > 6) resOffset -= 12;
+                      offsetToUse = resOffset;
+                    }
+                    isSaved = false;
                   }
-                  isSaved = false;
-                }
 
-                let capoElement = canto.tom_original !== '?' ? _jsxDEV("span", { className: "badge badge-outline canto-list-badge", children: canto.tom_original }, void 0, false) : null;
-                
-                if (offsetToUse !== undefined && canto.tom_original !== '?') {
-                  const capoData = otimizarCapoETom(canto.tom_original, offsetToUse);
-                  capoElement = _jsxDEV("div", { style: { display: 'flex', alignItems: 'center', gap: '4px' }, children: [
-                    isSaved && _jsxDEV("span", { title: "Confirmado na Memória", style: { fontSize: '14px' }, children: "✅" }, void 0, false),
-                    _jsxDEV("span", { style: { background: isSaved ? '#dcfce7' : '#e0f2fe', color: isSaved ? '#166534' : '#0369a1', padding: '0.2rem 0.6rem', borderRadius: '12px', fontWeight: 'bold', fontSize: '0.8rem' }, children: ["🎸 ", capoData.formaAcorde] }, void 0, true),
-                    capoData.capoCasa > 0 && _jsxDEV("span", { style: { background: isSaved ? '#dcfce7' : '#fef3c7', color: isSaved ? '#166534' : '#b45309', padding: '0.2rem 0.6rem', borderRadius: '12px', fontWeight: 'bold', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '4px' }, children: [
-                      _jsxDEV("img", { src: capoIcon, alt: "Capo", style: { width: '14px', height: '14px', filter: isSaved ? 'none' : 'hue-rotate(20deg) saturate(150%) brightness(0.8)' } }, void 0, false), `Capo ${capoData.capoCasa}ª`
-                    ] }, void 0, true)
-                  ] }, void 0, true);
-                }
-
-                return _jsxDEV(Link, { to: `/canto/${canto.id}`, state: { precomputedOffset: offsetToUse }, className: "canto-list-item", children: [
-                  _jsxDEV("div", { className: "canto-list-info", style: { display: 'flex', alignItems: 'center', flex: 1 }, children: [
-                    canto.audio_url ?
-                    _jsxDEV(Volume2, { size: 18, style: { marginRight: '12px', color: 'var(--color-primary)', flexShrink: 0 }, title: "Possui áudio" }, void 0, false) :
-                    _jsxDEV(Music, { size: 18, style: { marginRight: '12px', color: '#ccc', flexShrink: 0 }, title: "Sem áudio" }, void 0, false),
-                    _jsxDEV("span", { className: "canto-list-title", style: { lineHeight: '1.3' }, children: canto.titulo }, void 0, false)] }, void 0, true
-                  ),
-                  capoElement
-                ] }, canto.id, true);
-              })
-              }, void 0, false
-            )] }, etapa.cor, true
-
+                  return (
+                    <Link 
+                      to={`/canto/${canto.id}`} 
+                      state={{ precomputedOffset: offsetToUse }} 
+                      className="canto-card" 
+                      key={canto.id}
+                    >
+                      <div className="canto-card-content">
+                        <div className="canto-icon-box">
+                          {canto.audio_url ? (
+                            <Volume2 size={20} className="icon-audio" title="Possui áudio" />
+                          ) : (
+                            <Music size={20} className="icon-no-audio" title="Sem áudio" />
+                          )}
+                        </div>
+                        <span className="canto-card-title">{canto.titulo}</span>
+                      </div>
+                      
+                      <div className="canto-card-badges">
+                        {offsetToUse !== undefined && canto.tom_original !== '?' ? (() => {
+                          const capoData = otimizarCapoETom(canto.tom_original, offsetToUse);
+                          return (
+                            <div className="capo-badges-wrapper">
+                              {isSaved && <span className="saved-indicator" title="Confirmado na Memória">✅</span>}
+                              <span className={`badge-chord ${isSaved ? 'saved' : 'suggested'}`}>
+                                🎸 {capoData.formaAcorde}
+                              </span>
+                              {capoData.capoCasa > 0 && (
+                                <span className={`badge-capo ${isSaved ? 'saved' : 'suggested'}`}>
+                                  <img src={capoIcon} alt="Capo" className="capo-icon-img" style={{ filter: isSaved ? 'none' : 'hue-rotate(20deg) saturate(150%) brightness(0.8)' }} />
+                                  Capo {capoData.capoCasa}ª
+                                </span>
+                              )}
+                            </div>
+                          );
+                        })() : (
+                          canto.tom_original !== '?' && <span className="badge-original">{canto.tom_original}</span>
+                        )}
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
           );
-
-        }),
-        cantos.length === 0 &&
-        _jsxDEV("div", { className: "text-center", style: { padding: '2rem' }, children:
-          _jsxDEV("p", { children: "Nenhum canto encontrado." }, void 0, false) }, void 0, false
-        )] }, void 0, true
-
-      )] }, void 0, true
-    ));
-
+        })}
+        {cantos.length === 0 && (
+          <div className="empty-state">
+            <p>Nenhum canto encontrado.</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default Dashboard;

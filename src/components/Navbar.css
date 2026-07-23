@@ -88,6 +88,41 @@
   background-color: #eaeaea;
 }
 
+.cantos-desktop-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 12px;
+  background-color: var(--color-bg-secondary);
+  border: 1px solid rgba(140, 28, 28, 0.15);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.cantos-desktop-btn:hover {
+  background-color: rgba(140, 28, 28, 0.08);
+}
+
+.cantos-mobile-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 1rem;
+  border-radius: 12px;
+  background-color: var(--color-bg-secondary);
+  border: 1px solid rgba(140, 28, 28, 0.15);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.cantos-mobile-btn:hover {
+  background-color: rgba(140, 28, 28, 0.08);
+}
+
 .calib-btn {
   display: flex;
   align-items: center;

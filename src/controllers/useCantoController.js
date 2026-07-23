@@ -19,7 +19,7 @@ export function useCantoController(cantoId, user) {
   const [userProfile, setUserProfile] = useState(null);
 
   const [notes, setNotes] = useState('');
-  const [showNotes, setShowNotes] = useState(false);
+  const [showNotes, setShowNotes] = useState(window.innerWidth >= 768);
   const [showChordGuide, setShowChordGuide] = useState(false);
 
   const [aiData, setAiData] = useState(null);
