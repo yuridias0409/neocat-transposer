@@ -1,4 +1,5 @@
 import { hzToSemitones } from './musicMath';
+import HzKeyOptimizer from './HzKeyOptimizer';
 
 export function calcularTomIdealInteligente(vozSalmista, canto, perfilUsuario = {}, cantoFirebaseData = {}) {
 
@@ -48,6 +49,18 @@ export function calcularTomIdealInteligente(vozSalmista, canto, perfilUsuario = 
 
   const centeredOffset = -Math.round(distanceLowest) + offsetFromSingerLowest;
 
+  // 2. Otimização Baseada em Penalidade de Custo (Nova Lógica Hz)
+  const songFrequenciesHz = [canto.freq_min_curada, canto.freq_max_curada];
+  const singerRangeHz = { min: vozSalmista.minHz, max: vozSalmista.maxHz };
+  
+  // Utiliza o otimizador penalizando limites (Lambda = 1.5 prioriza a assembleia levemente)
+  const optResult = HzKeyOptimizer.findOptimalKeyHz(songFrequenciesHz, singerRangeHz, 'MIXED', 1.5, 12);
+  const optimizerShift = optResult.deslocamentoEquivalenteSemitonos;
+
+  // 3. Média Matemática (Blend) das Duas Lógicas
+  const blendedOffset = Math.round((centeredOffset + optimizerShift) / 2);
+
+
 
   const offsetPessoal = perfilUsuario?.preferencias_tom?.offset_pessoal_semitones || 0;
 
@@ -66,7 +79,7 @@ export function calcularTomIdealInteligente(vozSalmista, canto, perfilUsuario = 
 
 
 
-  const semitonesFinal = centeredOffset + offsetPessoal + offsetGlobalCanto;
+  const semitonesFinal = blendedOffset + offsetPessoal + offsetGlobalCanto;
 
   const novoCantoMinSemi = cantoMinSemi + semitonesFinal;
   const alertaGraveExtremo = novoCantoMinSemi < salmistaMinSemi;
@@ -80,9 +93,9 @@ export function calcularTomIdealInteligente(vozSalmista, canto, perfilUsuario = 
   if (folgaAguda >= 1) {
 
     semitonesEsforco = semitonesFinal + (folgaAguda >= 2 ? 2 : 1);
-  } else if (semitonesFinal > centeredOffset) {
+  } else if (semitonesFinal > blendedOffset) {
 
-    semitonesEsforco = centeredOffset;
+    semitonesEsforco = blendedOffset;
   } else {
 
     semitonesEsforco = semitonesFinal - 1;
@@ -98,6 +111,8 @@ export function calcularTomIdealInteligente(vozSalmista, canto, perfilUsuario = 
     alertaGraveExtremo,
     origemCalculo: {
       teorico: centeredOffset,
+      otimizadorMatematico: optimizerShift,
+      mediaCombinada: blendedOffset,
       ajustePessoal: offsetPessoal,
       ajusteGlobal: offsetGlobalCanto
     },

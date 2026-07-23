@@ -46,11 +46,8 @@ export const TranspositionCard = ({
         )}
 
         {(() => {
-          const songMaxFreq = canto.freq_max_curada || canto.freq_max_global;
-          if (!songMaxFreq || songMaxFreq === -Infinity || canto.tom_original === '?') return null;
-          const assemblyMaxLimit = 246.94;
-          const idealAssTransp = Math.floor(12 * Math.log2(assemblyMaxLimit / songMaxFreq));
-          const assCapo = otimizarCapoETom(canto.tom_original, idealAssTransp);
+          if (tomEsforco === null || tomEsforco === undefined || canto.tom_original === '?') return null;
+          const assCapo = otimizarCapoETom(canto.tom_original, tomEsforco);
           
           if (assCapo.tomReal === capoInfo.tomReal && assCapo.capoCasa === capoInfo.capoCasa && assCapo.formaAcorde === capoInfo.formaAcorde) return null;
           
