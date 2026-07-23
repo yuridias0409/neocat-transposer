@@ -1,5 +1,5 @@
 import { auth } from '../services/firebase';
-import { sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+import { sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
 
 class AuthDAO {
 
@@ -41,6 +41,18 @@ class AuthDAO {
 
   async sendPasswordReset(email) {
     await sendPasswordResetEmail(auth, email);
+  }
+
+  async updateUserPassword(currentPassword, newPassword) {
+    const user = auth.currentUser;
+    if (!user) throw new Error("Usuário não está logado.");
+    
+    // Reautenticar o usuário antes de alterar a senha (exigência do Firebase)
+    const credential = EmailAuthProvider.credential(user.email, currentPassword);
+    await reauthenticateWithCredential(user, credential);
+    
+    // Atualizar a senha
+    await updatePassword(user, newPassword);
   }
 
   isSignInUrl(url) {

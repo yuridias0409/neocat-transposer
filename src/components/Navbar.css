@@ -214,7 +214,6 @@
   gap: 0.5rem;
   width: 100%;
   padding: 1rem;
-  margin-top: auto;
   background-color: #fef2f2;
   border: 1px solid #fee2e2;
   color: #dc2626;
@@ -228,6 +227,52 @@
 .mobile-logout-btn:hover {
   background-color: #fee2e2;
   color: #b91c1c;
+}
+
+.mobile-admin-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 1rem;
+  background-color: #f0f9ff;
+  border: 1px solid #e0f2fe;
+  color: #0284c7;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.mobile-admin-btn:hover {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+.mobile-pwd-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 1rem;
+  background-color: #f8fafc;
+  border: 1px solid #f1f5f9;
+  color: #475569;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mobile-pwd-btn:hover {
+  background-color: #f1f5f9;
+  color: #334155;
 }
 
 .btn-sm {
