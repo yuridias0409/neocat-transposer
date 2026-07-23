@@ -7,6 +7,7 @@ import { calcularTomIdealInteligente } from '../../../utils/transpositionEngine'
 import { useCantoController } from '../../../controllers/useCantoController';
 import { AudioPlayerView } from '../../components/Canto/AudioPlayerView';
 import { KaraokePanelView } from '../../components/Canto/KaraokePanelView';
+import FeedbackTomBar from '../../components/Canto/FeedbackTomBar';
 import capoIcon from '../../../assets/capotraste.png';
 import './Canto.css';import { jsxDEV as _jsxDEV, Fragment as _Fragment } from "react/jsx-dev-runtime";
 
@@ -24,7 +25,7 @@ const Canto = ({ user }) => {
     showChordGuide, setShowChordGuide,
     isKaraokeMode, currentMicHz, pitchData, startKaraoke, stopKaraoke,
     toastMessage, showToast,
-    aiMessage, initialTransposition, isToneSaved, salvarTomPreferido,
+    showFeedbackBar, setShowFeedbackBar,
     aplicarTomInteligente,
     tomEsforco, setTomEsforco,
     capoInfo
@@ -192,7 +193,7 @@ const Canto = ({ user }) => {
               _jsxDEV("span", { children: [
                 transposition - baseOffset === 0 ? '0' : transposition - baseOffset > 0 ? `+${transposition - baseOffset}` : transposition - baseOffset, " semitons"] }, void 0, true
               ),
-              capoInfo.formaAcorde !== '?' && (transposition !== baseOffset || transposition !== initialTransposition) &&
+              capoInfo.formaAcorde !== '?' && (transposition !== baseOffset || showFeedbackBar) &&
               _jsxDEV("div", { style: { display: 'flex', gap: '0.5rem', justifyContent: 'center', marginTop: '0.2rem', alignItems: 'center' }, children: [
                 _jsxDEV("span", { style: { background: '#e0f2fe', color: '#0369a1', padding: '0.2rem 0.6rem', borderRadius: '12px', fontWeight: 'bold' }, children: ["🎸 Toque ", capoInfo.formaAcorde] }, void 0, true),
                 capoInfo.capoCasa > 0 &&
@@ -217,10 +218,9 @@ const Canto = ({ user }) => {
               _jsxDEV("button", { className: "btn btn-secondary btn-sm", onClick: aplicarTomInteligente, style: { flex: '1 1 140px' }, children: [
                 _jsxDEV(Settings2, { size: 14, style: { marginRight: '0.4rem' } }, void 0, false), " Meu Tom Ideal"] }, void 0, true
               ),
-              
-              user && initialTransposition !== null && transposition !== initialTransposition && !isToneSaved &&
-              _jsxDEV("button", { className: "btn btn-outline btn-sm", onClick: salvarTomPreferido, style: { flex: '1 1 100%', borderColor: '#bbf7d0', color: '#16a34a', background: '#f0fdf4', marginTop: '0.5rem', fontWeight: 'bold' }, children: [
-                _jsxDEV(ThumbsUp, { size: 14, style: { marginRight: '0.4rem' } }, void 0, false), " Salvar este Tom como Preferido"] }, void 0, true
+              user &&
+              _jsxDEV("button", { className: "btn btn-outline btn-sm", onClick: () => setShowFeedbackBar(true), style: { flex: '1 1 140px', borderColor: '#bbf7d0', color: '#16a34a', background: '#f0fdf4' }, children: [
+                _jsxDEV(ThumbsUp, { size: 14, style: { marginRight: '0.4rem' } }, void 0, false), " Avaliar este tom"] }, void 0, true
               ),
 
               tomEsforco !== null && tomEsforco !== transposition &&
@@ -232,10 +232,21 @@ const Canto = ({ user }) => {
         ] }, void 0, true)
       ] }, void 0, true),
 
-      _jsxDEV("div", { className: "cifra-container card text-center", style: { position: 'relative', paddingTop: '2rem' }, children: [
-        _jsxDEV("div", { style: { display: 'flex', flexDirection: 'column', gap: '2rem', justifyContent: 'center', alignItems: 'center', textAlign: 'left' }, children: [
+      showFeedbackBar && user &&
+      _jsxDEV(FeedbackTomBar, {
+        user: user,
+        cantoId: id,
+        tomAtualSemitons: transposition,
+        onFeedbackApplied: (offsetUi) => {
+          setTransposition((t) => t + offsetUi);
+          setShowFeedbackBar(false);
+        } }, void 0, false
+      ),
 
-          (!canto.linhas || canto.linhas.length === 0) && canto.acordes_usados && canto.acordes_usados.length > 0 && (transposition !== 0 || transposition !== initialTransposition) &&
+
+      _jsxDEV("div", { className: "cifra-container card text-center", style: { position: 'relative', paddingTop: '2rem' }, children: ["        ", _jsxDEV("div", { style: { display: 'flex', flexDirection: 'column', gap: '2rem', justifyContent: 'center', alignItems: 'center', textAlign: 'left' }, children: [
+
+          (!canto.linhas || canto.linhas.length === 0) && canto.acordes_usados && canto.acordes_usados.length > 0 && (transposition !== 0 || showFeedbackBar) &&
           _jsxDEV("div", { style: { width: '100%', maxWidth: '500px', display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'center', marginBottom: '1rem' }, children: [
             _jsxDEV("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', fontSize: '0.85rem', color: '#555', background: '#fff', padding: '0.4rem 0.75rem', borderRadius: '6px', border: '1px solid #e2e8f0', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', width: '100%', maxWidth: '200px' }, children: [
               _jsxDEV("input", { type: "checkbox", id: "chordGuideToggleSidebar", checked: showChordGuide, onChange: (e) => setShowChordGuide(e.target.checked), style: { cursor: 'pointer', width: '14px', height: '14px', accentColor: '#0369a1' } }, void 0, false),
