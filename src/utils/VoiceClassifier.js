@@ -1,17 +1,9 @@
-/**
- * Analisador de Classificação Vocal por Processamento Digital de Sinais (DSP)
- */
 export default class VoiceClassifier {
     constructor(sampleRate = 44100) {
         this.sampleRate = sampleRate;
-        this.speedOfSound = 35000; // Velocidade do som no trato vocal em cm/s (350 m/s)
+        this.speedOfSound = 35000; 
     }
 
-    /**
-     * 1. Detecção de Pitch (Frequência Fundamental - f0) usando Autocorrelação
-     * @param {Float32Array} buffer - Amostra de áudio no domínio do tempo
-     * @returns {number} Frequência em Hz
-     */
     getPitch(buffer) {
         const SIZE = buffer.length;
         let sumSq = 0;
@@ -19,14 +11,13 @@ export default class VoiceClassifier {
         for (let i = 0; i < SIZE; i++) {
             sumSq += buffer[i] * buffer[i];
         }
-        
-        const rms = Math.sqrt(sumSq / SIZE);
-        if (rms < 0.01) return 0; // Sinal muito fraco ou silêncio
+
+                const rms = Math.sqrt(sumSq / SIZE);
+        if (rms < 0.01) return 0; 
 
         const maxLags = Math.floor(SIZE / 2);
         const correlations = new Float32Array(maxLags);
 
-        // Autocorrelação Rxx(tau)
         for (let lag = 0; lag < maxLags; lag++) {
             let sum = 0;
             for (let i = 0; i < maxLags; i++) {
@@ -35,13 +26,11 @@ export default class VoiceClassifier {
             correlations[lag] = sum;
         }
 
-        // Encontrar o primeiro vale para evitar falsos positivos
         let lag = 0;
         while (lag < maxLags - 1 && correlations[lag] > correlations[lag + 1]) {
             lag++;
         }
 
-        // Encontrar o pico máximo após o primeiro vale
         let maxVal = -1;
         let bestLag = -1;
 
@@ -55,23 +44,16 @@ export default class VoiceClassifier {
         return bestLag > 0 ? this.sampleRate / bestLag : 0;
     }
 
-    /**
-     * 2. Transformada Rápida de Fourier (FFT) simples (Cooley-Tukey)
-     * @param {Float32Array} buffer - Sinal de áudio
-     * @returns {Float32Array} Espectro de Magnitude
-     */
     computeFFT(buffer) {
-        // Find next power of 2
         let p = 1;
         while (p < buffer.length) p *= 2;
         const N = p;
-        
-        const re = new Float32Array(N);
+
+                const re = new Float32Array(N);
         const im = new Float32Array(N);
 
         for (let i = 0; i < buffer.length; i++) re[i] = buffer[i];
 
-        // Reordenação por Inversão de Bits
         for (let i = 0; i < N; i++) {
             let j = 0;
             for (let k = 0, n = N; n > 1; n >>= 1, k++) {
@@ -82,7 +64,6 @@ export default class VoiceClassifier {
             }
         }
 
-        // Borboleta Cooley-Tukey
         for (let len = 2; len <= N; len <<= 1) {
             let halfLen = len >> 1;
             let angle = -2 * Math.PI / len;
@@ -108,7 +89,6 @@ export default class VoiceClassifier {
             }
         }
 
-        // Espectro de Magnitude
         const magnitude = new Float32Array(N / 2);
         for (let i = 0; i < N / 2; i++) {
             magnitude[i] = Math.sqrt(re[i] * re[i] + im[i] * im[i]);
@@ -116,12 +96,6 @@ export default class VoiceClassifier {
         return magnitude;
     }
 
-    /**
-     * 3. Cálculo do Spectral Tilt (Inclinação Espectral H1 - H2 em dB)
-     * @param {Float32Array} magnitude - Espectro de frequência
-     * @param {number} f0 - Frequência fundamental
-     * @returns {number} Diferença em dB (H1 - H2)
-     */
     getSpectralTilt(magnitude, f0) {
         if (f0 <= 0) return 0;
 
@@ -134,23 +108,16 @@ export default class VoiceClassifier {
         const amplitudeH1 = magnitude[h1Bin] || 1e-6;
         const amplitudeH2 = magnitude[h2Bin] || 1e-6;
 
-        // Converter para Decibéis: dB = 20 * log10(A)
         const dbH1 = 20 * Math.log10(amplitudeH1);
         const dbH2 = 20 * Math.log10(amplitudeH2);
 
         return dbH1 - dbH2;
     }
 
-    /**
-     * 4. Estimativa do Comprimento do Trato Vocal (L_trato em cm)
-     * @param {Float32Array} magnitude - Espectro de frequência
-     * @returns {number} Comprimento estimado em cm
-     */
     getVocalTractLength(magnitude) {
         const binSize = this.sampleRate / (magnitude.length * 2);
         const peaks = [];
 
-        // Detecção simplificada de picos de formantes no espectro
         for (let i = 2; i < magnitude.length - 2; i++) {
             if (
                 magnitude[i] > magnitude[i - 1] &&
@@ -162,9 +129,8 @@ export default class VoiceClassifier {
             }
         }
 
-        if (peaks.length < 2) return 15.0; // Valor médio padrão caso o sinal seja ruidoso
+        if (peaks.length < 2) return 15.0; 
 
-        // Calcular a distância média entre os picos ressonantes (Delta F)
         let totalSpacing = 0;
         let count = 0;
 
@@ -175,19 +141,11 @@ export default class VoiceClassifier {
 
         const deltaF = totalSpacing / count;
 
-        // Fórmulas Acústicas: L_trato = c / (2 * Delta_F)
         const lTrato = this.speedOfSound / (2 * deltaF);
 
-        // Limite fisiológico humano razoável (10cm a 22cm)
         return Math.max(10, Math.min(22, lTrato));
     }
 
-    /**
-     * 5. Algoritmo de Classificação do Vetor
-     * @param {Float32Array} lowBuffer - Áudio do cantarolar grave
-     * @param {Float32Array} highBuffer - Áudio do cantarolar agudo
-     * @returns {Object} Diagnóstico detalhado do perfil vocal
-     */
     analyze(lowBuffer, highBuffer) {
         const f0Min = this.getPitch(lowBuffer);
         const f0Max = this.getPitch(highBuffer);
@@ -196,7 +154,6 @@ export default class VoiceClassifier {
         const spectralTilt = this.getSpectralTilt(magLow, f0Min);
         const vocalTractLength = this.getVocalTractLength(magLow);
 
-        // Mapeamento baseado em limites acústico-fisiológicos
         let classification = "Indefinido";
 
         if (f0Min < 115) {

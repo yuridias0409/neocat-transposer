@@ -25,11 +25,11 @@ const Canto = ({ user }) => {
     baseOffset,
     transposition, setTransposition,
     isPlaying, togglePlay,
-    isAudioLoaded, progress, currentTime, duration, handleSeek,
+    isAudioLoaded, duration, handleSeek, playerRef, startTimeRef, offsetRef,
     userProfile,
     notes, setNotes, showNotes, setShowNotes, saveNotes,
     showChordGuide, setShowChordGuide,
-    isKaraokeMode, currentMicHz, pitchData, startKaraoke, stopKaraoke,
+    isKaraokeMode, currentMicHzRef, pitchData, startKaraoke, stopKaraoke,
     toastMessage, showToast,
     aiMessage, aiData, initialTransposition, savedTransposition, isToneSaved, salvarTomPreferido,
     aplicarTomInteligente,
@@ -98,21 +98,23 @@ const Canto = ({ user }) => {
               isPlaying: isPlaying,
               togglePlay: togglePlay,
               isAudioLoaded: isAudioLoaded,
-              progress: progress,
-              currentTime: currentTime,
               duration: duration,
               handleSeek: handleSeek,
               isKaraokeMode: isKaraokeMode,
               startKaraoke: startKaraoke,
               stopKaraoke: stopKaraoke,
-              formatTime: formatTime }, void 0, false
+              formatTime: formatTime,
+              playerRef: playerRef,
+              startTimeRef: startTimeRef
+             }, void 0, false
             ),
             _jsxDEV(KaraokePanelView, {
               isKaraokeMode: isKaraokeMode,
               userProfile: userProfile,
-              currentMicHz: currentMicHz,
+              currentMicHzRef: currentMicHzRef,
               pitchData: pitchData,
-              currentTime: currentTime,
+              playerRef: playerRef,
+              startTimeRef: startTimeRef,
               transposition: transposition,
               baseOffset: baseOffset }, void 0, false
             )] }, void 0, true

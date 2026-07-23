@@ -28,7 +28,7 @@ const Navbar = ({ user, isAdmin, onLogout }) => {
   const [pwdLoading, setPwdLoading] = useState(false);
   const [pwdError, setPwdError] = useState('');
   const [pwdSuccess, setPwdSuccess] = useState(false);
-  
+
   const dropdownRef = useRef(null);
   const location = useLocation();
 
@@ -43,7 +43,7 @@ const Navbar = ({ user, isAdmin, onLogout }) => {
     } else {
       document.body.style.overflow = '';
     }
-    return () => { document.body.style.overflow = ''; };
+    return () => {document.body.style.overflow = '';};
   }, [isMobileMenuOpen]);
 
   useEffect(() => {
@@ -60,37 +60,37 @@ const Navbar = ({ user, isAdmin, onLogout }) => {
     const load = () => {
       const saved = localStorage.getItem('userVoiceProfile');
       if (saved) {
-        try { setVoiceProfile(JSON.parse(saved)); } catch {}
+        try {setVoiceProfile(JSON.parse(saved));} catch {}
       }
     };
     load();
     window.addEventListener('storage', load);
 
     const interval = setInterval(load, 3000);
-    return () => { window.removeEventListener('storage', load); clearInterval(interval); };
+    return () => {window.removeEventListener('storage', load);clearInterval(interval);};
   }, []);
 
   const voiceType = voiceProfile ? getVoiceClassification(voiceProfile.min?.freq, voiceProfile.max?.freq) : null;
-  const voiceRange = voiceProfile ? 
-    `${freqToNoteName(voiceProfile.min?.freq)} → ${freqToNoteName(voiceProfile.max?.freq)}` : 
-    null;
+  const voiceRange = voiceProfile ?
+  `${freqToNoteName(voiceProfile.min?.freq)} → ${freqToNoteName(voiceProfile.max?.freq)}` :
+  null;
 
-  const UserMenuContent = ({ onClick }) => (
-    <div className="user-profile-info" onClick={onClick} style={{ cursor: onClick ? 'pointer' : 'default', transition: 'background-color 0.2s', paddingRight: onClick ? '0.5rem' : '0.75rem' }}>
+  const UserMenuContent = ({ onClick }) =>
+  <div className="user-profile-info" onClick={onClick} style={{ cursor: onClick ? 'pointer' : 'default', transition: 'background-color 0.2s', paddingRight: onClick ? '0.5rem' : '0.75rem' }}>
       <div className="user-details">
         <span className="user-name">{user.split('@')[0]}</span>
-        {voiceType && (
-          <div className="voice-badge">
+        {voiceType &&
+      <div className="voice-badge">
             <span className="voice-type-text">{voiceType}:</span>
             <span className="voice-range-text">{voiceRange}</span>
           </div>
-        )}
+      }
       </div>
-      {onClick && (
-        <ChevronDown size={16} color="#8898aa" style={{ marginLeft: '0.25rem' }} />
-      )}
-    </div>
-  );
+      {onClick &&
+    <ChevronDown size={16} color="#8898aa" style={{ marginLeft: '0.25rem' }} />
+    }
+    </div>;
+
 
   const handleUpdatePassword = async (e) => {
     e.preventDefault();
@@ -104,7 +104,7 @@ const Navbar = ({ user, isAdmin, onLogout }) => {
       setPwdError('A nova senha deve ter pelo menos 6 caracteres.');
       return;
     }
-    
+
     setPwdLoading(true);
     try {
       await AuthDAO.updateUserPassword(currentPassword, newPassword);
@@ -128,7 +128,7 @@ const Navbar = ({ user, isAdmin, onLogout }) => {
     <>
       <nav className="navbar">
         <div className="container navbar-content">
-          {/* Left Zone: Logo */}
+          {}
           <div className="navbar-left">
             <Link to="/" className="navbar-brand" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
               <img src="/new-icon-without-background.png" alt="Logo" className="logo-img" />
@@ -139,37 +139,37 @@ const Navbar = ({ user, isAdmin, onLogout }) => {
             </Link>
           </div>
 
-          {/* Center Zone: Navigation */}
+          {}
           <div className="navbar-center desktop-only">
             <Link to="/" className="nav-link-main">Cantos</Link>
           </div>
 
-          {/* Right Zone: Actions & Profile */}
+          {}
           <div className="navbar-right desktop-only">
             <Link to="/calibrador" className="btn btn-secondary btn-sm calib-btn">
               <Mic2 size={16} />
               <span>Calibrar Voz</span>
             </Link>
             
-            {user && (
-              <>
+            {user &&
+            <>
                 <div className="navbar-divider"></div>
                 <div className="user-dropdown-container" ref={dropdownRef} style={{ position: 'relative' }}>
                 <UserMenuContent onClick={() => setIsDesktopDropdownOpen(!isDesktopDropdownOpen)} />
                 
-                {isDesktopDropdownOpen && (
-                  <div className="user-dropdown-menu">
+                {isDesktopDropdownOpen &&
+                <div className="user-dropdown-menu">
                     <Link to="/calibrador" className="dropdown-item">
                       <Mic2 size={16} />
                       <span>Calibrar a voz</span>
                     </Link>
-                    {isAdmin && (
-                      <Link to="/admin" className="dropdown-item text-primary">
+                    {isAdmin &&
+                  <Link to="/admin" className="dropdown-item text-primary">
                         <ShieldCheck size={16} />
                         <span>Área Admin</span>
                       </Link>
-                    )}
-                    <button onClick={() => { setIsDesktopDropdownOpen(false); setShowPasswordModal(true); }} className="dropdown-item">
+                  }
+                    <button onClick={() => {setIsDesktopDropdownOpen(false);setShowPasswordModal(true);}} className="dropdown-item">
                       <KeyRound size={16} />
                       <span>Redefinir Senha</span>
                     </button>
@@ -179,37 +179,37 @@ const Navbar = ({ user, isAdmin, onLogout }) => {
                       <span>Sair</span>
                     </button>
                   </div>
-                )}
+                }
               </div>
               </>
-            )}
+            }
           </div>
 
-          <button 
-            className="mobile-menu-btn" 
+          <button
+            className="mobile-menu-btn"
             onClick={() => setIsMobileMenuOpen(true)}
-            aria-label="Abrir menu"
-          >
+            aria-label="Abrir menu">
+            
             <Menu size={28} color="#962828" />
           </button>
         </div>
       </nav>
 
-      {/* Mobile Overlay */}
-      <div 
-        className={`mobile-overlay ${isMobileMenuOpen ? 'open' : ''}`} 
-        onClick={() => setIsMobileMenuOpen(false)}
-      ></div>
+      {}
+      <div
+        className={`mobile-overlay ${isMobileMenuOpen ? 'open' : ''}`}
+        onClick={() => setIsMobileMenuOpen(false)}>
+      </div>
 
-      {/* Mobile Side Menu */}
+      {}
       <div className={`mobile-side-menu ${isMobileMenuOpen ? 'open' : ''}`}>
         <div className="mobile-menu-header">
           <span className="font-neocat" style={{ fontSize: '1.5rem', letterSpacing: '1px', color: '#962828' }}>Menu</span>
-          <button 
-            className="mobile-close-btn" 
+          <button
+            className="mobile-close-btn"
             onClick={() => setIsMobileMenuOpen(false)}
-            aria-label="Fechar menu"
-          >
+            aria-label="Fechar menu">
+            
             <X size={28} color="#962828" />
           </button>
         </div>
@@ -217,11 +217,11 @@ const Navbar = ({ user, isAdmin, onLogout }) => {
         <div className="mobile-menu-content">
           <div className="mobile-nav-links">
             <Link to="/" className="mobile-nav-link font-neocat" onClick={() => setIsMobileMenuOpen(false)}>Cantos</Link>
-            <button 
+            <button
               onClick={() => {
                 setIsMobileMenuOpen(false);
                 window.dispatchEvent(new Event('triggerInstallApp'));
-              }} 
+              }}
               style={{
                 background: 'none',
                 border: 'none',
@@ -233,8 +233,8 @@ const Navbar = ({ user, isAdmin, onLogout }) => {
                 gap: '0.5rem',
                 color: 'inherit'
               }}
-              className="mobile-nav-link font-neocat"
-            >
+              className="mobile-nav-link font-neocat">
+              
               Baixar App
             </button>
           </div>
@@ -246,19 +246,19 @@ const Navbar = ({ user, isAdmin, onLogout }) => {
             </Link>
           </div>
 
-          {user && (
-            <div className="mobile-user-section">
+          {user &&
+          <div className="mobile-user-section">
               <UserMenuContent />
               
               <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                {isAdmin && (
-                  <Link to="/admin" className="mobile-admin-btn" onClick={() => setIsMobileMenuOpen(false)}>
+                {isAdmin &&
+              <Link to="/admin" className="mobile-admin-btn" onClick={() => setIsMobileMenuOpen(false)}>
                     <ShieldCheck size={18} />
                     <span>Área Admin</span>
                   </Link>
-                )}
+              }
 
-                <button onClick={() => { setIsMobileMenuOpen(false); setShowPasswordModal(true); }} className="mobile-pwd-btn">
+                <button onClick={() => {setIsMobileMenuOpen(false);setShowPasswordModal(true);}} className="mobile-pwd-btn">
                   <KeyRound size={18} />
                   <span>Redefinir Senha</span>
                 </button>
@@ -269,20 +269,20 @@ const Navbar = ({ user, isAdmin, onLogout }) => {
                 </button>
               </div>
             </div>
-          )}
+          }
         </div>
       </div>
 
-      {/* Password Reset Modal */}
-      {showPasswordModal && (
-        <div className="modal-overlay" onClick={() => setShowPasswordModal(false)} style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 9999, padding: '1rem' }}>
+      {}
+      {showPasswordModal &&
+      <div className="modal-overlay" onClick={() => setShowPasswordModal(false)} style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 9999, padding: '1rem' }}>
           <div className="modal-content card" onClick={(e) => e.stopPropagation()} style={{ width: '100%', maxWidth: '400px', padding: '2rem' }}>
             <h3 style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}><KeyRound size={20} /> Redefinir Senha</h3>
             
-            {pwdSuccess ? (
-              <p style={{ color: '#16a34a', fontWeight: 'bold', textAlign: 'center' }}>Senha redefinida com sucesso!</p>
-            ) : (
-              <form onSubmit={handleUpdatePassword} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            {pwdSuccess ?
+          <p style={{ color: '#16a34a', fontWeight: 'bold', textAlign: 'center' }}>Senha redefinida com sucesso!</p> :
+
+          <form onSubmit={handleUpdatePassword} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.9rem', marginBottom: '0.5rem' }}>Senha Atual</label>
                   <input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} required className="form-input" placeholder="Sua senha atual" />
@@ -299,12 +299,12 @@ const Navbar = ({ user, isAdmin, onLogout }) => {
                   <button type="submit" className="btn btn-primary" disabled={pwdLoading} style={{ flex: 1 }}>{pwdLoading ? 'Salvando...' : 'Atualizar Senha'}</button>
                 </div>
               </form>
-            )}
+          }
           </div>
         </div>
-      )}
-    </>
-  );
+      }
+    </>);
+
 };
 
 export default Navbar;

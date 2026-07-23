@@ -27,13 +27,13 @@ export function getVoiceClassification(minFreq, maxFreq = null) {
   if (maxFreq) {
     let bestMatch = null;
     let minError = Infinity;
-    
-    for (const range of ranges) {
+
+        for (const range of ranges) {
       const minDiff = 12 * Math.log2(minFreq / range.min);
       const maxDiff = 12 * Math.log2(maxFreq / range.max);
       const error = (minDiff * minDiff) + (maxDiff * maxDiff);
-      
-      if (error < minError) {
+
+            if (error < minError) {
         minError = error;
         bestMatch = range.name;
       }

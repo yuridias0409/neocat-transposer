@@ -12,7 +12,6 @@ export function calcularTomIdealInteligente(vozSalmista, canto, perfilUsuario = 
   const songWideness = cantoMaxSemi - cantoMinSemi;
   const singerWideness = salmistaMaxSemi - salmistaMinSemi;
 
-  // 1. Agrupamento por Classificação Vocal (Clustering Intelligence)
   const iaDataVoice = cantoFirebaseData?.ia_metrics?.[vozSalmista.tipoVoz];
   if (iaDataVoice) {
     let maxVotes = 0;
@@ -25,8 +24,7 @@ export function calcularTomIdealInteligente(vozSalmista, canto, perfilUsuario = 
         bestTransposition = parseInt(transpStr, 10);
       }
     }
-    
-    // Se >= 50% dos salmistas deste tipo de voz concordam num tom (min 2 votos)
+
     if (maxVotes >= 2 && (maxVotes / totalVotes) >= 0.5 && bestTransposition !== null) {
       return {
         semitones: bestTransposition,
@@ -49,15 +47,12 @@ export function calcularTomIdealInteligente(vozSalmista, canto, perfilUsuario = 
 
   const centeredOffset = -Math.round(distanceLowest) + offsetFromSingerLowest;
 
-  // 2. Otimização Baseada em Penalidade de Custo (Nova Lógica Hz)
   const songFrequenciesHz = [canto.freq_min_curada, canto.freq_max_curada];
   const singerRangeHz = { min: vozSalmista.minHz, max: vozSalmista.maxHz };
-  
-  // Utiliza o otimizador penalizando limites (Lambda = 1.5 prioriza a assembleia levemente)
+
   const optResult = HzKeyOptimizer.findOptimalKeyHz(songFrequenciesHz, singerRangeHz, 'MIXED', 1.5, 12);
   const optimizerShift = optResult.deslocamentoEquivalenteSemitonos;
 
-  // 3. Média Matemática (Blend) das Duas Lógicas
   const blendedOffset = Math.round((centeredOffset + optimizerShift) / 2);
 
 

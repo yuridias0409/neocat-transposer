@@ -27,10 +27,10 @@ function MainApp({ user, setUser, isAdmin }) {
 
   return (
     <div className="app-container">
-      <Navbar user={user} isAdmin={isAdmin} onLogout={async () => { 
-        UserDAO.clearSession(); 
-        setUser(null); 
-        await AuthDAO.logout(); 
+      <Navbar user={user} isAdmin={isAdmin} onLogout={async () => {
+        UserDAO.clearSession();
+        setUser(null);
+        await AuthDAO.logout();
       }} />
       <main>
         <Routes>
@@ -42,8 +42,8 @@ function MainApp({ user, setUser, isAdmin }) {
         </Routes>
       </main>
       <InstallPrompt />
-    </div>
-  );
+    </div>);
+
 }
 
 function App() {
@@ -52,18 +52,18 @@ function App() {
   const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
-    // Escuta mudanças no estado de autenticação do Firebase para todos os usuários
+
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       let finalUser = null;
       let finalIsAdmin = false;
-      
+
       if (firebaseUser) {
         UserDAO.setCurrentUserEmail(firebaseUser.email);
-        await UserDAO.getProfile(firebaseUser.email); // Busca e migra o perfil ANTES de renderizar as rotas internas
+        await UserDAO.getProfile(firebaseUser.email);
         finalIsAdmin = await AuthDAO.isAdmin(firebaseUser.email);
         finalUser = firebaseUser.email;
       } else {
-        // Fallback para sessão antiga/local, se existir
+
         const savedUser = UserDAO.getCurrentUserEmail();
         if (savedUser) {
           await UserDAO.getProfile(savedUser);
@@ -71,7 +71,7 @@ function App() {
           finalUser = savedUser;
         }
       }
-      
+
       setIsAdmin(finalIsAdmin);
       setUser(finalUser);
       setAuthLoading(false);
@@ -87,8 +87,8 @@ function App() {
   return (
     <Router>
       <MainApp user={user} setUser={setUser} isAdmin={isAdmin} />
-    </Router>
-  );
+    </Router>);
+
 }
 
 export default App;

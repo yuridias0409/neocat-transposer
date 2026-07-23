@@ -1,6 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
-import * as Tone from 'tone';
-import { PitchDetector } from 'pitchy';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import CantoDAO from '../dao/CantoDAO';
 import UserDAO from '../dao/UserDAO';
 import { calcularTomIdealInteligente } from '../utils/transpositionEngine';
@@ -8,120 +7,37 @@ import { processarFeedbackEAprender } from '../utils/FeedbackEngine';
 import { otimizarCapoETom } from '../utils/capoEngine';
 import { getNoteIndex } from '../utils';
 
+import { useAudioPlayer } from './useAudioPlayer';
+import { useKaraoke } from './useKaraoke';
+
 export function useCantoController(cantoId, user) {
   const canto = CantoDAO.getById(cantoId);
+  const location = useLocation();
+  const precomputedOffset = location.state?.precomputedOffset;
 
-  const [transposition, setTransposition] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isAudioLoaded, setIsAudioLoaded] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const [transposition, setTransposition] = useState(precomputedOffset !== undefined ? precomputedOffset : 0);
   const [userProfile, setUserProfile] = useState(null);
 
   const [notes, setNotes] = useState('');
   const [showNotes, setShowNotes] = useState(false);
   const [showChordGuide, setShowChordGuide] = useState(false);
 
-  const [isKaraokeMode, setIsKaraokeMode] = useState(false);
-  const [currentMicHz, setCurrentMicHz] = useState(0);
-
   const [aiData, setAiData] = useState(null);
-  const [initialTransposition, setInitialTransposition] = useState(null);
+  const [initialTransposition, setInitialTransposition] = useState(precomputedOffset !== undefined ? precomputedOffset : null);
   const [savedTransposition, setSavedTransposition] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
-  const [pitchData, setPitchData] = useState(null);
   const [fontSize, setFontSize] = useState(1.1);
   const [toastMessage, setToastMessage] = useState(null);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
 
   const [aiMessage, setAiMessage] = useState('');
+  const [tomEsforco, setTomEsforco] = useState(null);
 
-
-  const playerRef = useRef(null);
-  const pitchShiftRef = useRef(null);
-  const startTimeRef = useRef(0);
-  const offsetRef = useRef(0);
-  const animationRef = useRef(null);
-
-  const karaokeAudioCtxRef = useRef(null);
-  const karaokeAnalyserRef = useRef(null);
-  const karaokeStreamRef = useRef(null);
-  const karaokeAnimRef = useRef(null);
+  const audioPlayer = useAudioPlayer(canto, transposition);
+  const karaoke = useKaraoke(canto);
 
   const showToast = (msg) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 4000);
-  };
-
-  useEffect(() => {
-    return () => stopKaraoke();
-  }, []);
-
-  const startKaraoke = async () => {
-    try {
-      if (canto && canto.audio_url) {
-        const jsonUrl = `/pitch_data/${canto.audio_url.split('/').pop().replace('.mp3', '.json')}`;
-        fetch(jsonUrl)
-          .then(res => res.json())
-          .then(data => setPitchData(data))
-          .catch(err => console.warn('Pitch data não encontrado', err));
-      }
-
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      karaokeStreamRef.current = stream;
-
-      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const analyser = audioCtx.createAnalyser();
-      analyser.fftSize = 2048;
-
-      const source = audioCtx.createMediaStreamSource(stream);
-      source.connect(analyser);
-
-      karaokeAudioCtxRef.current = audioCtx;
-      karaokeAnalyserRef.current = analyser;
-
-      setIsKaraokeMode(true);
-      updateKaraokePitch();
-
-      if (!isPlaying) {
-        togglePlay();
-      }
-    } catch (err) {
-      console.error(err);
-      showToast("Não foi possível acessar o microfone para o Karaoke.");
-    }
-  };
-
-  const updateKaraokePitch = () => {
-    const analyser = karaokeAnalyserRef.current;
-    if (!analyser) return;
-
-    const inputBuffer = new Float32Array(analyser.fftSize);
-    analyser.getFloatTimeDomainData(inputBuffer);
-
-    const detector = PitchDetector.forFloat32Array(analyser.fftSize);
-    const [pitch, clarity] = detector.findPitch(inputBuffer, karaokeAudioCtxRef.current.sampleRate);
-
-    if (clarity > 0.85 && pitch > 50 && pitch < 1000) {
-      setCurrentMicHz(Math.round(pitch * 100) / 100);
-    } else {
-      setCurrentMicHz(0);
-    }
-    karaokeAnimRef.current = requestAnimationFrame(updateKaraokePitch);
-  };
-
-  const stopKaraoke = () => {
-    cancelAnimationFrame(karaokeAnimRef.current);
-    if (karaokeStreamRef.current) karaokeStreamRef.current.getTracks().forEach((t) => t.stop());
-    if (karaokeAudioCtxRef.current) karaokeAudioCtxRef.current.close();
-    setIsKaraokeMode(false);
-    setCurrentMicHz(0);
-    if (isPlaying) {
-      playerRef.current.stop();
-      setIsPlaying(false);
-      offsetRef.current = Tone.now() - startTimeRef.current;
-      cancelAnimationFrame(animationRef.current);
-    }
   };
 
   useEffect(() => {
@@ -185,104 +101,7 @@ export function useCantoController(cantoId, user) {
       }
     };
     initTone();
-
-    if (canto.audio_url) {
-      pitchShiftRef.current = new Tone.PitchShift({
-        pitch: 0,
-        windowSize: 0.1,
-        delayTime: 0,
-        feedback: 0
-      }).toDestination();
-
-      playerRef.current = new Tone.Player({
-        url: encodeURI(canto.audio_url),
-        onload: () => {
-          setIsAudioLoaded(true);
-          setDuration(playerRef.current.buffer.duration);
-        }
-      }).connect(pitchShiftRef.current);
-    }
-
-    return () => {
-      if (playerRef.current) playerRef.current.dispose();
-      if (pitchShiftRef.current) pitchShiftRef.current.dispose();
-      cancelAnimationFrame(animationRef.current);
-    };
   }, [canto, cantoId, user]);
-
-  useEffect(() => {
-    if (pitchShiftRef.current) {
-      let audioPitchShift = transposition - (() => {
-        if (!canto?.tom_audio || !canto?.tom_original) return 0;
-        let offset = getNoteIndex(canto.tom_audio) - getNoteIndex(canto.tom_original);
-        if (offset > 6) offset -= 12;
-        if (offset < -6) offset += 12;
-        return offset;
-      })();
-      audioPitchShift = (audioPitchShift % 12 + 12) % 12;
-      if (audioPitchShift > 6) audioPitchShift -= 12;
-
-      if (audioPitchShift === 0) {
-        pitchShiftRef.current.wet.value = 0;
-      } else {
-        pitchShiftRef.current.wet.value = 1;
-        pitchShiftRef.current.pitch = audioPitchShift;
-      }
-    }
-  }, [transposition, canto]);
-
-  const togglePlay = async () => {
-    if (!isAudioLoaded || !playerRef.current || !playerRef.current.buffer) return;
-    await Tone.start();
-    if (isPlaying) {
-      playerRef.current.stop();
-      setIsPlaying(false);
-      offsetRef.current = Tone.now() - startTimeRef.current;
-      cancelAnimationFrame(animationRef.current);
-    } else {
-      playerRef.current.start(0, offsetRef.current);
-      setIsPlaying(true);
-      startTimeRef.current = Tone.now() - offsetRef.current;
-
-      const updateProgress = () => {
-        if (playerRef.current && playerRef.current.state === "started") {
-          const elapsed = Tone.now() - startTimeRef.current;
-          const dur = playerRef.current.buffer.duration;
-          if (dur > 0) {
-            if (elapsed >= dur) {
-              setIsPlaying(false);
-              setProgress(0);
-              setCurrentTime(0);
-              offsetRef.current = 0;
-              playerRef.current.stop();
-              return;
-            }
-            setProgress(elapsed / dur * 100);
-            setCurrentTime(elapsed);
-          }
-          animationRef.current = requestAnimationFrame(updateProgress);
-        }
-      };
-      animationRef.current = requestAnimationFrame(updateProgress);
-    }
-  };
-
-  const handleSeek = (e) => {
-    if (!isAudioLoaded || !playerRef.current || !playerRef.current.buffer) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const percent = (e.clientX - rect.left) / rect.width;
-    const newTime = percent * duration;
-
-    offsetRef.current = newTime;
-    setProgress(percent * 100);
-    setCurrentTime(newTime);
-
-    if (isPlaying) {
-      playerRef.current.stop();
-      playerRef.current.start(0, newTime);
-      startTimeRef.current = Tone.now() - newTime;
-    }
-  };
 
   const salvarTomPreferido = async () => {
     if (!user) {
@@ -319,9 +138,6 @@ export function useCantoController(cantoId, user) {
     }
   };
 
-
-
-
   useEffect(() => {
     async function loadNotes() {
       if (user && cantoId) {
@@ -340,8 +156,6 @@ export function useCantoController(cantoId, user) {
     }
   };
 
-  const [tomEsforco, setTomEsforco] = useState(null);
-
   const aplicarTomInteligente = async () => {
     if (!userProfile) return;
 
@@ -357,8 +171,8 @@ export function useCantoController(cantoId, user) {
       computedAiOffset = resultado.semitones;
       computedAiOffset = ((computedAiOffset % 12) + 12) % 12;
       if (computedAiOffset > 6) computedAiOffset -= 12;
-      
-      let normalizedEsforco = resultado.semitonesEsforco;
+
+            let normalizedEsforco = resultado.semitonesEsforco;
       if (normalizedEsforco !== null) {
         normalizedEsforco = ((normalizedEsforco % 12) + 12) % 12;
         if (normalizedEsforco > 6) normalizedEsforco -= 12;
@@ -373,9 +187,7 @@ export function useCantoController(cantoId, user) {
     }
 
     setTransposition(computedAiOffset);
-
   };
-
 
   const capoInfo = otimizarCapoETom(canto?.tom_original, transposition);
 
@@ -392,12 +204,11 @@ export function useCantoController(cantoId, user) {
     aplicarTomInteligente,
     tomEsforco, setTomEsforco,
     capoInfo,
-    isPlaying, togglePlay,
-    isAudioLoaded, progress, currentTime, duration, handleSeek,
+    ...audioPlayer,
+    ...karaoke,
     userProfile,
     notes, setNotes, showNotes, setShowNotes, saveNotes,
     showChordGuide, setShowChordGuide,
-    isKaraokeMode, currentMicHz, pitchData, startKaraoke, stopKaraoke,
     isGenerating, setIsGenerating,
     fontSize, setFontSize,
     toastMessage, showToast,

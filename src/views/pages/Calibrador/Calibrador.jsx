@@ -38,7 +38,7 @@ const getVoiceRange = (minFreq, maxFreq) => {
 const getGender = (tipoVoz) => {
   if (['Baixo', 'Barítono', 'Tenor'].includes(tipoVoz)) return 'masculino';
   if (['Contralto', 'Mezzo-Soprano', 'Soprano'].includes(tipoVoz)) return 'feminino';
-  return 'masculino'; // default
+  return 'masculino'; 
 };
 
 const computeCombined = (calibrations) => {
@@ -93,10 +93,9 @@ const saveStorage = (data) => {
 const baseFreqs = { 'E2': 82.41, 'A2': 110.00, 'D3': 146.83, 'G3': 196.00, 'C4': 261.63, 'E4': 329.63, 'G4': 392.00, 'A4': 440.00 };
 
 const MODE_INFO = {
+  hum: { label: 'Cantarolar', suffix: '(recomendado)', desc: 'Cantarole e eu gravo', icon: Music2, color: '#b91c1c' },
   assistant: { label: 'Salmista Assistente', desc: 'Guiado por áudio', icon: UserPlus, color: '#b91c1c' },
-  mic: { label: 'Automático (Microfone)', desc: 'Cante e eu descubro', icon: Mic, color: '#b91c1c' },
-  // empirical: { label: 'Prático (Com Violão)', desc: 'Toque os acordes e teste', icon: Guitar, color: '#b91c1c' },
-  hum: { label: 'Cantarolar', desc: 'Cantarole e eu gravo', icon: Music2, color: '#b91c1c' }
+  mic: { label: 'Automático (Microfone)', desc: 'Cante e eu descubro', icon: Mic, color: '#b91c1c' }
 };
 
 
@@ -433,8 +432,7 @@ export default function Calibrador({ user }) {
       [modeKey]: { min, max, completedAt: new Date().toISOString() }
     };
     const combined = computeCombined(newCals);
-    
-    // DSP Voice Classifier integration
+
     if (lowBuffer && highBuffer && modeKey !== 'assistant') {
       try {
         const classifier = new VoiceClassifier(Tone.context.sampleRate || 44100);
@@ -448,8 +446,8 @@ export default function Calibrador({ user }) {
         console.error("DSP Classifier error:", e);
       }
     }
-    
-    const newData = { calibrations: newCals, combined };
+
+        const newData = { calibrations: newCals, combined };
     setStorageData(newData);
     saveStorage(newData);
     if (user && combined) {
@@ -675,7 +673,7 @@ export default function Calibrador({ user }) {
                       _jsxDEV(Icon, { size: 36, color: "var(--color-secondary)" }, void 0, false) }, void 0, false
                     ),
                     _jsxDEV("span", { style: { fontSize: '0.75rem', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase', color: 'var(--color-secondary)' }, children: "✓ Concluído" }, void 0, false),
-                    _jsxDEV("strong", { style: { fontSize: '1.2rem', marginTop: '0.25rem', display: 'block', color: 'var(--color-primary)' }, children: info.label }, void 0, false),
+                    _jsxDEV("strong", { style: { fontSize: '1.2rem', marginTop: '0.25rem', display: 'block', color: 'var(--color-primary)' }, children: [info.label, info.suffix && _jsxDEV("span", { style: { fontSize: '0.75em', fontWeight: 'normal', opacity: 0.9, marginLeft: '4px' } }, info.suffix, void 0, false)] }, void 0, true),
                     _jsxDEV("span", { style: { fontSize: '0.95rem', fontWeight: 500, color: 'var(--color-secondary)', marginTop: '0.35rem' }, children: vtype }, void 0, false),
                     range && _jsxDEV("span", { style: { fontSize: '0.9rem', color: '#444', marginTop: '0.2rem' }, children: ["🎵 ", range] }, void 0, true)] }, key, true
                   ));
@@ -686,7 +684,7 @@ export default function Calibrador({ user }) {
                   style: { flexDirection: 'column', padding: '1.5rem 1rem', display: 'flex', alignItems: 'center' },
                   onClick: () => startMode(key), children: [
                   _jsxDEV(Icon, { size: 56, className: "mb-2", style: { color: info.color } }, void 0, false),
-                  _jsxDEV("strong", { style: { fontSize: '1.05rem' }, children: info.label }, void 0, false),
+                  _jsxDEV("strong", { style: { fontSize: '1.05rem' }, children: [info.label, info.suffix && _jsxDEV("span", { style: { fontSize: '0.75em', fontWeight: 'normal', opacity: 0.9, marginLeft: '4px' } }, info.suffix, void 0, false)] }, void 0, true),
                   _jsxDEV("span", { style: { display: 'block', marginTop: '0.4rem', color: '#666', fontSize: '0.9rem' }, children: info.desc }, void 0, false)] }, key, true
                 ));
 

@@ -26,7 +26,6 @@ class AuthDAO {
       return userCredential.user;
     } catch (error) {
       if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
-        // Tenta criar a conta automaticamente se não existir e as credenciais forem "inválidas" ou "não encontradas"
         try {
           const newUserCredential = await createUserWithEmailAndPassword(auth, email, password);
           return newUserCredential.user;
@@ -40,7 +39,7 @@ class AuthDAO {
 
   async sendMagicLink(email) {
     const actionCodeSettings = {
-      url: window.location.origin, // Redireciona para o root após o login mágico
+      url: window.location.origin, 
       handleCodeInApp: true
     };
     await sendSignInLinkToEmail(auth, email, actionCodeSettings);
@@ -54,12 +53,10 @@ class AuthDAO {
   async updateUserPassword(currentPassword, newPassword) {
     const user = auth.currentUser;
     if (!user) throw new Error("Usuário não está logado.");
-    
-    // Reautenticar o usuário antes de alterar a senha (exigência do Firebase)
+
     const credential = EmailAuthProvider.credential(user.email, currentPassword);
     await reauthenticateWithCredential(user, credential);
-    
-    // Atualizar a senha
+
     await updatePassword(user, newPassword);
   }
 

@@ -40,15 +40,13 @@ class UserDAO {
           return data.profile;
         }
       } else {
-        // Migração LGPD: Buscar documento antigo (e-mail aberto)
         const oldDocRef = doc(db, 'users', email);
         const oldDocSnap = await getDoc(oldDocRef);
         if (oldDocSnap.exists()) {
           const oldData = oldDocSnap.data();
-          // Salva no novo local codificado
           await setDoc(docRef, oldData);
-          
-          if (oldData.profile) {
+
+                    if (oldData.profile) {
             localStorage.setItem('userVoiceProfile', JSON.stringify(oldData.profile));
             if (oldData.calibrationData) {
               localStorage.setItem('calibrationData', JSON.stringify(oldData.calibrationData));
@@ -98,25 +96,25 @@ class UserDAO {
     try {
       const docRef = doc(db, 'users', encodedEmail);
       const docSnap = await getDoc(docRef);
-      
-      if (docSnap.exists()) {
+
+            if (docSnap.exists()) {
         const dataToUpdate = {
           atualizado_em: new Date().toISOString()
         };
-        
-        if (profileData) {
+
+                if (profileData) {
           for (const [key, value] of Object.entries(profileData)) {
             dataToUpdate[`profile.${key}`] = value;
           }
         } else {
           dataToUpdate.profile = null;
         }
-        
-        if (fullCalibrationData !== undefined) {
+
+                if (fullCalibrationData !== undefined) {
           dataToUpdate.calibrationData = fullCalibrationData;
         }
-        
-        await updateDoc(docRef, dataToUpdate);
+
+                await updateDoc(docRef, dataToUpdate);
       } else {
         const dataToSave = {
           profile: profileData,
@@ -139,14 +137,13 @@ class UserDAO {
   async getNote(email, cantoId) {
     if (!email || !cantoId) return '';
     const encodedEmail = btoa(email);
-    
-    try {
+
+        try {
       const noteRef = doc(db, `users/${encodedEmail}/anotacoes`, cantoId);
       const snap = await getDoc(noteRef);
       if (snap.exists()) {
         return snap.data().texto || '';
       } else {
-        // Migração LGPD
         const oldNoteRef = doc(db, `users/${email}/anotacoes`, cantoId);
         const oldSnap = await getDoc(oldNoteRef);
         if (oldSnap.exists()) {

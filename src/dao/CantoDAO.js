@@ -32,11 +32,11 @@ class CantoDAO {
     try {
       const docRef = doc(db, "cantos", id);
       const snap = await getDoc(docRef);
-      
-      const iaRef = doc(db, "ia_song_metrics", id);
+
+            const iaRef = doc(db, "ia_song_metrics", id);
       const iaSnap = await getDoc(iaRef);
-      
-      if (snap.exists()) {
+
+            if (snap.exists()) {
         const data = snap.data();
         if (iaSnap.exists()) {
           data.ia_metrics = iaSnap.data();
@@ -61,6 +61,27 @@ class CantoDAO {
         cantosFirebase[doc.id] = doc.data();
       });
       return cantosFirebase;
+    } catch (err) {
+      console.error(err);
+    }
+    return {};
+  }
+
+  async getAllIntelligentData() {
+    try {
+      const cantosCol = collection(db, "cantos");
+      const iaCol = collection(db, "ia_song_metrics");
+      const [cantosSnap, iaSnap] = await Promise.all([getDocs(cantosCol), getDocs(iaCol)]);
+      
+      const combinedData = {};
+      cantosSnap.forEach((doc) => {
+        combinedData[doc.id] = doc.data();
+      });
+      iaSnap.forEach((doc) => {
+        if (!combinedData[doc.id]) combinedData[doc.id] = {};
+        combinedData[doc.id].ia_metrics = doc.data();
+      });
+      return combinedData;
     } catch (err) {
       console.error(err);
     }
