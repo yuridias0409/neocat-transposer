@@ -338,6 +338,29 @@
   padding-top: 1.5rem;
 }
 
+.logo-img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.logo-title {
+  font-size: 2.1rem;
+  letter-spacing: 1px;
+  color: #962828;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.logo-subtitle {
+  font-family: Georgia, serif;
+  font-size: 0.65rem;
+  color: #962828;
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
 @media (max-width: 768px) {
   .desktop-only {
     display: none !important;
@@ -355,5 +378,18 @@
   .navbar-left {
     flex: 1;
     justify-content: flex-end;
+  }
+
+  .logo-img {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .logo-title {
+    font-size: 1.3rem;
+  }
+  
+  .logo-subtitle {
+    font-size: 0.4rem;
   }
 }

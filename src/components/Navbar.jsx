@@ -94,8 +94,12 @@ const Navbar = ({ user, onLogout }) => {
         <div className="container navbar-content">
           {/* Left Zone: Logo */}
           <div className="navbar-left">
-            <Link to="/" className="navbar-brand">
-              <span className="font-neocat" style={{ fontSize: '1.8rem', letterSpacing: '1px', color: '#962828' }}>Salmistas</span>
+            <Link to="/" className="navbar-brand" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
+              <img src="/new-icon-without-background.png" alt="Logo" className="logo-img" />
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <span className="font-neocat logo-title">Tom do Salmista</span>
+                <span className="logo-subtitle">Salmistas do Caminho Neocatecumenal</span>
+              </div>
             </Link>
           </div>
 

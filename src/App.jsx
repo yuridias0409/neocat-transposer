@@ -7,10 +7,11 @@ import Canto from './views/pages/Canto/Canto';
 import Login from './views/pages/Login/Login';
 import AdminLogin from './views/pages/Admin/AdminLogin';
 import AdminDashboard from './views/pages/Admin/AdminDashboard';
+import { InstallPrompt } from './views/components/InstallPrompt';
 
 import UserDAO from './dao/UserDAO';
 import { auth } from './services/firebase';
-import { onAuthStateChanged } from 'firebase/auth';import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
+import { onAuthStateChanged } from 'firebase/auth';
 
 function AdminRoute() {
   const [adminUser, setAdminUser] = useState(null);
@@ -25,33 +26,34 @@ function AdminRoute() {
   }, []);
 
   if (loading) {
-    return _jsxDEV("div", { style: { display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', fontFamily: 'var(--font-body)' }, children: "Carregando painel..." }, void 0, false);
+    return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', fontFamily: 'var(--font-body)' }}>Carregando painel...</div>;
   }
 
   if (!adminUser) {
-    return _jsxDEV(AdminLogin, { onAuthenticated: setAdminUser }, void 0, false);
+    return <AdminLogin onAuthenticated={setAdminUser} />;
   }
 
-  return _jsxDEV(AdminDashboard, {}, void 0, false);
+  return <AdminDashboard />;
 }
 
 function MainApp({ user, setUser }) {
   if (!user) {
-    return _jsxDEV(Login, { onLogin: setUser }, void 0, false);
+    return <Login onLogin={setUser} />;
   }
 
   return (
-    _jsxDEV("div", { className: "app-container", children: [
-      _jsxDEV(Navbar, { user: user, onLogout: () => {UserDAO.clearSession();setUser(null);} }, void 0, false),
-      _jsxDEV("main", { children:
-        _jsxDEV(Routes, { children: [
-          _jsxDEV(Route, { path: "/", element: _jsxDEV(Dashboard, {}, void 0, false) }, void 0, false),
-          _jsxDEV(Route, { path: "/calibrador", element: _jsxDEV(Calibrador, { user: user }, void 0, false) }, void 0, false),
-          _jsxDEV(Route, { path: "/canto/:id", element: _jsxDEV(Canto, { user: user }, void 0, false) }, void 0, false)] }, void 0, true
-        ) }, void 0, false
-      )] }, void 0, true
-    ));
-
+    <div className="app-container">
+      <Navbar user={user} onLogout={() => { UserDAO.clearSession(); setUser(null); }} />
+      <main>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/calibrador" element={<Calibrador user={user} />} />
+          <Route path="/canto/:id" element={<Canto user={user} />} />
+        </Routes>
+      </main>
+      <InstallPrompt />
+    </div>
+  );
 }
 
 function App() {
@@ -63,16 +65,13 @@ function App() {
   }, []);
 
   return (
-    _jsxDEV(Router, { children:
-      _jsxDEV(Routes, { children: [
-
-        _jsxDEV(Route, { path: "/admin", element: _jsxDEV(AdminRoute, {}, void 0, false) }, void 0, false),
-
-
-        _jsxDEV(Route, { path: "/*", element: _jsxDEV(MainApp, { user: user, setUser: setUser }, void 0, false) }, void 0, false)] }, void 0, true
-      ) }, void 0, false
-    ));
-
+    <Router>
+      <Routes>
+        <Route path="/admin" element={<AdminRoute />} />
+        <Route path="/*" element={<MainApp user={user} setUser={setUser} />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;
