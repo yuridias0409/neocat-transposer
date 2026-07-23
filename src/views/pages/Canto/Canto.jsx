@@ -23,7 +23,7 @@ const Canto = ({ user }) => {
     userProfile,
     notes, setNotes, showNotes, setShowNotes, saveNotes,
     showChordGuide, setShowChordGuide,
-    isKaraokeMode, currentMicHz, startKaraoke, stopKaraoke,
+    isKaraokeMode, currentMicHz, pitchData, startKaraoke, stopKaraoke,
     toastMessage, showToast,
     showFeedbackBar, setShowFeedbackBar,
     aplicarTomInteligente,
@@ -146,7 +146,11 @@ const Canto = ({ user }) => {
             _jsxDEV(KaraokePanelView, {
               isKaraokeMode: isKaraokeMode,
               userProfile: userProfile,
-              currentMicHz: currentMicHz }, void 0, false
+              currentMicHz: currentMicHz,
+              pitchData: pitchData,
+              currentTime: currentTime,
+              transposition: transposition,
+              baseOffset: baseOffset }, void 0, false
             )] }, void 0, true
           ),
 

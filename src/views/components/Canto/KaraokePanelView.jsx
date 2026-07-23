@@ -1,57 +1,258 @@
-import React from 'react';import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
+import React, { useRef, useEffect, useState } from 'react';
 
-export function KaraokePanelView({ isKaraokeMode, userProfile, currentMicHz }) {
+// Fórmulas para converter frequência para semitons (linearização)
+const hzToSemitones = (hz) => 12 * Math.log2(hz / 440);
+// Transpor frequência
+const transposeFreq = (hz, semitones) => hz * Math.pow(2, semitones / 12);
+
+export function KaraokePanelView({ 
+  isKaraokeMode, 
+  userProfile, 
+  currentMicHz, 
+  pitchData, 
+  currentTime, 
+  transposition, 
+  baseOffset 
+}) {
+  const canvasRef = useRef(null);
+  const [tooltip, setTooltip] = useState(null);
+  const userPitchHistoryRef = useRef([]);
+
+  useEffect(() => {
+    if (!isKaraokeMode || !canvasRef.current) return;
+
+    let animationFrameId;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+
+    const render = () => {
+      // Setup canvas
+      const width = canvas.width;
+      const height = canvas.height;
+      ctx.clearRect(0, 0, width, height);
+
+      // Limites de tempo (1.5s pra trás, 3s pra frente)
+      const timeWindowPast = 1.5;
+      const timeWindowFuture = 3;
+      const timeStart = currentTime - timeWindowPast;
+      const timeEnd = currentTime + timeWindowFuture;
+      const timeRange = timeWindowPast + timeWindowFuture;
+
+      const shiftSemitones = transposition - baseOffset;
+
+      // Descobrir o Máximo e Mínimo global da música atual (com transposição)
+      let songMaxHz = 0;
+      let songMinHz = 1000;
+      if (pitchData && pitchData.length > 0) {
+        for (let i = 0; i < pitchData.length; i++) {
+           const shiftedHz = transposeFreq(pitchData[i].f, shiftSemitones);
+           if (shiftedHz > songMaxHz) songMaxHz = shiftedHz;
+           if (shiftedHz < songMinHz && shiftedHz > 0) songMinHz = shiftedHz;
+        }
+      }
+
+      // Limites de Y (frequência). Usaremos a faixa vocal do usuário + margem da música
+      let minHz = userProfile?.min?.freq || 80;
+      let maxHz = userProfile?.max?.freq || 400;
+      minHz = Math.min(minHz * 0.6, songMinHz * 0.8, 60); 
+      maxHz = Math.max(maxHz * 2.0, songMaxHz * 1.3, 700); 
+      const minSemi = hzToSemitones(minHz);
+      const maxSemi = hzToSemitones(maxHz);
+      const semiRange = maxSemi - minSemi;
+
+      const getY = (hz) => {
+        if (!hz || hz <= 0) return height;
+        const semi = hzToSemitones(hz);
+        return height - ((semi - minSemi) / semiRange) * height;
+      };
+
+      const getX = (t) => {
+        return ((t - timeStart) / timeRange) * width;
+      };
+
+      // Desenhar Fundo Escuro/Claro Gradiente
+      const gradient = ctx.createLinearGradient(0, 0, 0, height);
+      gradient.addColorStop(0, '#f8fafc'); // Agudo
+      gradient.addColorStop(1, '#e2e8f0'); // Grave
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, width, height);
+      
+      // Linha Central (Atual)
+      const currentX = getX(currentTime);
+      ctx.beginPath();
+      ctx.moveTo(currentX, 0);
+      ctx.lineTo(currentX, height);
+      ctx.strokeStyle = 'rgba(220, 38, 38, 0.6)'; // red line
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      
+      // Desenhar texto do tempo
+      ctx.fillStyle = '#b91c1c';
+      ctx.font = '10px monospace';
+      ctx.fillText(currentTime.toFixed(1) + "s", currentX + 5, height - 5);
+
+      // Desenhar Pitch de Referência (Linha Cinza/Azul)
+      let currentRefHz = 0;
+      let futureRefHz = 0; // Para ver se sobe ou desce
+      if (pitchData && pitchData.length > 0) {
+        ctx.beginPath();
+        let started = false;
+        
+        // Transposição total = transposition - baseOffset
+        const shiftSemitones = transposition - baseOffset;
+
+        for (let i = 0; i < pitchData.length; i++) {
+          const pt = pitchData[i];
+          if (pt.t >= timeStart && pt.t <= timeEnd) {
+            const shiftedHz = transposeFreq(pt.f, shiftSemitones);
+            const x = getX(pt.t);
+            const y = getY(shiftedHz);
+            
+            if (!started) {
+              ctx.moveTo(x, y);
+              started = true;
+            } else {
+              ctx.lineTo(x, y);
+            }
+
+            // Achar a ref do tempo atual para os tooltips
+            if (Math.abs(pt.t - currentTime) < 0.1) {
+              currentRefHz = shiftedHz;
+            }
+            // Achar a ref 1 segundo no futuro
+            if (Math.abs(pt.t - (currentTime + 1)) < 0.1) {
+              futureRefHz = shiftedHz;
+            }
+          }
+        }
+        
+        ctx.strokeStyle = '#64748b'; // slate-500
+        ctx.lineWidth = 4;
+        ctx.lineJoin = 'round';
+        ctx.stroke();
+      }
+
+      // Atualizar histórico do usuário
+      if (currentMicHz > 0) {
+        // evitar add repetidos no mesmo tempo
+        const hist = userPitchHistoryRef.current;
+        if (hist.length === 0 || Math.abs(hist[hist.length-1].t - currentTime) > 0.05) {
+            userPitchHistoryRef.current.push({ t: currentTime, f: currentMicHz });
+        }
+      }
+      // Limpar histórico velho
+      while(userPitchHistoryRef.current.length > 0 && userPitchHistoryRef.current[0].t < timeStart) {
+        userPitchHistoryRef.current.shift();
+      }
+
+      // Desenhar Pitch do Usuário (Linha Amarela)
+      if (userPitchHistoryRef.current.length > 0) {
+        ctx.beginPath();
+        let started = false;
+        for (let i = 0; i < userPitchHistoryRef.current.length; i++) {
+          const pt = userPitchHistoryRef.current[i];
+          const x = getX(pt.t);
+          const y = getY(pt.f);
+          if (!started) {
+            ctx.moveTo(x, y);
+            started = true;
+          } else {
+            ctx.lineTo(x, y);
+          }
+        }
+        ctx.strokeStyle = '#eab308'; // yellow-500
+        ctx.lineWidth = 4;
+        ctx.stroke();
+      }
+
+      // Lógica de Tooltips
+      if (currentRefHz > 0 && currentMicHz > 0) {
+        const refSemi = hzToSemitones(currentRefHz);
+        const micSemi = hzToSemitones(currentMicHz);
+        const diff = micSemi - refSemi;
+
+        // Tolerância ajustada para 2.5 semitons (~250 cents)
+        if (diff > 2.5) {
+          setTooltip({ text: "Cante mais GRAVE! ⬇️", type: 'warning' });
+        } else if (diff < -2.5) {
+          setTooltip({ text: "Cante mais AGUDO! ⬆️", type: 'warning' });
+        } else {
+          // Se estiver afinado, dar dica futura
+          if (futureRefHz > 0) {
+             const futSemi = hzToSemitones(futureRefHz);
+             if (futSemi - refSemi > 2.5) {
+                 setTooltip({ text: "Atenção: Aqui SOBE ↗️", type: 'info' });
+             } else if (futSemi - refSemi < -2.5) {
+                 setTooltip({ text: "Atenção: Aqui DESCE ↘️", type: 'info' });
+             } else {
+                 setTooltip({ text: "Afinado! 🎯", type: 'success' });
+             }
+          } else {
+             setTooltip({ text: "Afinado! 🎯", type: 'success' });
+          }
+        }
+      } else {
+        setTooltip(null);
+      }
+
+      animationFrameId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [isKaraokeMode, currentTime, pitchData, currentMicHz, transposition, baseOffset, userProfile]);
+
   if (!isKaraokeMode) return null;
 
   if (!userProfile) return (
-    _jsxDEV("div", { className: "card text-center mb-3", style: { padding: '1rem', border: '1px solid #f87171', background: '#fef2f2' }, children:
-      _jsxDEV("p", { style: { color: '#b91c1c', margin: 0 }, children: "Calibre sua voz primeiro para usar o Karaoke." }, void 0, false) }, void 0, false
-    ));
-
-
-  const userMaxFreq = userProfile.max.freq;
-  const isDanger = currentMicHz > userMaxFreq;
-  const isWarning = currentMicHz > userMaxFreq * 0.85 && !isDanger;
-
-  const barColor = isDanger ? '#ef4444' : isWarning ? '#f59e0b' : '#22c55e';
-  const percentage = Math.min(100, currentMicHz / (userMaxFreq * 1.2) * 100);
+    <div className="card text-center mb-3" style={{ padding: '1rem', border: '1px solid #f87171', background: '#fef2f2' }}>
+      <p style={{ color: '#b91c1c', margin: 0 }}>Calibre sua voz primeiro para usar o Karaoke.</p>
+    </div>
+  );
 
   return (
-    _jsxDEV("div", { className: "karaoke-panel card mb-3", style: { padding: '1rem', border: '2px solid #0369a1', background: '#f0f9ff' }, children: [
-      _jsxDEV("div", { style: { display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontWeight: 'bold', color: '#0369a1' }, children: [
-        _jsxDEV("span", { children: "🎤 Monitoramento ao Vivo" }, void 0, false),
-        _jsxDEV("span", { children: currentMicHz > 0 ? `${currentMicHz} Hz` : 'Aguardando voz...' }, void 0, false)] }, void 0, true
-      ),
+    <div className="karaoke-panel card mb-3" style={{ padding: '1rem', border: '2px solid #0369a1', background: '#f0f9ff', position: 'relative' }}>
+      
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontWeight: 'bold', color: '#0369a1', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+           <span>🎤 Monitoramento ao Vivo</span>
+        </div>
+      </div>
 
-      _jsxDEV("div", { style: { height: '24px', background: '#e2e8f0', borderRadius: '12px', overflow: 'hidden', position: 'relative' }, children: [
-        _jsxDEV("div", { style: {
-            height: '100%',
-            width: `${percentage}%`,
-            background: barColor,
-            transition: 'width 0.1s linear, background-color 0.3s'
-          } }, void 0, false),
+      <div style={{ position: 'relative', width: '100%', height: '140px', background: '#e2e8f0', borderRadius: '12px', overflow: 'hidden', border: '1px solid #cbd5e1' }}>
+        
+        {/* Tooltip flutuante do DOM absoluto para não quebrar layout mobile */}
+        {tooltip && (
+          <div style={{ position: 'absolute', top: '8px', right: '8px', zIndex: 10 }}>
+             <span className="badge shadow-sm" style={{ 
+               background: tooltip.type === 'warning' ? '#fef08a' : tooltip.type === 'success' ? '#dcfce7' : '#e0f2fe', 
+               color: tooltip.type === 'warning' ? '#854d0e' : tooltip.type === 'success' ? '#166534' : '#0369a1', 
+               padding: '0.3rem 0.8rem', borderRadius: '12px', fontSize: '0.75rem', animation: 'fadeIn 0.2s ease-in-out',
+               border: '1px solid rgba(0,0,0,0.05)'
+              }}>
+               {tooltip.text}
+             </span>
+          </div>
+        )}
 
-        _jsxDEV("div", { style: {
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            left: `${userMaxFreq / (userMaxFreq * 1.2) * 100}%`,
-            width: '2px',
-            background: '#b91c1c',
-            zIndex: 10
-          } }, void 0, false)] }, void 0, true
-      ),
+        <canvas 
+          ref={canvasRef} 
+          width={800} 
+          height={140} 
+          style={{ width: '100%', height: '100%', display: 'block' }} 
+        />
+        
+        {/* Labels laterais */}
+        <div style={{ position: 'absolute', top: '4px', left: '8px', fontSize: '0.65rem', color: '#64748b', fontWeight: 'bold' }}>Agudo</div>
+        <div style={{ position: 'absolute', bottom: '4px', left: '8px', fontSize: '0.65rem', color: '#64748b', fontWeight: 'bold' }}>Grave</div>
+      </div>
 
-      _jsxDEV("div", { style: { display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: '#64748b', marginTop: '0.25rem' }, children: [
-        _jsxDEV("span", { children: "Grave" }, void 0, false),
-        _jsxDEV("span", { style: { color: '#b91c1c', fontWeight: 'bold' }, children: "Seu Limite Máximo" }, void 0, false)] }, void 0, true
-      ),
-
-      isDanger &&
-      _jsxDEV("div", { style: { marginTop: '0.75rem', fontSize: '0.85rem', color: '#b91c1c', fontWeight: 'bold' }, children: "⚠️ Atenção: Você está atingindo ou ultrapassando seu limite de conforto vocal!" }, void 0, false
-
-      )] }, void 0, true
-
-    ));
-
+      <div style={{ marginTop: '0.75rem', fontSize: '0.8rem', color: '#b91c1c', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '6px', justifyContent: 'center' }}>
+         🎧 Aviso: Este modo funciona muito melhor com Fones de Ouvido! (Evita microfonia e atrasos)
+      </div>
+    </div>
+  );
 }

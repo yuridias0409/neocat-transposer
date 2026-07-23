@@ -1,5 +1,7 @@
 # NeoCat Transposer
 
+🔗 **Acesse o site oficial:** [https://neocat-transposer.vercel.app/](https://neocat-transposer.vercel.app/)
+
 Um sistema moderno e inteligente para auxiliar salmistas na descoberta do seu tom ideal e na transposição de cantos litúrgicos. O **NeoCat Transposer** é uma evolução do antigo Neo-Transposer, focado em facilidade de uso, IA e processamento em tempo real.
 
 > **Créditos e Agradecimentos:** Este projeto nasceu inspirado no excelente e histórico projeto **[Neo-Transposer](https://github.com/vmas/neo-transposer)** (criado por Victor Mas e contribuidores). Todo o banco de dados oficial dos cantos, posições de capo ideais e lógicas fundamentais de limite de extensão vocal ("People-Compatible") derivam do trabalho fundamental feito na versão original. Nosso profundo reconhecimento à fundação deixada pelo Neo-Transposer.
@@ -9,9 +11,9 @@ Um sistema moderno e inteligente para auxiliar salmistas na descoberta do seu to
 - **Visualizador de Cifras Dinâmicas:** Exibe letras de cantos com cifras incorporadas, permitindo transposição visual com apenas um clique (`+` ou `-`).
 - **Ajuste Mágico de Tom:** Com base em um rápido processo de calibração vocal, o aplicativo descobre o tom ideal para a sua voz em cada canto específico, garantindo que você nunca precise forçar.
 - **Salmista Assistente:** Um calibrador passo a passo, acompanhado de áudios (baseados na medição de *Iahweh* e *Se o Senhor não constrói a casa*), que calcula sua nota mais grave e mais aguda.
-- **Calibração por Microfone:** Utilize o microfone para captar as frequências da sua voz em tempo real e registrar seus limites inferior e superior.
+- **Monitoramento ao Vivo (Cantar Junto / Karaoke):** Modo de treinamento onde um gráfico dinâmico exibe a afinação da música em tempo real, capta sua voz pelo microfone, e compara ambas. Ele oferece feedback imediato (ex: "Cante mais Agudo") sincronizado com a transposição que você escolheu.
 - **Shift Pitch de Áudio em Tempo Real:** Escute os áudios originais dos cantos automaticamente transpostos (via `tone.js`) para acompanhar o tom selecionado na cifra visual.
-- **Geração de Cifra com IA:** Usando a integração com o Gemini, as páginas escaneadas dos livros são convertidas em cifras interativas instantaneamente (através do nosso backend `ai_server.py`).
+- **Geração de Cifra com IA:** Usando a integração com o Gemini, as páginas escaneadas dos livros são convertidas em cifras interativas instantaneamente.
 
 ## Como Rodar
 
@@ -29,17 +31,18 @@ O sistema possui duas camadas que operam simultaneamente: o Frontend (React + Vi
    ```
 4. O app ficará disponível em `http://localhost:5173`.
 
-### 2. Iniciar o Backend AI (Geração de Cifra e Proxy de Áudio)
+### 2. Scripts e Backend AI
+Os arquivos Python do projeto foram organizados na pasta `scripts/`.
 1. Certifique-se de ter o Python 3 instalado.
-2. O servidor depende do pacote de IA do Google e do FastAPI. Instale se não os tiver (idealmente num ambiente virtual, ou usando `--break-system-packages` se for Mac e tiver certeza):
+2. O servidor depende do pacote de IA do Google, librosa, e do FastAPI. Instale se não os tiver:
    ```bash
-   pip3 install fastapi uvicorn requests
+   pip3 install fastapi uvicorn requests librosa numpy
    ```
-3. Inicie o servidor:
+3. O comando `npm run dev` já iniciará automaticamente o servidor em `scripts/ai_server.py` rodando na porta `8000`.
+4. Para gerar os dados de afinação (Karaoke) para todos os áudios, rode:
    ```bash
-   python3 ai_server.py
+   python3 scripts/generate_pitch_data.py
    ```
-4. O backend rodará na porta `8000`.
 
 *Lembre-se de definir a variável de ambiente `GEMINI_API_KEY` para as funções de Digitalização com IA.*
 
@@ -47,5 +50,5 @@ O sistema possui duas camadas que operam simultaneamente: o Frontend (React + Vi
 
 - **Vite + React.js** para interface rápida.
 - **Tone.js** para análise acústica e manipulação de Pitch Shift (mudança de tom no áudio original) no navegador.
-- **Python (FastAPI)** como backend para extração de áudios seguros e proxy.
+- **Python (FastAPI & Librosa)** como backend para extração de áudios, análise de pitch (frequência fundamental) e proxy.
 - **Google Gemini API** para transcrição avançada de partituras para nosso formato inteligente `[Acorde]Texto`.

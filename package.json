@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently --names \"VITE,AI\" --prefix-colors \"cyan,magenta\" \"vite\" \"python3 ai_server.py\"",
+    "dev": "concurrently --names \"VITE,AI\" --prefix-colors \"cyan,magenta\" \"vite\" \"python3 scripts/ai_server.py\"",
     "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview"

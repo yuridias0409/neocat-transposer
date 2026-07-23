@@ -26,6 +26,7 @@ export function useCantoController(cantoId, user) {
   const [showFeedback, setShowFeedback] = useState(false);
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [pitchData, setPitchData] = useState(null);
   const [fontSize, setFontSize] = useState(1.1);
   const [toastMessage, setToastMessage] = useState(null);
   const [currentTime, setCurrentTime] = useState(0);
@@ -56,6 +57,14 @@ export function useCantoController(cantoId, user) {
 
   const startKaraoke = async () => {
     try {
+      if (canto && canto.audio_url) {
+        const jsonUrl = `/pitch_data/${canto.audio_url.split('/').pop().replace('.mp3', '.json')}`;
+        fetch(jsonUrl)
+          .then(res => res.json())
+          .then(data => setPitchData(data))
+          .catch(err => console.warn('Pitch data não encontrado', err));
+      }
+
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       karaokeStreamRef.current = stream;
 
@@ -333,7 +342,7 @@ export function useCantoController(cantoId, user) {
     userProfile,
     notes, setNotes, showNotes, setShowNotes, saveNotes,
     showChordGuide, setShowChordGuide,
-    isKaraokeMode, currentMicHz, startKaraoke, stopKaraoke,
+    isKaraokeMode, currentMicHz, pitchData, startKaraoke, stopKaraoke,
     showFeedback, feedbackSent, handleFeedback,
     isGenerating, setIsGenerating,
     fontSize, setFontSize,
