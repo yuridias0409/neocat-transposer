@@ -170,8 +170,27 @@ const Navbar = ({ user, onLogout }) => {
 
         <div className="mobile-menu-content">
           <div className="mobile-nav-links">
-            <Link to="/" className="mobile-nav-link font-neocat">Salmistas</Link>
-            <Link to="/" className="mobile-nav-link font-neocat" style={{ fontSize: '1.4rem', opacity: 0.85 }}>Cantos</Link>
+            <Link to="/" className="mobile-nav-link font-neocat" onClick={() => setIsMobileMenuOpen(false)}>Cantos</Link>
+            <button 
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                window.dispatchEvent(new Event('triggerInstallApp'));
+              }} 
+              style={{
+                background: 'none',
+                border: 'none',
+                padding: 0,
+                textAlign: 'left',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                color: 'inherit'
+              }}
+              className="mobile-nav-link font-neocat"
+            >
+              Baixar App
+            </button>
           </div>
 
           <div className="mobile-actions">

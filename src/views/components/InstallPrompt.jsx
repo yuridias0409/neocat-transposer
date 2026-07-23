@@ -6,61 +6,76 @@ export function InstallPrompt() {
   const [isIOS, setIsIOS] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // Verifica se já está instalado (standalone)
+    const userAgent = window.navigator.userAgent || window.opera;
+    const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|windows phone/i.test(userAgent.toLowerCase());
+    setIsMobile(isMobileDevice);
+
     const isAppStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
     setIsStandalone(isAppStandalone);
 
     if (isAppStandalone) return;
 
-    // Detecta se é iOS (Safari não suporta o evento beforeinstallprompt automático)
-    const userAgent = window.navigator.userAgent.toLowerCase();
-    const isIosDevice = /iphone|ipad|ipod/.test(userAgent);
+    const isIosDevice = /iphone|ipad|ipod/.test(userAgent.toLowerCase());
     setIsIOS(isIosDevice);
 
-    if (isIosDevice) {
-      // No iOS, se não estiver standalone, a gente mostra o banner depois de uns segundos pra não ser intrusivo
+    const isClosed = localStorage.getItem('pwaPromptClosed');
+
+    if (isIosDevice && isMobileDevice && !isClosed) {
       const timer = setTimeout(() => setShowPrompt(true), 3000);
       return () => clearTimeout(timer);
     }
 
-    // Android/Chrome: Escuta o evento de instalação
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
-      setShowPrompt(true);
+      if (isMobileDevice && !isClosed) {
+        setShowPrompt(true);
+      }
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-
-    return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-    };
+    return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
   }, []);
+
+  useEffect(() => {
+    const handleManualTrigger = () => {
+      setShowPrompt(true);
+      if (deferredPrompt && !isIOS) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => {
+           setShowPrompt(false);
+        });
+      }
+    };
+    window.addEventListener('triggerInstallApp', handleManualTrigger);
+    return () => window.removeEventListener('triggerInstallApp', handleManualTrigger);
+  }, [deferredPrompt, isIOS]);
 
   const handleInstallClick = async () => {
     if (!deferredPrompt) return;
-    
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
-    
     if (outcome === 'accepted') {
       setShowPrompt(false);
+      localStorage.setItem('pwaPromptClosed', 'true');
     }
     setDeferredPrompt(null);
   };
 
   const handleClose = () => {
     setShowPrompt(false);
+    localStorage.setItem('pwaPromptClosed', 'true');
   };
 
-  if (!showPrompt || isStandalone) return null;
+  if (!showPrompt || isStandalone || !isMobile) return null;
 
   return (
     <div style={{
       position: 'fixed',
-      bottom: '80px', // Acima da barra de navegação, se houver
+      bottom: '80px',
       left: '50%',
       transform: 'translateX(-50%)',
       width: '90%',
@@ -113,14 +128,8 @@ export function InstallPrompt() {
           Instalar Agora
         </button>
       )}
-
       <style>
-        {`
-          @keyframes slideUp {
-            from { opacity: 0; transform: translate(-50%, 20px); }
-            to { opacity: 1; transform: translate(-50%, 0); }
-          }
-        `}
+        {`@keyframes slideUp { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translate(-50%, 0); } }`}
       </style>
     </div>
   );
