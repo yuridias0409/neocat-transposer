@@ -24,18 +24,26 @@ export const PsalmistStatus = ({ userProfile, aiData, transposition, canto }) =>
   const userMaxActual = userProfile.max?.freq || userProfile.f0_max || 330;
   const userMinActual = userProfile.min?.freq || userProfile.f0_min || 110;
 
-  const songCenter = (currentMaxFreq + currentMinFreq) / 2;
   const userCenter = (userMaxActual + userMinActual) / 2;
   
-  while (currentMaxFreq * 2 <= userMaxActual + 10 && currentMinFreq * 2 >= userMinActual - 10) {
-    if (Math.abs((songCenter * 2) - userCenter) >= Math.abs(songCenter - userCenter)) break;
-    currentMaxFreq *= 2;
-    currentMinFreq *= 2;
+  while (true) {
+    let currentCenter = (currentMaxFreq + currentMinFreq) / 2;
+    if (Math.abs((currentCenter * 2) - userCenter) < Math.abs(currentCenter - userCenter)) {
+      currentMaxFreq *= 2;
+      currentMinFreq *= 2;
+    } else {
+      break;
+    }
   }
-  while (currentMinFreq / 2 >= userMinActual - 10 && currentMaxFreq / 2 <= userMaxActual + 10) {
-    if (Math.abs((songCenter / 2) - userCenter) >= Math.abs(songCenter - userCenter)) break;
-    currentMaxFreq /= 2;
-    currentMinFreq /= 2;
+  
+  while (true) {
+    let currentCenter = (currentMaxFreq + currentMinFreq) / 2;
+    if (Math.abs((currentCenter / 2) - userCenter) < Math.abs(currentCenter - userCenter)) {
+      currentMaxFreq /= 2;
+      currentMinFreq /= 2;
+    } else {
+      break;
+    }
   }
 
   const diffMaxSemitones = 12 * Math.log2(currentMaxFreq / userMaxActual);

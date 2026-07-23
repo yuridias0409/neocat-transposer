@@ -4,11 +4,11 @@ const americanToLatin = {
   'E': 'Mi',
   'F': 'Fa', 'F#': 'Fa#', 'Gb': 'Fa#',
   'G': 'Sol', 'G#': 'Sol#', 'Ab': 'Sol#',
-  'A': 'La', 'A#': 'La#', 'Bb': 'La#',
+  'A': 'La', 'A#': 'Sib', 'Bb': 'Sib',
   'B': 'Si'
 };
 
-const latinNotesKeys = ['Do', 'Do#', 'Re', 'Re#', 'Mi', 'Fa', 'Fa#', 'Sol', 'Sol#', 'La', 'La#', 'Si'];
+const latinNotesKeys = ['Do', 'Do#', 'Re', 'Re#', 'Mi', 'Fa', 'Fa#', 'Sol', 'Sol#', 'La', 'Sib', 'Si'];
 
 export const getNoteIndex = (noteStr) => {
   if (!noteStr) return 0;
@@ -25,6 +25,7 @@ export const getNoteIndex = (noteStr) => {
   if (americanToLatin[note]) {
     note = americanToLatin[note];
   }
+  if (note === 'La#' || note === 'Lá#') note = 'Sib';
 
   const idx = latinNotesKeys.indexOf(note);
   return idx === -1 ? 0 : idx;
@@ -42,6 +43,7 @@ export const transposeChordString = (chordString, semitones) => {
     if (americanToLatin[note]) {
       note = americanToLatin[note];
     }
+    if (note === 'La#' || note === 'Lá#') note = 'Sib';
 
     const currentIndex = latinNotesKeys.indexOf(note);
     if (currentIndex === -1) return match;

@@ -1,5 +1,5 @@
 
-const ESCALA = ["Do", "Do#", "Re", "Re#", "Mi", "Fa", "Fa#", "Sol", "Sol#", "La", "La#", "Si"];
+const ESCALA = ["Do", "Do#", "Re", "Re#", "Mi", "Fa", "Fa#", "Sol", "Sol#", "La", "Sib", "Si"];
 
 
 const FORMAS_AMIGAVEIS_MENORES = ["Mi-", "La-", "Re-"];

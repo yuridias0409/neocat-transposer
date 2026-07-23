@@ -164,7 +164,7 @@ const Canto = ({ user }) => {
               _jsxDEV("div", { style: { display: 'flex', flexWrap: 'wrap', gap: '0.4rem', fontFamily: 'monospace', fontSize: '1rem', justifyContent: 'center' }, children:
                 canto.acordes_usados.map((c, i) =>
                 _jsxDEV("div", { style: { background: '#fff', padding: '0.2rem 0.4rem', borderRadius: '6px', border: '1px solid #e0f2fe', textAlign: 'center', flex: '1 1 auto', minWidth: '45px' }, children: [
-                  _jsxDEV("div", { style: { color: '#94a3b8', fontSize: '0.7rem', textDecoration: 'line-through' }, children: c }, void 0, false),
+                  _jsxDEV("div", { style: { color: '#94a3b8', fontSize: '0.7rem', textDecoration: 'line-through' }, children: transposeChordString(c, 0) }, void 0, false),
                   _jsxDEV("div", { style: { color: '#b91c1c', fontWeight: 'bold' }, children: transposeChordString(c, capoInfo.diferencaFormaSemitons) }, void 0, false)] }, i, true
                 )
                 ) }, void 0, false
@@ -204,6 +204,7 @@ const Canto = ({ user }) => {
         capoInfo={capoInfo}
         userProfile={userProfile}
         transposition={transposition}
+        tomEsforco={tomEsforco}
       />
       ] }, void 0, true
     ));

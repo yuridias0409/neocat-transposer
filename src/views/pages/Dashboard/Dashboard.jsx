@@ -51,8 +51,8 @@ const Dashboard = () => {
   return (
     <div className="container dashboard-page">
       <div className="dashboard-header-modern">
-        <h1>Cantos</h1>
-        <p>Explore o repertório do Caminho Neocatecumenal</p>
+        <h1 className="font-neocat">Cantos</h1>
+        <p className="font-neocat">Explore o repertório do Caminho Neocatecumenal</p>
       </div>
 
       <div className="search-bar-container">

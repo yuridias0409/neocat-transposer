@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from 'react';
-import { Play, Pause } from 'lucide-react';
+import React, { useRef, useEffect, useState } from 'react';
+import { Play, Pause, Info } from 'lucide-react';
 import * as Tone from 'tone';
 
 export function AudioPlayerView({
@@ -19,6 +19,7 @@ export function AudioPlayerView({
   const progressRef = useRef(null);
   const timeTextRef = useRef(null);
   const animRef = useRef(null);
+  const [showInfo, setShowInfo] = useState(false);
 
   useEffect(() => {
     const updateProgress = () => {
@@ -73,6 +74,24 @@ export function AudioPlayerView({
           <div ref={timeTextRef} style={{ fontSize: '0.85rem', color: '#666', fontFamily: 'monospace', minWidth: '85px' }}>
             00:00 / {formatTime(duration)}
           </div>
+          
+          {canto.tom_audio && canto.tom_audio !== '?' && (
+            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+              <button 
+                onClick={() => setShowInfo(!showInfo)} 
+                style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '0 0.25rem', display: 'flex', alignItems: 'center' }}
+                title="Informação do áudio"
+              >
+                <Info size={16} />
+              </button>
+              {showInfo && (
+                <div style={{ position: 'absolute', bottom: '120%', right: '0', background: '#334155', color: '#fff', padding: '0.5rem 0.75rem', borderRadius: '8px', fontSize: '0.75rem', whiteSpace: 'nowrap', zIndex: 50, boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}>
+                  Áudio original gravado em: <strong>{canto.tom_audio}</strong>
+                  <div style={{ position: 'absolute', bottom: '-4px', right: '10px', width: '8px', height: '8px', background: '#334155', transform: 'rotate(45deg)' }}></div>
+                </div>
+              )}
+            </div>
+          )}
           <button
             className={`btn btn-sm ${isKaraokeMode ? 'btn-primary' : 'btn-outline'}`}
             onClick={isKaraokeMode ? stopKaraoke : startKaraoke}

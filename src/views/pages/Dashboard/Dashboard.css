@@ -15,13 +15,10 @@
 
 .dashboard-header-modern h1 {
   font-size: 2.5rem;
-  font-weight: 800;
+  font-weight: normal;
   margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, var(--color-primary, #0369a1) 0%, var(--color-gold, #ca8a04) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: -0.03em;
+  color: #962828;
+  letter-spacing: 1px;
 }
 
 .dashboard-header-modern p {
@@ -29,11 +26,8 @@
   font-size: 1.1rem;
 }
 
-/* Sticky Search Bar */
+/* Search Bar */
 .search-bar-container {
-  position: sticky;
-  top: 10px;
-  z-index: 5;
   padding: 0 1rem;
   margin-bottom: 2rem;
 }
@@ -41,22 +35,20 @@
 .search-bar-modern {
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 24px;
-  padding: 0.75rem 1.5rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 0.75rem 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
   max-width: 600px;
   margin: 0 auto;
 }
 
 .search-bar-modern:focus-within {
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), 0 0 0 2px var(--color-gold, #ca8a04);
-  transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: var(--color-primary, #0369a1);
+  background: #ffffff;
 }
 
 .search-icon {
