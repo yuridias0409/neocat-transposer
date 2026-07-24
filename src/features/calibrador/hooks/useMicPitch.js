@@ -4,6 +4,7 @@ import { PitchDetector } from "pitchy";
 import { freqToNote, freqToNoteName } from "../utils/calibradorUtils";
 const useMicPitch = ({ onNoteConfirmed, step, SUSTAIN_DURATION = 3000 }) => {
   const [isRecording, setIsRecording] = useState(false);
+  const isRecordingRef = useRef(false);
   const [currentNote, setCurrentNote] = useState(null);
   const [sustainProgress, setSustainProgress] = useState(0);
   const [volume, setVolume] = useState(0);
@@ -37,6 +38,7 @@ const useMicPitch = ({ onNoteConfirmed, step, SUSTAIN_DURATION = 3000 }) => {
     return () => clearInterval(interval);
   }, [isRecording]);
   const updatePitch = () => {
+    if (!isRecordingRef.current) return;
     if (
       !analyzerRef.current ||
       !detectorRef.current ||
@@ -77,6 +79,7 @@ const useMicPitch = ({ onNoteConfirmed, step, SUSTAIN_DURATION = 3000 }) => {
           if (audioContextRef.current?.state !== "closed")
             audioContextRef.current.close();
           setIsRecording(false);
+          isRecordingRef.current = false;
           setCurrentNote(null);
           setSustainProgress(0);
           onNoteRef.current(noteData, stepRef.current, input);
@@ -110,6 +113,7 @@ const useMicPitch = ({ onNoteConfirmed, step, SUSTAIN_DURATION = 3000 }) => {
       sustainNoteRef.current = null;
       sustainStartRef.current = null;
       setIsRecording(true);
+      isRecordingRef.current = true;
       updatePitch();
     } catch {
       alert("Precisamos de acesso ao microfone!");
@@ -122,6 +126,7 @@ const useMicPitch = ({ onNoteConfirmed, step, SUSTAIN_DURATION = 3000 }) => {
     sustainNoteRef.current = null;
     sustainStartRef.current = null;
     setIsRecording(false);
+    isRecordingRef.current = false;
     setCurrentNote(null);
     setSustainProgress(0);
     setVolume(0);

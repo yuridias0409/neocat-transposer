@@ -5,7 +5,7 @@ import useMicPitch from "../hooks/useMicPitch";
 import SustainBar from "./SustainBar";
 import { User, Play, Square, ThumbsUp, ThumbsDown } from "lucide-react";
 
-export default function AssistantStep({ onFinish, onCancel }) {
+const AssistantStep = ({ onFinish, onCancel }) => {
   const [step, setStep] = useState(1);
   const [assistantGender, setAssistantGender] = useState(null);
   const [astOffsetGrave, setAstOffsetGrave] = useState(0);
@@ -405,16 +405,7 @@ export default function AssistantStep({ onFinish, onCancel }) {
             </div>
           </div>
 
-          {/* Microfone Status Visível - VU Meter Sempre Ativo */}
-          <div style={{ marginTop: "1rem", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.75rem" }}>
-            <span style={{ fontSize: "1.2rem", color: "#b91c1c" }}>🎙️</span>
-            <div style={{ flex: "1 1 auto", maxWidth: "220px" }}>
-              <SustainBar 
-                progress={mic.isRecording ? Math.min(100, mic.volume * 800 + 5) : 0} 
-                label=" " 
-              />
-            </div>
-          </div>
+          {/* O microfone continua rodando em background para a análise inteligente, mas sem poluir a interface do usuário */}
 
           <div className="mt-4">
             <p style={{ fontSize: "1.2rem" }}>Conseguiu cantar?</p>
@@ -470,4 +461,6 @@ export default function AssistantStep({ onFinish, onCancel }) {
       )}
     </>
   );
-}
+};
+
+export default React.memo(AssistantStep);

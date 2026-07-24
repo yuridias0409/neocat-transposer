@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense, lazy } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -6,12 +6,13 @@ import {
   Navigate,
 } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
-import Dashboard from "./features/dashboard/Dashboard";
-import Calibrador from "./features/calibrador/Calibrador";
-import Canto from "./features/canto/Canto";
-import Login from "./features/auth/Login";
-import AdminDashboard from "./features/admin/AdminDashboard";
 import { InstallPrompt } from "./views/components/InstallPrompt";
+
+import Dashboard from "./features/dashboard/Dashboard";
+const Calibrador = lazy(() => import("./features/calibrador/Calibrador"));
+const Canto = lazy(() => import("./features/canto/Canto"));
+const Login = lazy(() => import("./features/auth/Login"));
+const AdminDashboard = lazy(() => import("./features/admin/AdminDashboard"));
 import UserDAO from "./api/UserDAO";
 import AuthDAO from "./api/AuthDAO";
 import { auth } from "./services/firebase";
@@ -34,9 +35,19 @@ function AdminRoute({ isAdmin }) {
   }
   return <AdminDashboard />;
 }
+const Fallback = () => (
+  <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", color: "#666" }}>
+    Carregando tela...
+  </div>
+);
+
 function MainApp({ user, setUser, isAdmin }) {
   if (!user) {
-    return <Login onLogin={setUser} />;
+    return (
+      <Suspense fallback={<Fallback />}>
+        <Login onLogin={setUser} />
+      </Suspense>
+    );
   }
   return (
     <div className="app-container">
@@ -50,13 +61,15 @@ function MainApp({ user, setUser, isAdmin }) {
         }}
       />
       <main>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/calibrador" element={<Calibrador user={user} />} />
-          <Route path="/canto/:id" element={<Canto user={user} />} />
-          <Route path="/admin" element={<AdminRoute isAdmin={isAdmin} />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+        <Suspense fallback={<Fallback />}>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/calibrador" element={<Calibrador user={user} />} />
+            <Route path="/canto/:id" element={<Canto user={user} />} />
+            <Route path="/admin" element={<AdminRoute isAdmin={isAdmin} />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Suspense>
       </main>
       <InstallPrompt />
     </div>

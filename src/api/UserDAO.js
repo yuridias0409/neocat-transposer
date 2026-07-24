@@ -69,12 +69,13 @@ class UserDAO {
   async saveProfile(email, profileData, fullCalibrationData = undefined) {
     if (!email) return;
     const encodedEmail = btoa(email);
+    let existing = {};
+    try {
+      const raw = localStorage.getItem("userVoiceProfile");
+      if (raw) existing = JSON.parse(raw);
+    } catch (e) {}
+
     if (profileData) {
-      let existing = {};
-      try {
-        const raw = localStorage.getItem("userVoiceProfile");
-        if (raw) existing = JSON.parse(raw);
-      } catch (e) {}
       localStorage.setItem(
         "userVoiceProfile",
         JSON.stringify({
@@ -82,8 +83,13 @@ class UserDAO {
           ...profileData,
         }),
       );
-    } else {
-      localStorage.removeItem("userVoiceProfile");
+    } else if (profileData === null) {
+      // Remove only voice properties, preserve cantos_validados
+      delete existing.min;
+      delete existing.max;
+      delete existing.gender;
+      delete existing.voiceClassification;
+      localStorage.setItem("userVoiceProfile", JSON.stringify(existing));
     }
     if (fullCalibrationData !== undefined) {
       if (fullCalibrationData) {
@@ -106,8 +112,11 @@ class UserDAO {
           for (const [key, value] of Object.entries(profileData)) {
             dataToUpdate[`profile.${key}`] = value;
           }
-        } else {
-          dataToUpdate.profile = null;
+        } else if (profileData === null) {
+          dataToUpdate[`profile.min`] = null;
+          dataToUpdate[`profile.max`] = null;
+          dataToUpdate[`profile.gender`] = null;
+          dataToUpdate[`profile.voiceClassification`] = null;
         }
         if (fullCalibrationData !== undefined) {
           dataToUpdate.calibrationData = fullCalibrationData;

@@ -4,6 +4,7 @@ import { PitchDetector } from "pitchy";
 import { freqToNote, freqToNoteName } from "../utils/calibradorUtils";
 const useAveragePitch = ({ onDone, AVERAGE_DURATION = 5000 }) => {
   const [isRecording, setIsRecording] = useState(false);
+  const isRecordingRef = useRef(false);
   const [currentNote, setCurrentNote] = useState(null);
   const [progress, setProgress] = useState(0);
   const [samplesCount, setSamplesCount] = useState(0);
@@ -30,6 +31,7 @@ const useAveragePitch = ({ onDone, AVERAGE_DURATION = 5000 }) => {
     return () => clearInterval(interval);
   }, [isRecording]);
   const updatePitch = () => {
+    if (!isRecordingRef.current) return;
     if (
       !analyzerRef.current ||
       !detectorRef.current ||
@@ -60,6 +62,7 @@ const useAveragePitch = ({ onDone, AVERAGE_DURATION = 5000 }) => {
       if (audioContextRef.current?.state !== "closed")
         audioContextRef.current.close();
       setIsRecording(false);
+      isRecordingRef.current = false;
       setCurrentNote(null);
       setProgress(100);
       onDoneRef.current(noteData, samples.length, input);
@@ -84,6 +87,7 @@ const useAveragePitch = ({ onDone, AVERAGE_DURATION = 5000 }) => {
       startTimeRef.current = Date.now();
       setSamplesCount(0);
       setIsRecording(true);
+      isRecordingRef.current = true;
       updatePitch();
     } catch {
       alert("Precisamos de acesso ao microfone!");
@@ -96,6 +100,7 @@ const useAveragePitch = ({ onDone, AVERAGE_DURATION = 5000 }) => {
     freqSamplesRef.current = [];
     startTimeRef.current = null;
     setIsRecording(false);
+    isRecordingRef.current = false;
     setCurrentNote(null);
     setProgress(0);
     setSamplesCount(0);

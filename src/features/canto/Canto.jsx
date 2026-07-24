@@ -11,7 +11,6 @@ import {
   Info,
 } from "lucide-react";
 import { transposeChordString } from "../../utils";
-import { otimizarCapoETom } from "../../domain/capoEngine";
 import { calcularTomIdealInteligente } from "../../domain/transpositionEngine";
 import { useCantoController } from "../../controllers/useCantoController";
 import { AudioPlayerView } from "./components/AudioPlayerView";
@@ -21,7 +20,8 @@ import { AssemblyStatus } from "./components/AssemblyStatus";
 import { TranspositionCard } from "./components/TranspositionCard";
 import { ToneInfoModal } from "./components/ToneInfoModal";
 import { NotepadSection } from "./components/NotepadSection";
-import capoIcon from "../../assets/capotraste.png";
+import { CantoHeader } from "./components/CantoHeader";
+import CantoImagesList from "./components/CantoImagesList";
 import "./Canto.css";
 import {
   jsxDEV as _jsxDEV,
@@ -114,115 +114,11 @@ const Canto = ({ user }) => {
           {toastMessage}
         </div>
       )}
-      <div className="canto-header mb-4">
-        <div
-          className="canto-title-block"
-          style={{
-            width: "100%",
-          }}
-        >
-          <h1
-            style={{
-              marginBottom: "0.5rem",
-            }}
-          >
-            {canto.titulo}
-          </h1>
-          <div
-            className="canto-meta-info"
-            style={{
-              display: "flex",
-              gap: "0.5rem",
-              flexWrap: "wrap",
-              alignItems: "center",
-            }}
-          >
-            <span className="badge badge-primary">
-              Tom Original: {canto.tom_original}
-            </span>
-            {(() => {
-              let badgeOffset =
-                savedTransposition !== null && savedTransposition !== undefined
-                  ? savedTransposition
-                  : initialTransposition;
-              let hasSavedTone =
-                savedTransposition !== null && savedTransposition !== undefined;
-              if (
-                badgeOffset !== undefined &&
-                badgeOffset !== null &&
-                canto.tom_original !== "?"
-              ) {
-                const badgeCapo = otimizarCapoETom(
-                  canto.tom_original,
-                  badgeOffset,
-                );
-                return (
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "4px",
-                      marginLeft: "0.5rem",
-                    }}
-                  >
-                    <span
-                      style={{
-                        color: hasSavedTone ? "#15803d" : "#ca8a04",
-                        fontSize: "0.8rem",
-                        fontWeight: "bold",
-                        marginRight: "4px",
-                      }}
-                    >
-                      {hasSavedTone ? "✅ Seu Tom:" : "Sugerido:"}
-                    </span>
-                    <span
-                      style={{
-                        background: hasSavedTone ? "#dcfce7" : "#e0f2fe",
-                        color: hasSavedTone ? "#166534" : "#0369a1",
-                        padding: "0.2rem 0.6rem",
-                        borderRadius: "12px",
-                        fontWeight: "bold",
-                        fontSize: "0.85rem",
-                      }}
-                    >
-                      🎸 {badgeCapo.formaAcorde}
-                    </span>
-                    {badgeCapo.capoCasa > 0 && (
-                      <span
-                        style={{
-                          background: hasSavedTone ? "#dcfce7" : "#fef3c7",
-                          color: hasSavedTone ? "#166534" : "#b45309",
-                          padding: "0.2rem 0.6rem",
-                          borderRadius: "12px",
-                          fontWeight: "bold",
-                          fontSize: "0.85rem",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "4px",
-                        }}
-                      >
-                        <img
-                          src={capoIcon}
-                          alt="Capo"
-                          style={{
-                            width: "14px",
-                            height: "14px",
-                            filter: hasSavedTone
-                              ? "none"
-                              : "hue-rotate(20deg) saturate(150%) brightness(0.8)",
-                          }}
-                        />
-                        {`Capo ${badgeCapo.capoCasa}ª`}
-                      </span>
-                    )}
-                  </div>
-                );
-              }
-              return null;
-            })()}
-          </div>
-        </div>
-      </div>
+      <CantoHeader
+        canto={canto}
+        savedTransposition={savedTransposition}
+        initialTransposition={initialTransposition}
+      />
       <div className="canto-desktop-grid">
         <div className="canto-left-col">
           {canto.audio_url && (
@@ -453,27 +349,7 @@ const Canto = ({ user }) => {
             }}
           >
             {canto.imagens_originais && canto.imagens_originais.length > 0 ? (
-              <div
-                className="cifra-imagens-sheet text-center"
-                style={{
-                  width: "100%",
-                }}
-              >
-                {canto.imagens_originais.map((imgUrl, i) => (
-                  <img
-                    src={imgUrl}
-                    alt={`Ficha ${i + 1}`}
-                    referrerPolicy="no-referrer"
-                    style={{
-                      maxWidth: "100%",
-                      height: "auto",
-                      marginBottom: "1rem",
-                      border: "1px solid #eee",
-                      borderRadius: "8px",
-                    }}
-                  />
-                ))}
-              </div>
+              <CantoImagesList imagensOriginais={canto.imagens_originais} />
             ) : (
               <div
                 className="p-4"
