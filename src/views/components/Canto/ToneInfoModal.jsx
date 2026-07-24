@@ -159,8 +159,8 @@ export const ToneInfoModal = ({
                 <ComfortMapVisualization 
                   title="Seu Mapa de Calor Vocal"
                   songMin={transposedMinFreq} songMax={transposedMaxFreq}
-                  targetMin={userProfile?.f0_min || userProfile?.min?.freq || 85} 
-                  targetMax={userProfile?.f0_max || userProfile?.max?.freq || 300}
+                  targetMin={userProfile?.min?.freq || userProfile?.f0_min || 110}
+                  targetMax={userProfile?.max?.freq || userProfile?.f0_max || 330}
                   alignOctaves={true}
                   labelTarget="Sua Voz"
                 />

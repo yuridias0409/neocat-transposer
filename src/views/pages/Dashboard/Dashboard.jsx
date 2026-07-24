@@ -137,8 +137,8 @@ const Dashboard = () => {
                           const capoData = otimizarCapoETom(canto.tom_original, offsetToUse);
                           return (
                             <div className="capo-badges-wrapper">
-                              {isSaved && <span className="saved-indicator" title="Confirmado na Memória">✅</span>}
                               <span className={`badge-chord ${isSaved ? 'saved' : 'suggested'}`}>
+                                {isSaved && <span className="saved-indicator" title="Confirmado na Memória">✅</span>}
                                 🎸 {capoData.formaAcorde}
                               </span>
                               {capoData.capoCasa > 0 && (

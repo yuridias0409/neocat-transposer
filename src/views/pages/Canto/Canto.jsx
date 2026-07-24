@@ -148,7 +148,7 @@ const Canto = ({ user }) => {
 
       _jsxDEV("div", { className: "cifra-container card text-center", style: { position: 'relative', paddingTop: '2rem' }, children: ["        ", _jsxDEV("div", { style: { display: 'flex', flexDirection: 'column', gap: '2rem', justifyContent: 'center', alignItems: 'center', textAlign: 'left' }, children: [
 
-          (!canto.linhas || canto.linhas.length === 0) && canto.acordes_usados && canto.acordes_usados.length > 0 && (transposition !== 0 || transposition !== initialTransposition) &&
+          canto.acordes_usados && canto.acordes_usados.length > 0 && transposition !== 0 &&
           _jsxDEV("div", { style: { width: '100%', maxWidth: '500px', display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'center', marginBottom: '1rem' }, children: [
             _jsxDEV("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', fontSize: '0.85rem', color: '#555', background: '#fff', padding: '0.4rem 0.75rem', borderRadius: '6px', border: '1px solid #e2e8f0', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', width: '100%', maxWidth: '200px' }, children: [
               _jsxDEV("input", { type: "checkbox", id: "chordGuideToggleSidebar", checked: showChordGuide, onChange: (e) => setShowChordGuide(e.target.checked), style: { cursor: 'pointer', width: '14px', height: '14px', accentColor: '#0369a1' } }, void 0, false),

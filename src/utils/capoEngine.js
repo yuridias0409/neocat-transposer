@@ -1,3 +1,4 @@
+import { getNoteIndex } from '../utils';
 
 const ESCALA = ["Do", "Do#", "Re", "Re#", "Mi", "Fa", "Fa#", "Sol", "Sol#", "La", "Sib", "Si"];
 
@@ -30,10 +31,8 @@ export function otimizarCapoETom(tomOriginal, semitonesDesejados) {
   }
 
   const isMenor = tomOriginal.includes("-") || tomOriginal.includes("m");
-  const nomeBaseNormalizado = normalizarAcorde(tomOriginal.replace("-", "").replace("m", ""));
 
-  let idxOriginal = ESCALA.indexOf(nomeBaseNormalizado);
-  if (idxOriginal === -1) idxOriginal = 0;
+  let idxOriginal = getNoteIndex(tomOriginal);
 
 
   const idxTomReal = ((idxOriginal + semitonesDesejados) % 12 + 12) % 12;
@@ -60,8 +59,7 @@ export function otimizarCapoETom(tomOriginal, semitonesDesejados) {
 
 
 
-  const nomeFormaBaseNormalizada = normalizarAcorde(melhorForma.replace("-", "").replace("m", ""));
-  const idxForma = ESCALA.indexOf(nomeFormaBaseNormalizada);
+  const idxForma = getNoteIndex(melhorForma);
 
   let diferencaFormaSemitons = idxForma - idxOriginal;
 
