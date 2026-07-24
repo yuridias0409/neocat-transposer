@@ -22,6 +22,8 @@ import { ToneInfoModal } from "./components/ToneInfoModal";
 import { NotepadSection } from "./components/NotepadSection";
 import { CantoHeader } from "./components/CantoHeader";
 import CantoImagesList from "./components/CantoImagesList";
+import CifraViewer from "./components/CifraViewer";
+import cifrasData from "../../data/cifras.json";
 import "./Canto.css";
 import {
   jsxDEV as _jsxDEV,
@@ -30,6 +32,7 @@ import {
 const Canto = ({ user }) => {
   const { id } = useParams();
   const [showSobreModal, setShowSobreModal] = React.useState(false);
+  const [viewMode, setViewMode] = React.useState('cifra');
   const {
     canto,
     baseOffset,
@@ -182,15 +185,50 @@ const Canto = ({ user }) => {
         className="cifra-container card text-center"
         style={{
           position: "relative",
-          paddingTop: "2rem",
+          paddingTop: "1rem",
         }}
       >
-        {" "}
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem' }}>
+          <div className="view-mode-toggle" style={{ display: 'inline-flex', background: '#f1f5f9', borderRadius: '8px', padding: '4px' }}>
+            <button 
+              onClick={() => setViewMode('cifra')}
+              style={{
+                padding: '0.5rem 1.5rem',
+                border: 'none',
+                borderRadius: '6px',
+                background: viewMode === 'cifra' ? '#fff' : 'transparent',
+                boxShadow: viewMode === 'cifra' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none',
+                fontWeight: viewMode === 'cifra' ? '600' : '500',
+                color: viewMode === 'cifra' ? 'var(--color-primary)' : '#64748b',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              Cifra
+            </button>
+            <button 
+              onClick={() => setViewMode('ficha')}
+              style={{
+                padding: '0.5rem 1.5rem',
+                border: 'none',
+                borderRadius: '6px',
+                background: viewMode === 'ficha' ? '#fff' : 'transparent',
+                boxShadow: viewMode === 'ficha' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none',
+                fontWeight: viewMode === 'ficha' ? '600' : '500',
+                color: viewMode === 'ficha' ? 'var(--color-primary)' : '#64748b',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              Ficha
+            </button>
+          </div>
+        </div>
         <div
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: "2rem",
+            gap: "0.5rem",
             justifyContent: "center",
             alignItems: "center",
             textAlign: "left",
@@ -198,7 +236,7 @@ const Canto = ({ user }) => {
         >
           {canto.acordes_usados &&
             canto.acordes_usados.length > 0 &&
-            transposition !== 0 && (
+            transposition !== 0 && viewMode === 'ficha' && (
               <div
                 style={{
                   width: "100%",
@@ -348,17 +386,33 @@ const Canto = ({ user }) => {
               alignItems: "center",
             }}
           >
-            {canto.imagens_originais && canto.imagens_originais.length > 0 ? (
-              <CantoImagesList imagensOriginais={canto.imagens_originais} />
-            ) : (
-              <div
-                className="p-4"
-                style={{
-                  color: "#666",
-                }}
-              >
-                Nenhuma cifra em texto ou imagem encontrada para este canto.
-              </div>
+            {viewMode === 'cifra' && (
+              cifrasData[id] ? (
+                <CifraViewer 
+                  html={cifrasData[id].html} 
+                  capoInfo={capoInfo}
+                  onShowToneInfoModal={setShowSobreModal}
+                />
+              ) : (
+                <div className="p-4" style={{ color: "#666" }}>
+                  Cifra em texto não disponível para este canto ainda.
+                </div>
+              )
+            )}
+            
+            {viewMode === 'ficha' && (
+              canto.imagens_originais && canto.imagens_originais.length > 0 ? (
+                <CantoImagesList imagensOriginais={canto.imagens_originais} />
+              ) : (
+                <div
+                  className="p-4"
+                  style={{
+                    color: "#666",
+                  }}
+                >
+                  Nenhuma cifra em texto ou imagem encontrada para este canto.
+                </div>
+              )
             )}
           </div>
         </div>

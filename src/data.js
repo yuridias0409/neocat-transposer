@@ -4600,7 +4600,7 @@ export const cantosData = {
     titulo: "Precônio Pascal",
     etapa: "Liturgia",
     cor: "amarelo",
-    tom_original: "Sol",
+    tom_original: "Do-",
     tom_audio: "Si-",
     bpm: 129,
     audio_url: "/audios/Preconio-Pascal.mp3",

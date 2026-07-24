@@ -51,7 +51,7 @@ export const transposeChordString = (chordString, semitones) => {
   if (!chordString) return chordString;
   const shift = ((semitones % 12) + 12) % 12;
   return chordString.replace(
-    /(Do|Re|Mi|Fa|Sol|La|Si|[CDEFGAB])([#b]?)(m|-)?([0-9]*)/gi,
+    /\b(Do|Re|Mi|Fa|Sol|La|Si)([#b]?)(m|-)?([0-9]*)(?![a-zA-Z])/gi,
     (match, base, acc, mod, ext) => {
       if (base.length === 1) base = base.toUpperCase();
       else base = base.charAt(0).toUpperCase() + base.slice(1).toLowerCase();

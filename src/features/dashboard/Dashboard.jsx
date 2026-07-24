@@ -21,8 +21,11 @@ const Dashboard = () => {
       .catch(console.error);
   }, []);
   const allCantos = Object.values(cantosData);
+  const normalizeString = (str) =>
+    str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  
   const cantos = allCantos.filter((canto) =>
-    canto.titulo.toLowerCase().includes(searchTerm.toLowerCase()),
+    normalizeString(canto.titulo).includes(normalizeString(searchTerm)),
   );
   const etapas = [
     {

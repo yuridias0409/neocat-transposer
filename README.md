@@ -4,7 +4,8 @@
 
 Um sistema moderno e inteligente para auxiliar salmistas na descoberta do seu tom ideal e na transposição de cantos litúrgicos. O **NeoCat Transposer** é uma evolução do antigo Neo-Transposer, focado em facilidade de uso, IA e processamento em tempo real.
 
-> **Créditos e Agradecimentos:** Este projeto nasceu inspirado no excelente e histórico projeto **[Neo-Transposer](https://github.com/vmas/neo-transposer)** (criado por Victor Mas e contribuidores). Todo o banco de dados oficial dos cantos, posições de capo ideais e lógicas fundamentais de limite de extensão vocal ("People-Compatible") derivam do trabalho fundamental feito na versão original. Nosso profundo reconhecimento à fundação deixada pelo Neo-Transposer.
+> **Créditos e Agradecimentos:** Este projeto nasceu inspirado no excelente e histórico projeto **[Neo-Transposer](https://github.com/vmas/neo-transposer)** (criado por Victor Mas e contribuidores). Todo o banco de dados oficial dos cantos, posições de capo ideais e lógicas fundamentais de limite de extensão vocal ("People-Compatible") derivam do trabalho fundamental feito na versão original. Nosso profundo reconhecimento à fundação deixada pelo Neo-Transposer.  
+> Adicionalmente, agradecemos imensamente ao projeto **[Ressuscitou_Flutter](https://github.com/otaviogrrd/Ressuscitou_Flutter)** (por Otávio Garrido), cujo banco de dados serviu como base estrutural fundamental para a funcionalidade de "Cifras Dinâmicas em Texto".
 
 ## Recursos Principais
 
