@@ -13,12 +13,7 @@ export default function CifraViewer({ html, capoInfo, onShowToneInfoModal }) {
   const processedHtml = useMemo(() => {
     if (!html) return '';
 
-    let originalCapo = 0;
-    const capoMatch = html.match(/Braçadeira\s+(\d+)[º°]\s+Traste/i);
-    if (capoMatch) {
-      originalCapo = parseInt(capoMatch[1], 10);
-    }
-    const finalOffset = diferencaFormaSemitons + originalCapo;
+    const finalOffset = diferencaFormaSemitons;
 
     // Remove HTML boilerplate
     let str = html.replace(/<html.*?>.*?<body.*?><div>\s*/is, '');
