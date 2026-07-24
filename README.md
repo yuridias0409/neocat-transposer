@@ -14,6 +14,7 @@ Um sistema moderno e inteligente para auxiliar salmistas na descoberta do seu to
 - **Monitoramento ao Vivo (Cantar Junto / Karaoke):** Modo de treinamento onde um gráfico dinâmico exibe a afinação da música em tempo real, capta sua voz pelo microfone, e compara ambas. Ele oferece feedback imediato (ex: "Cante mais Agudo") sincronizado com a transposição que você escolheu.
 - **Shift Pitch de Áudio em Tempo Real:** Escute os áudios originais dos cantos automaticamente transpostos (via `tone.js`) para acompanhar o tom selecionado na cifra visual.
 - **Geração de Cifra com IA:** Usando a integração com o Gemini, as páginas escaneadas dos livros são convertidas em cifras interativas instantaneamente.
+- **Performance de Alto Nível (Lazy Loading):** A arquitetura foi otimizada para carregar apenas os blocos de Javascript que o usuário realmente utiliza na tela, economizando banda (code-splitting) e mitigando vazamentos de memória (strict lifecycle checks nas APIs de áudio).
 
 ## Como Rodar
 
