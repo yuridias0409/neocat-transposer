@@ -42,11 +42,11 @@
     flex-direction: row;
     align-items: stretch;
   }
-  
+
   .canto-right-col {
     width: 380px;
   }
-  
+
   .notepad-section {
     display: flex;
     flex-direction: column;
@@ -58,7 +58,7 @@
   .notepad-section.expanded {
     flex: 1;
   }
-  
+
   .notepad-card-container {
     display: flex;
     flex-direction: column;
@@ -69,7 +69,7 @@
   .notepad-card-container.expanded {
     flex: 1;
   }
-  
+
   .notepad-textarea {
     flex: 1;
     overflow-y: auto;

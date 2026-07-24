@@ -1,27 +1,27 @@
 :root {
   /* Colors - Neocatechumenal Palette */
-  --color-bg-primary: #FAF6ED; /* Pergaminho / Areia clara */
-  --color-bg-secondary: #EBE4D5; /* Pergaminho escurecido */
-  --color-text-main: #2C2C2C;
-  --color-primary: #8C1C1C; /* Vermelho escuro / Bordô - usado nas cifras */
-  --color-secondary: #1F3C6D; /* Azul profundo (iconografia) */
-  --color-gold: #CBA135; /* Dourado */
-  
-  --color-warning: #D9A01C;
-  --color-danger: #8C1C1C;
-  --color-success: #356D40;
-  
+  --color-bg-primary: #faf6ed; /* Pergaminho / Areia clara */
+  --color-bg-secondary: #ebe4d5; /* Pergaminho escurecido */
+  --color-text-main: #2c2c2c;
+  --color-primary: #8c1c1c; /* Vermelho escuro / Bordô - usado nas cifras */
+  --color-secondary: #1f3c6d; /* Azul profundo (iconografia) */
+  --color-gold: #cba135; /* Dourado */
+
+  --color-warning: #d9a01c;
+  --color-danger: #8c1c1c;
+  --color-success: #356d40;
+
   /* Typography */
-  --font-heading: 'Neocat', sans-serif;
-  --font-body: 'Neocat', sans-serif;
-  
+  --font-heading: "Neocat", sans-serif;
+  --font-body: "Neocat", sans-serif;
+
   /* Layout */
   --max-width: 800px;
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 * {
@@ -37,7 +37,12 @@ body {
   line-height: 1.6;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
   color: var(--color-secondary);
   font-weight: 700;
@@ -114,22 +119,36 @@ button {
 }
 
 /* Utility Classes */
-.text-center { text-align: center; }
-.mb-1 { margin-bottom: 0.5rem; }
-.mb-2 { margin-bottom: 1rem; }
-.mb-3 { margin-bottom: 1.5rem; }
-.mb-4 { margin-bottom: 2rem; }
-.mt-4 { margin-top: 2rem; }
+.text-center {
+  text-align: center;
+}
+.mb-1 {
+  margin-bottom: 0.5rem;
+}
+.mb-2 {
+  margin-bottom: 1rem;
+}
+.mb-3 {
+  margin-bottom: 1.5rem;
+}
+.mb-4 {
+  margin-bottom: 2rem;
+}
+.mt-4 {
+  margin-top: 2rem;
+}
 
 @font-face {
-  font-family: 'Neocat';
-  src: url('/fonts/Neocat-Regular_3.0.ttf') format('truetype');
+  font-family: "Neocat";
+  src: url("/fonts/Neocat-Regular_3.0.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 .font-neocat {
-  font-family: 'Neocat', sans-serif;
+  font-family: "Neocat", sans-serif;
 }
 
-html { font-size: 20px; }
+html {
+  font-size: 20px;
+}

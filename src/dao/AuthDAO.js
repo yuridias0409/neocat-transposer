@@ -1,14 +1,23 @@
-import { auth } from '../services/firebase';
-import { sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
-
+import { auth } from "../services/firebase";
+import {
+  sendSignInLinkToEmail,
+  isSignInWithEmailLink,
+  signInWithEmailLink,
+  signOut,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  updatePassword,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+} from "firebase/auth";
 class AuthDAO {
-
   async isAdmin(email) {
     if (!email) return false;
-    const { doc, getDoc } = await import('firebase/firestore');
-    const { db } = await import('../services/firebase');
+    const { doc, getDoc } = await import("firebase/firestore");
+    const { db } = await import("../services/firebase");
     try {
-      const docRef = doc(db, 'configs', 'admins');
+      const docRef = doc(db, "configs", "admins");
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         const allowed = docSnap.data().allowed_emails || [];
@@ -19,15 +28,25 @@ class AuthDAO {
     }
     return false;
   }
-
   async loginWithPassword(email, password) {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
       return userCredential.user;
     } catch (error) {
-      if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
+      if (
+        error.code === "auth/user-not-found" ||
+        error.code === "auth/invalid-credential"
+      ) {
         try {
-          const newUserCredential = await createUserWithEmailAndPassword(auth, email, password);
+          const newUserCredential = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password,
+          );
           return newUserCredential.user;
         } catch (registerError) {
           throw registerError;
@@ -36,47 +55,43 @@ class AuthDAO {
       throw error;
     }
   }
-
   async sendMagicLink(email) {
     const actionCodeSettings = {
-      url: window.location.origin, 
-      handleCodeInApp: true
+      url: window.location.origin,
+      handleCodeInApp: true,
     };
     await sendSignInLinkToEmail(auth, email, actionCodeSettings);
-    window.localStorage.setItem('emailForSignIn', email);
+    window.localStorage.setItem("emailForSignIn", email);
   }
-
   async sendPasswordReset(email) {
     await sendPasswordResetEmail(auth, email);
   }
-
   async updateUserPassword(currentPassword, newPassword) {
     const user = auth.currentUser;
     if (!user) throw new Error("Usuário não está logado.");
-
-    const credential = EmailAuthProvider.credential(user.email, currentPassword);
+    const credential = EmailAuthProvider.credential(
+      user.email,
+      currentPassword,
+    );
     await reauthenticateWithCredential(user, credential);
-
     await updatePassword(user, newPassword);
   }
-
   isSignInUrl(url) {
     return isSignInWithEmailLink(auth, url);
   }
-
   async signInWithUrl(url) {
-    let emailForSignIn = window.localStorage.getItem('emailForSignIn');
+    let emailForSignIn = window.localStorage.getItem("emailForSignIn");
     if (!emailForSignIn) {
-      emailForSignIn = window.prompt('Por favor, confirme seu e-mail para concluir o login:');
+      emailForSignIn = window.prompt(
+        "Por favor, confirme seu e-mail para concluir o login:",
+      );
     }
     const result = await signInWithEmailLink(auth, emailForSignIn, url);
-    window.localStorage.removeItem('emailForSignIn');
+    window.localStorage.removeItem("emailForSignIn");
     return result.user;
   }
-
   async logout() {
     await signOut(auth);
   }
 }
-
 export default new AuthDAO();

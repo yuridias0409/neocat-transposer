@@ -1,55 +1,53 @@
-import { db } from '../services/firebase';
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
-
+import { db } from "../services/firebase";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 class UserDAO {
-
-
-
   getCurrentUserEmail() {
-    return localStorage.getItem('salmistasEmail');
+    return localStorage.getItem("salmistasEmail");
   }
-
-
-
-
   setCurrentUserEmail(email) {
     if (email) {
-      localStorage.setItem('salmistasEmail', email);
+      localStorage.setItem("salmistasEmail", email);
     } else {
-      localStorage.removeItem('salmistasEmail');
+      localStorage.removeItem("salmistasEmail");
     }
   }
-
-
-
-
   async getProfile(email) {
     if (!email) return null;
     const encodedEmail = btoa(email);
-
     try {
-      const docRef = doc(db, 'users', encodedEmail);
+      const docRef = doc(db, "users", encodedEmail);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         const data = docSnap.data();
         if (data.profile) {
-          localStorage.setItem('userVoiceProfile', JSON.stringify(data.profile));
+          localStorage.setItem(
+            "userVoiceProfile",
+            JSON.stringify(data.profile),
+          );
           if (data.calibrationData) {
-            localStorage.setItem('calibrationData', JSON.stringify(data.calibrationData));
+            localStorage.setItem(
+              "calibrationData",
+              JSON.stringify(data.calibrationData),
+            );
           }
           return data.profile;
         }
       } else {
-        const oldDocRef = doc(db, 'users', email);
+        const oldDocRef = doc(db, "users", email);
         const oldDocSnap = await getDoc(oldDocRef);
         if (oldDocSnap.exists()) {
           const oldData = oldDocSnap.data();
           await setDoc(docRef, oldData);
-
-                    if (oldData.profile) {
-            localStorage.setItem('userVoiceProfile', JSON.stringify(oldData.profile));
+          if (oldData.profile) {
+            localStorage.setItem(
+              "userVoiceProfile",
+              JSON.stringify(oldData.profile),
+            );
             if (oldData.calibrationData) {
-              localStorage.setItem('calibrationData', JSON.stringify(oldData.calibrationData));
+              localStorage.setItem(
+                "calibrationData",
+                JSON.stringify(oldData.calibrationData),
+              );
             }
             return oldData.profile;
           }
@@ -58,67 +56,67 @@ class UserDAO {
     } catch (err) {
       console.error("Erro ao carregar perfil do Firestore", err);
     }
-
-
-    const savedProfile = localStorage.getItem('userVoiceProfile');
+    const savedProfile = localStorage.getItem("userVoiceProfile");
     if (savedProfile) {
-      try {return JSON.parse(savedProfile);} catch (e) {return null;}
+      try {
+        return JSON.parse(savedProfile);
+      } catch (e) {
+        return null;
+      }
     }
     return null;
   }
-
-
-
-
   async saveProfile(email, profileData, fullCalibrationData = undefined) {
     if (!email) return;
     const encodedEmail = btoa(email);
-
     if (profileData) {
       let existing = {};
       try {
-        const raw = localStorage.getItem('userVoiceProfile');
+        const raw = localStorage.getItem("userVoiceProfile");
         if (raw) existing = JSON.parse(raw);
       } catch (e) {}
-      localStorage.setItem('userVoiceProfile', JSON.stringify({ ...existing, ...profileData }));
+      localStorage.setItem(
+        "userVoiceProfile",
+        JSON.stringify({
+          ...existing,
+          ...profileData,
+        }),
+      );
     } else {
-      localStorage.removeItem('userVoiceProfile');
+      localStorage.removeItem("userVoiceProfile");
     }
-
     if (fullCalibrationData !== undefined) {
       if (fullCalibrationData) {
-        localStorage.setItem('calibrationData', JSON.stringify(fullCalibrationData));
+        localStorage.setItem(
+          "calibrationData",
+          JSON.stringify(fullCalibrationData),
+        );
       } else {
-        localStorage.removeItem('calibrationData');
+        localStorage.removeItem("calibrationData");
       }
     }
-
     try {
-      const docRef = doc(db, 'users', encodedEmail);
+      const docRef = doc(db, "users", encodedEmail);
       const docSnap = await getDoc(docRef);
-
-            if (docSnap.exists()) {
+      if (docSnap.exists()) {
         const dataToUpdate = {
-          atualizado_em: new Date().toISOString()
+          atualizado_em: new Date().toISOString(),
         };
-
-                if (profileData) {
+        if (profileData) {
           for (const [key, value] of Object.entries(profileData)) {
             dataToUpdate[`profile.${key}`] = value;
           }
         } else {
           dataToUpdate.profile = null;
         }
-
-                if (fullCalibrationData !== undefined) {
+        if (fullCalibrationData !== undefined) {
           dataToUpdate.calibrationData = fullCalibrationData;
         }
-
-                await updateDoc(docRef, dataToUpdate);
+        await updateDoc(docRef, dataToUpdate);
       } else {
         const dataToSave = {
           profile: profileData,
-          atualizado_em: new Date().toISOString()
+          atualizado_em: new Date().toISOString(),
         };
         if (fullCalibrationData !== undefined) {
           dataToSave.calibrationData = fullCalibrationData;
@@ -130,61 +128,53 @@ class UserDAO {
       throw err;
     }
   }
-
-
-
-
   async getNote(email, cantoId) {
-    if (!email || !cantoId) return '';
+    if (!email || !cantoId) return "";
     const encodedEmail = btoa(email);
-
-        try {
+    try {
       const noteRef = doc(db, `users/${encodedEmail}/anotacoes`, cantoId);
       const snap = await getDoc(noteRef);
       if (snap.exists()) {
-        return snap.data().texto || '';
+        return snap.data().texto || "";
       } else {
         const oldNoteRef = doc(db, `users/${email}/anotacoes`, cantoId);
         const oldSnap = await getDoc(oldNoteRef);
         if (oldSnap.exists()) {
           const oldData = oldSnap.data();
           await setDoc(noteRef, oldData);
-          return oldData.texto || '';
+          return oldData.texto || "";
         }
       }
     } catch (err) {
       console.error(err);
     }
-
-    return localStorage.getItem(`salmistasNotes_${email}_${cantoId}`) || '';
+    return localStorage.getItem(`salmistasNotes_${email}_${cantoId}`) || "";
   }
-
-
-
-
   async saveNote(email, cantoId, texto) {
     if (!email || !cantoId) return;
     const encodedEmail = btoa(email);
-
     localStorage.setItem(`salmistasNotes_${email}_${cantoId}`, texto);
-
     try {
       const noteRef = doc(db, `users/${encodedEmail}/anotacoes`, cantoId);
-      await setDoc(noteRef, { texto, atualizado_em: new Date().toISOString() }, { merge: true });
+      await setDoc(
+        noteRef,
+        {
+          texto,
+          atualizado_em: new Date().toISOString(),
+        },
+        {
+          merge: true,
+        },
+      );
     } catch (err) {
       console.error("Erro ao salvar nota", err);
     }
   }
-
-
-
-
   clearSession() {
-    localStorage.removeItem('salmistasEmail');
-    localStorage.removeItem('salmistasUser');
-    localStorage.removeItem('userVoiceProfile');
-    localStorage.removeItem('calibrationData');
+    localStorage.removeItem("salmistasEmail");
+    localStorage.removeItem("salmistasUser");
+    localStorage.removeItem("userVoiceProfile");
+    localStorage.removeItem("calibrationData");
   }
 }
-
 export default new UserDAO();

@@ -1,42 +1,26 @@
-import { db } from '../services/firebase';
-import { doc, setDoc, getDoc, collection, getDocs } from 'firebase/firestore';
-import { cantosData } from '../data';
-
+import { db } from "../services/firebase";
+import { doc, setDoc, getDoc, collection, getDocs } from "firebase/firestore";
+import { cantosData } from "../data";
 class CantoDAO {
-
-
-
   getById(id) {
     return cantosData[id] || null;
   }
-
-
-
-
   getAll() {
     return cantosData;
   }
-
-
-
-
   async savePitchMetadata(id, dataToSave) {
     const docRef = doc(db, "cantos", id);
-    await setDoc(docRef, dataToSave, { merge: true });
+    await setDoc(docRef, dataToSave, {
+      merge: true,
+    });
   }
-
-
-
-
   async getPitchMetadata(id) {
     try {
       const docRef = doc(db, "cantos", id);
       const snap = await getDoc(docRef);
-
-            const iaRef = doc(db, "ia_song_metrics", id);
+      const iaRef = doc(db, "ia_song_metrics", id);
       const iaSnap = await getDoc(iaRef);
-
-            if (snap.exists()) {
+      if (snap.exists()) {
         const data = snap.data();
         if (iaSnap.exists()) {
           data.ia_metrics = iaSnap.data();
@@ -48,10 +32,6 @@ class CantoDAO {
     }
     return null;
   }
-
-
-
-
   async getAllCantosMetadata() {
     try {
       const colRef = collection(db, "cantos");
@@ -66,13 +46,14 @@ class CantoDAO {
     }
     return {};
   }
-
   async getAllIntelligentData() {
     try {
       const cantosCol = collection(db, "cantos");
       const iaCol = collection(db, "ia_song_metrics");
-      const [cantosSnap, iaSnap] = await Promise.all([getDocs(cantosCol), getDocs(iaCol)]);
-      
+      const [cantosSnap, iaSnap] = await Promise.all([
+        getDocs(cantosCol),
+        getDocs(iaCol),
+      ]);
       const combinedData = {};
       cantosSnap.forEach((doc) => {
         combinedData[doc.id] = doc.data();
@@ -88,5 +69,4 @@ class CantoDAO {
     return {};
   }
 }
-
 export default new CantoDAO();
