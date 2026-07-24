@@ -1,6 +1,5 @@
 import React from "react";
 import { Book } from "lucide-react";
-import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
 export const NotepadSection = ({
   showNotes,
   setShowNotes,

@@ -1,5 +1,4 @@
 import React from "react";
-import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
 export const PsalmistStatus = ({
   userProfile,
   aiData,

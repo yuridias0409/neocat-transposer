@@ -1,6 +1,5 @@
 import React from "react";
 import { Users } from "lucide-react";
-import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
 export const AssemblyStatus = ({ canto, transposition }) => {
   const songMaxFreq = canto.freq_max_curada || canto.freq_max_global;
   if (!songMaxFreq || songMaxFreq === -Infinity) return null;
