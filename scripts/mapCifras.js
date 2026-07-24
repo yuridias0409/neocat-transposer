@@ -24,8 +24,9 @@ for (const [id, canto] of Object.entries(cantos)) {
   const normTitle = normalizeStr(canto.titulo);
   const fc = flutterMap.get(normTitle);
   if (fc) {
+    const base64Str = fc.ext_base64 ? fc.ext_base64 : fc.html_base64;
     mappedCifras[id] = {
-      html: Buffer.from(fc.html_base64, 'base64').toString('utf8')
+      html: Buffer.from(base64Str, 'base64').toString('utf8')
     };
     matchCount++;
   } else {

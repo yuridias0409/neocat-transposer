@@ -37,7 +37,7 @@ function AdminRoute({ isAdmin }) {
 }
 const Fallback = () => (
   <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", color: "#666" }}>
-    Carregando tela...
+    Carregando...
   </div>
 );
 

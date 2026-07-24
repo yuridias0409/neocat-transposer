@@ -1,5 +1,5 @@
 import React from "react";
-import { X, Info, Activity } from "lucide-react";
+import { X, Info, Activity, ThumbsUp } from "lucide-react";
 import { otimizarCapoETom } from "../../../domain/capoEngine";
 import capoIcon from "../../../assets/capotraste.png";
 import { PsalmistStatus } from "./PsalmistStatus";
@@ -199,6 +199,8 @@ export const ToneInfoModal = ({
   userProfile,
   transposition,
   tomEsforco,
+  onApplyTone,
+  salvarTomPreferido,
 }) => {
   if (!showSobreModal || !aiData) return null;
   const isAssembly = showSobreModal === "assembly";
@@ -434,21 +436,69 @@ export const ToneInfoModal = ({
           )}
         </div>
 
-        <button
-          className="btn btn-primary w-100"
-          onClick={() => setShowSobreModal(false)}
-          style={{
-            marginTop: "0.5rem",
-            backgroundColor: "#0f172a",
-            borderColor: "#0f172a",
-            fontFamily: "var(--font-heading)",
-            padding: "0.75rem",
-            fontSize: "1rem",
-            borderRadius: "8px",
-          }}
-        >
-          Entendi
-        </button>
+        <div style={{ display: "flex", gap: "0.5rem", marginTop: "1rem" }}>
+          {isAssembly && tomEsforco !== null && tomEsforco !== undefined && (
+            <button
+              className="btn btn-primary w-100"
+              onClick={() => {
+                if (onApplyTone) onApplyTone(tomEsforco);
+                setShowSobreModal(false);
+              }}
+              style={{
+                backgroundColor: "var(--color-primary)",
+                borderColor: "var(--color-primary)",
+                fontFamily: "var(--font-heading)",
+                padding: "0.75rem",
+                fontSize: "1rem",
+                borderRadius: "8px",
+                flex: 1,
+              }}
+            >
+              Testar Tom
+            </button>
+          )}
+          {isAssembly && tomEsforco !== null && tomEsforco !== undefined && (
+            <button
+              className="btn btn-secondary w-100"
+              onClick={() => {
+                if (salvarTomPreferido) salvarTomPreferido();
+                setShowSobreModal(false);
+              }}
+              style={{
+                backgroundColor: "#e2e8f0",
+                color: "#0f172a",
+                border: "1px solid #cbd5e1",
+                fontFamily: "var(--font-heading)",
+                padding: "0.75rem",
+                fontSize: "1rem",
+                borderRadius: "8px",
+                flex: 1,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "0.4rem",
+              }}
+            >
+              <ThumbsUp size={18} /> Favoritar
+            </button>
+          )}
+          <button
+            className="btn btn-secondary w-100"
+            onClick={() => setShowSobreModal(false)}
+            style={{
+              backgroundColor: "#cbd5e1",
+              color: "#334155",
+              border: "none",
+              fontFamily: "var(--font-heading)",
+              padding: "0.75rem",
+              fontSize: "1rem",
+              borderRadius: "8px",
+              flex: 1,
+            }}
+          >
+            Fechar
+          </button>
+        </div>
       </div>
     </div>
   );

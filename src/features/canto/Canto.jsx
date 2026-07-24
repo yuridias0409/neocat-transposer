@@ -427,9 +427,11 @@ const Canto = ({ user }) => {
         aiData={aiData}
         canto={canto}
         capoInfo={capoInfo}
-        userProfile={userProfile}
+        userProfile={user}
         transposition={transposition}
         tomEsforco={tomEsforco}
+        salvarTomPreferido={salvarTomPreferido}
+        onApplyTone={(t) => setTransposition(t)}
       />
     </div>
   );
