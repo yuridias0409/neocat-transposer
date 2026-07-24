@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useEffect, useRef } from 'react';
+import { MoreVertical, ZoomIn, ZoomOut, Play, Pause } from 'lucide-react';
 import { transposeChordString } from '../../../utils';
 import './CifraViewer.css';
 
@@ -7,6 +8,8 @@ export default function CifraViewer({ html, capoInfo, onShowToneInfoModal }) {
   const scrollContainerRef = useRef(null);
   const [isAutoScrolling, setIsAutoScrolling] = useState(false);
   const [scrollSpeed, setScrollSpeed] = useState(60);
+  const [fontSize, setFontSize] = useState(() => window.innerWidth > 768 ? 14 : 12);
+  const [showMenu, setShowMenu] = useState(false);
   const autoScrollInterval = useRef(null);
 
   // Helper function to process the HTML
@@ -32,7 +35,7 @@ export default function CifraViewer({ html, capoInfo, onShowToneInfoModal }) {
     
     // Replace Title and clean up spacing around it
     str = str.replace(/<FONT COLOR="#FF0000">\s*<H1>([\s\S]*?)<\/H1>\s*/ig, (match, p1) => {
-       return `<div class="cifra-title" style="color: var(--color-primary); margin-bottom: 1.5rem; text-align: center; font-weight: bold; font-size: 1.25rem;">${p1}</div>`;
+       return `<div class="cifra-title" style="color: var(--color-primary); margin-bottom: 1.5rem; text-align: center; font-weight: bold; font-size: 1.5em;">${p1}</div>`;
     });
     
     // Split by <FONT COLOR= for chords and lyrics
@@ -91,33 +94,84 @@ export default function CifraViewer({ html, capoInfo, onShowToneInfoModal }) {
 
   return (
     <div className="cifra-viewer-wrapper">
+      <div className="desktop-font-controls" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+        <span style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', fontWeight: 'bold' }}>Tamanho da Fonte:</span>
+        <button 
+          onClick={() => setFontSize(f => Math.max(8, f - 1))} 
+          className="btn-floating-icon"
+          title="Diminuir Fonte"
+        >
+          <ZoomOut size={16} />
+        </button>
+        <span className="font-size-display">{fontSize}</span>
+        <button 
+          onClick={() => setFontSize(f => Math.min(32, f + 1))} 
+          className="btn-floating-icon"
+          title="Aumentar Fonte"
+        >
+          <ZoomIn size={16} />
+        </button>
+      </div>
       <div 
         className="cifra-scroll-container" 
         ref={scrollContainerRef}
       >
         <div 
           className="cifra-render" 
+          style={{ fontSize: `${fontSize}px` }}
           dangerouslySetInnerHTML={{ __html: processedHtml }} 
         />
       </div>
-      <div className="floating-scroll-controls">
-        <button 
-          className={`btn-auto-scroll ${isAutoScrolling ? 'active' : ''}`}
-          onClick={() => setIsAutoScrolling(!isAutoScrolling)}
-        >
-          {isAutoScrolling ? '⏸ Pausar' : '▶️ Rolar'}
-        </button>
-        {isAutoScrolling && (
-          <input 
-            type="range" 
-            min="10" 
-            max="100" 
-            value={scrollSpeed} 
-            onChange={(e) => setScrollSpeed(Number(e.target.value))}
-            className="scroll-speed-slider"
-            title="Velocidade de rolagem"
-          />
+      <div className="floating-scroll-controls" onMouseLeave={() => setShowMenu(false)}>
+        {showMenu && (
+          <div className="floating-menu-options">
+            <div className="font-controls">
+              <button 
+                onClick={() => setFontSize(f => Math.max(8, f - 1))} 
+                className="btn-floating-icon"
+                title="Diminuir Fonte"
+              >
+                <ZoomOut size={18} />
+              </button>
+              <span className="font-size-display">{fontSize}</span>
+              <button 
+                onClick={() => setFontSize(f => Math.min(32, f + 1))} 
+                className="btn-floating-icon"
+                title="Aumentar Fonte"
+              >
+                <ZoomIn size={18} />
+              </button>
+            </div>
+            
+            <div className="scroll-controls-container">
+              <button 
+                className={`btn-auto-scroll ${isAutoScrolling ? 'active' : ''}`}
+                onClick={() => setIsAutoScrolling(!isAutoScrolling)}
+              >
+                {isAutoScrolling ? <><Pause size={16} /> Pausar</> : <><Play size={16} /> Rolar</>}
+              </button>
+              {isAutoScrolling && (
+                <input 
+                  type="range" 
+                  min="10" 
+                  max="100" 
+                  value={scrollSpeed} 
+                  onChange={(e) => setScrollSpeed(Number(e.target.value))}
+                  className="scroll-speed-slider"
+                  title="Velocidade de rolagem"
+                />
+              )}
+            </div>
+          </div>
         )}
+        
+        <button 
+          className="btn-floating-fab"
+          onClick={() => setShowMenu(!showMenu)}
+          aria-label="Menu de opções da cifra"
+        >
+          <MoreVertical size={24} />
+        </button>
       </div>
     </div>
   );

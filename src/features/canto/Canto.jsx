@@ -189,17 +189,18 @@ const Canto = ({ user }) => {
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem' }}>
-          <div className="view-mode-toggle" style={{ display: 'inline-flex', background: '#f1f5f9', borderRadius: '8px', padding: '4px' }}>
+          <div className="view-mode-toggle" style={{ display: 'inline-flex', background: 'var(--color-bg-subtle)', borderRadius: '8px', padding: '4px' }}>
             <button 
               onClick={() => setViewMode('cifra')}
               style={{
-                padding: '0.5rem 1.5rem',
+                padding: '0.6rem 2rem',
+                fontSize: '1.1rem',
                 border: 'none',
                 borderRadius: '6px',
-                background: viewMode === 'cifra' ? '#fff' : 'transparent',
+                background: viewMode === 'cifra' ? 'var(--color-bg-card)' : 'transparent',
                 boxShadow: viewMode === 'cifra' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none',
                 fontWeight: viewMode === 'cifra' ? '600' : '500',
-                color: viewMode === 'cifra' ? 'var(--color-primary)' : '#64748b',
+                color: viewMode === 'cifra' ? 'var(--color-primary)' : 'var(--color-text-muted)',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease'
               }}
@@ -209,13 +210,14 @@ const Canto = ({ user }) => {
             <button 
               onClick={() => setViewMode('ficha')}
               style={{
-                padding: '0.5rem 1.5rem',
+                padding: '0.6rem 2rem',
+                fontSize: '1.1rem',
                 border: 'none',
                 borderRadius: '6px',
-                background: viewMode === 'ficha' ? '#fff' : 'transparent',
+                background: viewMode === 'ficha' ? 'var(--color-bg-card)' : 'transparent',
                 boxShadow: viewMode === 'ficha' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none',
                 fontWeight: viewMode === 'ficha' ? '600' : '500',
-                color: viewMode === 'ficha' ? 'var(--color-primary)' : '#64748b',
+                color: viewMode === 'ficha' ? 'var(--color-primary)' : 'var(--color-text-muted)',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease'
               }}
