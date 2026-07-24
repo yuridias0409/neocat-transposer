@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import * as Tone from "tone";
 import { PitchDetector } from "pitchy";
-import { freqToNoteName } from "../utils/calibradorUtils";
+import { freqToNote, freqToNoteName } from "../utils/calibradorUtils";
 const useAveragePitch = ({ onDone, AVERAGE_DURATION = 5000 }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [currentNote, setCurrentNote] = useState(null);

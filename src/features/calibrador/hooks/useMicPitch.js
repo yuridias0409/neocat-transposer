@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import * as Tone from "tone";
 import { PitchDetector } from "pitchy";
-import { freqToNoteName } from "../utils/calibradorUtils";
+import { freqToNote, freqToNoteName } from "../utils/calibradorUtils";
 const useMicPitch = ({ onNoteConfirmed, step, SUSTAIN_DURATION = 3000 }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [currentNote, setCurrentNote] = useState(null);
   const [sustainProgress, setSustainProgress] = useState(0);
+  const [volume, setVolume] = useState(0);
   const audioContextRef = useRef(null);
   const analyzerRef = useRef(null);
   const detectorRef = useRef(null);
@@ -44,6 +45,13 @@ const useMicPitch = ({ onNoteConfirmed, step, SUSTAIN_DURATION = 3000 }) => {
       return;
     const input = new Float32Array(detectorRef.current.inputLength);
     analyzerRef.current.getFloatTimeDomainData(input);
+    
+    let sumSquares = 0;
+    for (let i = 0; i < input.length; i++) {
+      sumSquares += input[i] * input[i];
+    }
+    const rms = Math.sqrt(sumSquares / input.length);
+    setVolume(rms);
     const [pitch, clarity] = detectorRef.current.findPitch(
       input,
       audioContextRef.current.sampleRate,
@@ -116,12 +124,14 @@ const useMicPitch = ({ onNoteConfirmed, step, SUSTAIN_DURATION = 3000 }) => {
     setIsRecording(false);
     setCurrentNote(null);
     setSustainProgress(0);
+    setVolume(0);
   };
   useEffect(() => () => stopRecording(), []);
   return {
     isRecording,
     currentNote,
     sustainProgress,
+    volume,
     startRecording,
     stopRecording,
     toggle: () => (isRecording ? stopRecording() : startRecording()),

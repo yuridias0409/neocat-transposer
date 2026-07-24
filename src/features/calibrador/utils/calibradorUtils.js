@@ -150,6 +150,7 @@ export {
   freqToNote,
   freqToNoteName,
   getVoiceRange,
+  getVoiceClassification,
   getGender,
   computeCombined,
   loadStorage,

@@ -16,7 +16,7 @@ const HumStep = ({ title, desc, hum, savedNote, savedLabel }) => (
         fontSize: "0.85rem",
       }}
     >
-      🎵 Cantarole <em>"hmmm..."</em> continuamente. O app vai tirar a média de
+      🎵 Cantarole <em>"la la la..."</em> continuamente. O app vai tirar a média de
       5 segundos!
     </div>
     <div
