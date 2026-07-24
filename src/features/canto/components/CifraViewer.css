@@ -62,6 +62,7 @@
 
 .cifra-scroll-container {
   overflow-y: auto;
+  overflow-x: auto;
   max-height: 70vh;
   min-height: 300px;
   padding: 1rem;
@@ -76,15 +77,18 @@
     max-height: calc(100vh - 6rem);
     min-height: 500px;
     padding: 1rem 2rem;
+    overflow-x: hidden;
   }
 }
 
 .cifra-content {
   font-family: 'Courier New', Courier, monospace;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.5;
-  white-space: pre-wrap;
+  white-space: pre;
   color: #1f2937;
+  display: inline-block;
+  min-width: 100%;
 }
 
 /* Duas colunas apenas em desktop (telas maiores que 768px) */
@@ -93,6 +97,9 @@
     column-count: 2;
     column-gap: 2rem;
     column-rule: 1px dashed var(--color-border);
+    font-size: 14px;
+    white-space: pre-wrap;
+    display: block;
   }
 }
 
