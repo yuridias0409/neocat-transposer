@@ -1,6 +1,6 @@
 import React from "react";
 import { Settings2, ThumbsUp, Info, Lightbulb } from "lucide-react";
-import { otimizarCapoETom } from "../../../utils/capoEngine";
+import { otimizarCapoETom } from "../../../domain/capoEngine";
 import capoIcon from "../../../assets/capotraste.png";
 import "./TranspositionCard.css";
 export const TranspositionCard = ({

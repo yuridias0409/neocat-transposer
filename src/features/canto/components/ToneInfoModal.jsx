@@ -1,6 +1,6 @@
 import React from "react";
 import { X, Info, Activity } from "lucide-react";
-import { otimizarCapoETom } from "../../../utils/capoEngine";
+import { otimizarCapoETom } from "../../../domain/capoEngine";
 import capoIcon from "../../../assets/capotraste.png";
 import { PsalmistStatus } from "./PsalmistStatus";
 import { AssemblyStatus } from "./AssemblyStatus";

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { KeyRound, Mail } from "lucide-react";
-import UserDAO from "../../../dao/UserDAO";
-import AuthDAO from "../../../dao/AuthDAO";
+import UserDAO from "../../api/UserDAO";
+import AuthDAO from "../../api/AuthDAO";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 const Login = ({ onLogin }) => {

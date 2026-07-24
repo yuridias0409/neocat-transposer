@@ -10,18 +10,18 @@ import {
   X,
   Info,
 } from "lucide-react";
-import { transposeChordString } from "../../../utils";
-import { otimizarCapoETom } from "../../../utils/capoEngine";
-import { calcularTomIdealInteligente } from "../../../utils/transpositionEngine";
-import { useCantoController } from "../../../controllers/useCantoController";
-import { AudioPlayerView } from "../../components/Canto/AudioPlayerView";
-import { KaraokePanelView } from "../../components/Canto/KaraokePanelView";
-import { PsalmistStatus } from "../../components/Canto/PsalmistStatus";
-import { AssemblyStatus } from "../../components/Canto/AssemblyStatus";
-import { TranspositionCard } from "../../components/Canto/TranspositionCard";
-import { ToneInfoModal } from "../../components/Canto/ToneInfoModal";
-import { NotepadSection } from "../../components/Canto/NotepadSection";
-import capoIcon from "../../../assets/capotraste.png";
+import { transposeChordString } from "../../utils";
+import { otimizarCapoETom } from "../../domain/capoEngine";
+import { calcularTomIdealInteligente } from "../../domain/transpositionEngine";
+import { useCantoController } from "../../controllers/useCantoController";
+import { AudioPlayerView } from "./components/AudioPlayerView";
+import { KaraokePanelView } from "./components/KaraokePanelView";
+import { PsalmistStatus } from "./components/PsalmistStatus";
+import { AssemblyStatus } from "./components/AssemblyStatus";
+import { TranspositionCard } from "./components/TranspositionCard";
+import { ToneInfoModal } from "./components/ToneInfoModal";
+import { NotepadSection } from "./components/NotepadSection";
+import capoIcon from "../../assets/capotraste.png";
 import "./Canto.css";
 import {
   jsxDEV as _jsxDEV,

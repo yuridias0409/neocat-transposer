@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Search, ChevronDown } from "lucide-react";
-import { cantosData } from "../../../data";
+import { cantosData } from "../../data";
 import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
 const colorMap = {
   verde: "#dcfce7",

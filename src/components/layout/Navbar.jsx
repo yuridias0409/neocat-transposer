@@ -12,8 +12,8 @@ import {
   Music,
   Download,
 } from "lucide-react";
-import { getVoiceClassification } from "../utils/musicMath";
-import AuthDAO from "../dao/AuthDAO";
+import { getVoiceClassification } from "../../domain/musicMath";
+import AuthDAO from "../../api/AuthDAO";
 import "./Navbar.css";
 const freqToNoteName = (freq) => {
   if (!freq) return "?";

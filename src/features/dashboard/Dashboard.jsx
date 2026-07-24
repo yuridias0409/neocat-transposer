@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Search, Music, Volume2, ChevronDown } from "lucide-react";
-import { cantosData } from "../../../data";
-import { otimizarCapoETom } from "../../../utils/capoEngine";
-import { calcularTomIdealInteligente } from "../../../utils/transpositionEngine";
-import CantoDAO from "../../../dao/CantoDAO";
-import capoIcon from "../../../assets/capotraste.png";
+import { cantosData } from "../../data";
+import { otimizarCapoETom } from "../../domain/capoEngine";
+import { calcularTomIdealInteligente } from "../../domain/transpositionEngine";
+import CantoDAO from "../../api/CantoDAO";
+import capoIcon from "../../assets/capotraste.png";
 import "./Dashboard.css";
 const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");

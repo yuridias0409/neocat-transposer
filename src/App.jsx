@@ -5,15 +5,15 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Dashboard from "./views/pages/Dashboard/Dashboard";
-import Calibrador from "./views/pages/Calibrador/Calibrador";
-import Canto from "./views/pages/Canto/Canto";
-import Login from "./views/pages/Login/Login";
-import AdminDashboard from "./views/pages/Admin/AdminDashboard";
+import Navbar from "./components/layout/Navbar";
+import Dashboard from "./features/dashboard/Dashboard";
+import Calibrador from "./features/calibrador/Calibrador";
+import Canto from "./features/canto/Canto";
+import Login from "./features/auth/Login";
+import AdminDashboard from "./features/admin/AdminDashboard";
 import { InstallPrompt } from "./views/components/InstallPrompt";
-import UserDAO from "./dao/UserDAO";
-import AuthDAO from "./dao/AuthDAO";
+import UserDAO from "./api/UserDAO";
+import AuthDAO from "./api/AuthDAO";
 import { auth } from "./services/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 function AdminRoute({ isAdmin }) {

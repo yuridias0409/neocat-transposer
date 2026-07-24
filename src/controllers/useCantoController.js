@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import CantoDAO from "../dao/CantoDAO";
-import UserDAO from "../dao/UserDAO";
-import { calcularTomIdealInteligente } from "../utils/transpositionEngine";
-import { processarFeedbackEAprender } from "../utils/FeedbackEngine";
-import { otimizarCapoETom } from "../utils/capoEngine";
+import CantoDAO from "../api/CantoDAO";
+import UserDAO from "../api/UserDAO";
+import { calcularTomIdealInteligente } from "../domain/transpositionEngine";
+import { processarFeedbackEAprender } from "../domain/FeedbackEngine";
+import { otimizarCapoETom } from "../domain/capoEngine";
 import { getNoteIndex } from "../utils";
 import { useAudioPlayer } from "./useAudioPlayer";
 import { useKaraoke } from "./useKaraoke";

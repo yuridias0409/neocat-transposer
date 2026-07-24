@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { PitchDetector } from "pitchy";
-import { db } from "../../../services/firebase";
+import { db } from "../../services/firebase";
 import { doc, setDoc } from "firebase/firestore";
-import { cantosData } from "../../../data";
+import { cantosData } from "../../data";
 import { Mic, FileAudio, UploadCloud, Square, Play } from "lucide-react";
-import CantoDAO from "../../../dao/CantoDAO";
-import { CantoSearchSelect } from "../../components/Admin/CantoSearchSelect";
+import CantoDAO from "../../api/CantoDAO";
+import { CantoSearchSelect } from "./CantoSearchSelect";
 import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
 export function AdminDashboard() {
   const [cantoId, setCantoId] = useState("");

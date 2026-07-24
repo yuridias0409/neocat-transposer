@@ -14,11 +14,11 @@ import {
   Music2,
   X,
 } from "lucide-react";
-import { getVoiceClassification } from "../../../utils/musicMath";
-import VoiceClassifier from "../../../utils/VoiceClassifier";
+import { getVoiceClassification } from "../../domain/musicMath";
+import VoiceClassifier from "../../domain/VoiceClassifier";
 import { PitchDetector } from "pitchy";
 import * as Tone from "tone";
-import UserDAO from "../../../dao/UserDAO";
+import UserDAO from "../../api/UserDAO";
 import "./Calibrador.css";
 import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
 const freqToNote = (freq) => {
