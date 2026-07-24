@@ -186,6 +186,8 @@ const Canto = ({ user }) => {
         style={{
           position: "relative",
           paddingTop: "1rem",
+          paddingRight: "0px",
+          paddingLeft: "0px"
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem' }}>
