@@ -19,6 +19,8 @@ import VoiceClassifier from "../../domain/VoiceClassifier";
 import { PitchDetector } from "pitchy";
 import * as Tone from "tone";
 import UserDAO from "../../api/UserDAO";
+import useMicPitch from "./hooks/useMicPitch";
+import useAveragePitch from "./hooks/useAveragePitch";
 import "./Calibrador.css";
 import {
   loadStorage,
@@ -27,6 +29,7 @@ import {
   getGender,
   baseFreqs,
   MODE_INFO,
+  getVoiceRange,
 } from "./utils/calibradorUtils";
 import SustainBar from "./components/SustainBar";
 import HumStep from "./components/HumStep";
@@ -420,6 +423,7 @@ export default function Calibrador({ user }) {
                 );
                 return (
                   <button
+                    key={key}
                     onClick={() => setRefazerModal(key)}
                     style={{
                       flexDirection: "column",
@@ -503,6 +507,7 @@ export default function Calibrador({ user }) {
               }
               return (
                 <button
+                  key={key}
                   className="btn btn-outline"
                   style={{
                     flexDirection: "column",
