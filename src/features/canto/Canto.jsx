@@ -149,6 +149,8 @@ const Canto = ({ user }) => {
                 startTimeRef={startTimeRef}
                 transposition={transposition}
                 baseOffset={baseOffset}
+                handleSeek={handleSeek}
+                duration={duration}
               />
             </_Fragment>
           )}

@@ -62,6 +62,7 @@ export function AudioPlayerView({
             className="btn-circle play-btn"
             onClick={togglePlay}
             disabled={!isAudioLoaded}
+            style={{ flexShrink: 0 }}
           >
             {isPlaying ? (
               <Pause size={20} fill="currentColor" />
@@ -76,7 +77,8 @@ export function AudioPlayerView({
               background: "#e0e0e0",
               height: "12px",
               borderRadius: "6px",
-              flex: 1,
+              flex: "1 1 100px", // Allows it to grow, shrink, but keeps a minimum basis
+              minWidth: "60px", // Don't let it disappear entirely
               overflow: "hidden",
               cursor: "pointer",
               position: "relative",
@@ -99,7 +101,8 @@ export function AudioPlayerView({
               fontSize: "0.85rem",
               color: "#666",
               fontFamily: "monospace",
-              minWidth: "85px",
+              whiteSpace: "nowrap",
+              flexShrink: 0,
             }}
           >
             00:00 / {formatTime(duration)}
@@ -169,6 +172,8 @@ export function AudioPlayerView({
               alignItems: "center",
               gap: "0.25rem",
               fontSize: "0.75rem",
+              whiteSpace: "nowrap",
+              flexShrink: 0,
             }}
           >
             🎤 {isKaraokeMode ? "Parar Cante junto" : "Cante junto"}

@@ -11,10 +11,56 @@ export function KaraokePanelView({
   startTimeRef,
   transposition,
   baseOffset,
+  handleSeek,
+  duration,
 }) {
   const canvasRef = useRef(null);
   const [tooltip, setTooltip] = useState(null);
   const userPitchHistoryRef = useRef([]);
+  
+  const isDraggingRef = useRef(false);
+  const lastXRef = useRef(0);
+  const scrubTimeDeltaRef = useRef(0);
+
+  const handlePointerDown = (e) => {
+    isDraggingRef.current = true;
+    lastXRef.current = e.clientX;
+    scrubTimeDeltaRef.current = 0;
+    e.target.setPointerCapture(e.pointerId);
+  };
+
+  const handlePointerMove = (e) => {
+    if (isDraggingRef.current && duration && canvasRef.current) {
+      const deltaX = e.clientX - lastXRef.current;
+      lastXRef.current = e.clientX;
+      
+      if (deltaX !== 0) {
+        const width = canvasRef.current.clientWidth;
+        // timeWindowPast (1.5) + timeWindowFuture (3.0) = 4.5s total visible width
+        const timeDelta = -(deltaX / width) * 4.5;
+        scrubTimeDeltaRef.current += timeDelta;
+      }
+    }
+  };
+
+  const handlePointerUp = (e) => {
+    if (isDraggingRef.current && handleSeek && duration && scrubTimeDeltaRef.current !== 0) {
+      const isPlaying = playerRef?.current && playerRef.current.state === "started";
+      // Determine the base time before scrub
+      const baseTime = isPlaying 
+        ? Tone.now() - startTimeRef.current 
+        : (playerRef?.current?.context?.currentTime || 0);
+        
+      let newTime = baseTime + scrubTimeDeltaRef.current;
+      newTime = Math.max(0, Math.min(duration, newTime));
+      
+      handleSeek(newTime / duration);
+    }
+    scrubTimeDeltaRef.current = 0;
+    isDraggingRef.current = false;
+    e.target.releasePointerCapture(e.pointerId);
+  };
+
   useEffect(() => {
     if (!isKaraokeMode || !canvasRef.current) return;
     let animationFrameId;
@@ -26,7 +72,10 @@ export function KaraokePanelView({
       ctx.clearRect(0, 0, width, height);
       const isPlaying =
         playerRef?.current && playerRef.current.state === "started";
-      const currentTime = isPlaying ? Tone.now() - startTimeRef.current : 0;
+      // Visual current time includes active scrub offset
+      let currentTime = isPlaying ? Tone.now() - startTimeRef.current : 0;
+      currentTime += scrubTimeDeltaRef.current || 0;
+      
       const currentMicHz = currentMicHzRef?.current || 0;
       const timeWindowPast = 1.5;
       const timeWindowFuture = 3;
@@ -303,10 +352,16 @@ export function KaraokePanelView({
           ref={canvasRef}
           width={800}
           height={140}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
           style={{
             width: "100%",
             height: "100%",
             display: "block",
+            cursor: "ew-resize",
+            touchAction: "none"
           }}
         />
 
