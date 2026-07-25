@@ -14,6 +14,45 @@ export default function CifraViewer({ html, capoInfo, onShowToneInfoModal }) {
   const [showMenu, setShowMenu] = useState(false);
   const [showDictionary, setShowDictionary] = useState(false);
   const autoScrollInterval = useRef(null);
+  const initialPinchDistance = useRef(null);
+  const pinchStartFontSize = useRef(null);
+
+  const getDistance = (touch1, touch2) => {
+    return Math.sqrt(
+      Math.pow(touch2.clientX - touch1.clientX, 2) +
+      Math.pow(touch2.clientY - touch1.clientY, 2)
+    );
+  };
+
+  const handleTouchStart = (e) => {
+    if (e.touches.length === 2) {
+      initialPinchDistance.current = getDistance(e.touches[0], e.touches[1]);
+      pinchStartFontSize.current = fontSize;
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (e.touches.length === 2 && initialPinchDistance.current !== null && pinchStartFontSize.current !== null) {
+      const currentDistance = getDistance(e.touches[0], e.touches[1]);
+      const diff = currentDistance - initialPinchDistance.current;
+      
+      const sizeChange = Math.round(diff / 25);
+      
+      let newSize = pinchStartFontSize.current + sizeChange;
+      newSize = Math.max(8, Math.min(32, newSize));
+      
+      if (newSize !== fontSize) {
+        setFontSize(newSize);
+      }
+    }
+  };
+
+  const handleTouchEnd = (e) => {
+    if (e.touches.length < 2) {
+      initialPinchDistance.current = null;
+      pinchStartFontSize.current = null;
+    }
+  };
 
   // Helper function to process the HTML
   const processedHtml = useMemo(() => {
@@ -224,6 +263,10 @@ export default function CifraViewer({ html, capoInfo, onShowToneInfoModal }) {
       <div 
         className="cifra-scroll-container" 
         ref={scrollContainerRef}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        style={{ touchAction: 'pan-x pan-y' }}
       >
         <div 
           className="cifra-render" 

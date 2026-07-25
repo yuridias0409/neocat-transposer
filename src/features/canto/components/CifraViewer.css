@@ -201,11 +201,13 @@
 /* Múltiplas colunas automáticas no desktop (telas maiores que 768px) */
 @media (min-width: 768px) {
   .cifra-content {
-    column-width: 32em;
+    column-width: 21em;
     column-gap: 3rem;
     column-rule: 1px dashed var(--color-border);
     white-space: pre-wrap;
     display: block;
+    max-width: 1100px;
+    margin: 0 auto;
   }
 }
 
